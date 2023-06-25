@@ -2,85 +2,85 @@
 // console.log(fxrand());
 
 const sp = new URLSearchParams(window.location.search)
-//  console.log(sp);
+ console.log("sp",sp);
 
 // this is how to define parameters
-$fx.params([
-  {
-    id: "number_id",
-    name: "A number/float64",
-    type: "number",
-    //default: Math.PI,
-    update: "sync",
-    options: {
-      min: 1,
-      max: 10,
-      step: 0.0001,
-    },
-  },
+// $fx.params([
+//   {
+//     id: "number_id",
+//     name: "A number/float64",
+//     type: "number",
+//     //default: Math.PI,
+//     update: "sync",
+//     options: {
+//       min: 1,
+//       max: 10,
+//       step: 0.0001,
+//     },
+//   },
 
-  {
-    id: "bigint_id",
-    name: "A bigint",
-    type: "bigint",
-    //default: BigInt(Number.MAX_SAFE_INTEGER * 2),
-    options: {
-      min: Number.MIN_SAFE_INTEGER * 4,
-      max: Number.MAX_SAFE_INTEGER * 4,
-      step: 1,
-    },
-  },
-  {
-    id: "string_id_long",
-    name: "A string long",
-    type: "string",
-    //default: "hello",
-    options: {
-      minLength: 1,
-      maxLength: 512,
-    },
-  },
-  {
-    id: "select_id",
-    name: "A selection",
-    type: "select",
-    //default: "pear",
-    options: {
-      options: ["apple", "orange", "pear"],
-    },
-  },
-  {
-    id: "color_id",
-    name: "A color",
-    type: "color",
-    update: "sync",
-    //default: "ff0000",
-  },
-  {
-    id: "boolean_id",
-    name: "A boolean",
-    type: "boolean",
-    //default: true,
-  },
-  {
-    id: "string_id",
-    name: "A string",
-    type: "string",
-    //default: "hello",
-    options: {
-      minLength: 1,
-      maxLength: 512,
-    },
-  },
-])
+//   {
+//     id: "bigint_id",
+//     name: "A bigint",
+//     type: "bigint",
+//     //default: BigInt(Number.MAX_SAFE_INTEGER * 2),
+//     options: {
+//       min: Number.MIN_SAFE_INTEGER * 4,
+//       max: Number.MAX_SAFE_INTEGER * 4,
+//       step: 1,
+//     },
+//   },
+//   {
+//     id: "string_id_long",
+//     name: "A string long",
+//     type: "string",
+//     //default: "hello",
+//     options: {
+//       minLength: 1,
+//       maxLength: 512,
+//     },
+//   },
+//   {
+//     id: "select_id",
+//     name: "A selection",
+//     type: "select",
+//     //default: "pear",
+//     options: {
+//       options: ["apple", "orange", "pear"],
+//     },
+//   },
+//   {
+//     id: "color_id",
+//     name: "A color",
+//     type: "color",
+//     update: "sync",
+//     //default: "ff0000",
+//   },
+//   {
+//     id: "boolean_id",
+//     name: "A boolean",
+//     type: "boolean",
+//     //default: true,
+//   },
+//   {
+//     id: "string_id",
+//     name: "A string",
+//     type: "string",
+//     //default: "hello",
+//     options: {
+//       minLength: 1,
+//       maxLength: 512,
+//     },
+//   },
+// ])
 
-// this is how features can be defined
-$fx.features({
-  "A random feature": Math.floor($fx.rand() * 10),
-  "A random boolean": $fx.rand() > 0.5,
-  "A random string": ["A", "B", "C", "D"].at(Math.floor($fx.rand() * 4)),
-  "Feature from params, its a number": $fx.getParam("number_id"),
-})
+// // this is how features can be defined
+// $fx.features({
+//   "A random feature": Math.floor($fx.rand() * 10),
+//   "A random boolean": $fx.rand() > 0.5,
+//   "A random string": ["A", "B", "C", "D"].at(Math.floor($fx.rand() * 4)),
+//   "Feature from params, its a number": $fx.getParam("number_id"),
+// })
 
 function main() {
   // log the parameters, for debugging purposes, artists won't have to do that
@@ -136,7 +136,7 @@ function main() {
   // `
 }
 
-main()
+// main()
 
 $fx.on(
   "params:update",

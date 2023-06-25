@@ -46,6 +46,49 @@ console.log("$fx.rand()",$fx.rand());
 // │      (_)     (_)         (_)(_)         (_)  (_)(_)(_)(_)    │
 // └──────────────────────────────────────────────────────────────┘
 
+
+$fx.params([
+	{
+	  id: "horizontal_tiles",
+	  name: "horizontal_tiles",
+	  type: "number",
+	  //default: Math.PI,
+	  update: "sync",
+	  options: {
+		min: 3,
+		max: 20,
+		step: 1,
+	  },
+	},
+	{
+	id: "vertical_tiles",
+	name: "vertical_tiles",
+	type: "number",
+	//default: Math.PI,
+	update: "sync",
+	options: {
+		min: 10,
+		max: 20,
+		step: 1,
+	},
+	},
+	{
+	id: "lines_per_tiles",
+	name: "lines_per_tiles",
+	type: "number",
+	//default: Math.PI,
+	update: "sync",
+	options: {
+		min: 1,
+		max: 50,
+		step: 1,
+	},
+	},
+
+
+  ]);
+
+
 var tileArrayCount = 0;
 
 var params = [];
@@ -92,9 +135,9 @@ var default_pen_id = 3; 				/////// 4
 var blank_rnd_cell_needed = 0;  	/////// 0
 var connector_count_favor = 4;  	/////// 4
 // 5x13 | i
-let horizontal_tiles = 4;  				/////// 4  
-let vertical_tiles = 10;			 	/////// 10
-let lines_per_tiles = 14;   			/////// 14
+let horizontal_tiles = $fx.getRawParam("horizontal_tiles");  				/////// 4  
+let vertical_tiles = $fx.getRawParam("vertical_tiles");			 	/////// 10
+let lines_per_tiles = $fx.getRawParam("lines_per_tiles");;   			/////// 14
 
 var renderStyle = render_style_parallel; // render_style_parallel //render_style_vector;
 var debugStyle = theme_style_random; //  theme_style_black
@@ -269,223 +312,231 @@ function generateTheTest() {
 
 var cells_grid = [];
 
-// ┌───────────────────────────────────────────────────────────────────────────────────┐
-// │    _  _  _              _            _           _  _  _                          │
-// │ _ (_)(_)(_) _          (_)          (_)         (_)(_)(_)                         │
-// │(_)         (_)         (_)          (_)            (_)                            │
-// │(_)    _  _  _          (_)          (_)            (_)                            │
-// │(_)   (_)(_)(_)         (_)          (_)            (_)                            │
-// │(_)         (_)  _  _   (_)          (_)  _  _      (_)                            │
-// │(_) _  _  _ (_) (_)(_)  (_)_  _  _  _(_) (_)(_)   _ (_) _                          │
-// │   (_)(_)(_)(_) (_)(_)    (_)(_)(_)(_)   (_)(_)  (_)(_)(_)                         │
-// └───────────────────────────────────────────────────────────────────────────────────┘
-const gui = new dat.GUI();
-// gui.close();
-
-var settings =
-{
-	debug_mode: debug_mode_activated,
-	canvas_size: default_size_id,
-	debug_patterns: debug_mode_pattern_activated,
-	pen_size: default_pen_id,
-	renderStyle: renderStyle,
-	horizontal_tiles: horizontal_tiles,
-	vertical_tiles: vertical_tiles,
-	connector_count_favor: connector_count_favor,
-	lines_per_tiles: lines_per_tiles,
-	random_colors: activate_random_colors,
-	debugStyle: debugStyle
-}
-
-// DEBUG
-gui.add(settings, 'debug_mode')
-	.onChange(
-		function () {
-			debug_mode_activated = this.getValue();
-
-			console.log("debug_mode_activated : ", debug_mode_activated);
-		}
-	);
-
-// PATTERNS
-gui.add(settings, 'debug_patterns')
-	.onChange(
-		function () {
-			debug_mode_pattern_activated = this.getValue();
-
-			console.log("debug_mode_pattern_activated : ", debug_mode_pattern_activated);
-		}
-	);
-
-// CANVAS SIZE
-gui.add(settings, 'canvas_size', { A0: 0, A1: 1, A2: 2, A3: 3, A4: 4, A5: 5, A6: 6, C6: 7 })
-	.onChange(
-		function () {
-			resolution_data = canvas_size_storage[this.getValue()];
-
-			console.log("canvas_size : ", this.getValue());
-		}
-	);
-////// SEEDS
-
-var seedFolder = gui.addFolder('seeds');
+// // ┌───────────────────────────────────────────────────────────────────────────────────┐
+// // │    _  _  _              _            _           _  _  _                          │
+// // │ _ (_)(_)(_) _          (_)          (_)         (_)(_)(_)                         │
+// // │(_)         (_)         (_)          (_)            (_)                            │
+// // │(_)    _  _  _          (_)          (_)            (_)                            │
+// // │(_)   (_)(_)(_)         (_)          (_)            (_)                            │
+// // │(_)         (_)  _  _   (_)          (_)  _  _      (_)                            │
+// // │(_) _  _  _ (_) (_)(_)  (_)_  _  _  _(_) (_)(_)   _ (_) _                          │
+// // │   (_)(_)(_)(_) (_)(_)    (_)(_)(_)(_)   (_)(_)  (_)(_)(_)                         │
+// // └───────────────────────────────────────────────────────────────────────────────────┘
 
 
-// CENTER STAGE
-var center_stage =
-{
-	center_stage: activate_center_stage
-}
-seedFolder.add(center_stage, 'center_stage')
-	.onChange(
-		function () {
-			activate_center_stage = this.getValue();
-
-			console.log("activate_center_stage : ", activate_center_stage);
-		}
-	);
-
-var forced_border =
-{
-	forced_border: activate_forced_border
-}
-seedFolder.add(forced_border, 'forced_border')
-	.onChange(
-		function () {
-			activate_forced_border = this.getValue();
-
-			console.log("activate_forced_border : ", activate_forced_border);
-		}
-	);
-
-// BLANK CELLS 
-const blank_cells = {
-	blank_rnd_cell_needed: blank_rnd_cell_needed,
-};
-seedFolder.add(blank_cells, "blank_rnd_cell_needed").min(0).max(20).step(1)
-	.onChange(
-		function () {
-
-			blank_rnd_cell_needed = this.getValue();
-			console.log("blank_rnd_cell_needed", blank_rnd_cell_needed);
 
 
-		}
-	)
-// HORIZONTAL TILES COUNT
-
-gui.add(settings, "horizontal_tiles").min(2).max(20).step(1)
-	.onChange(
-		function () {
-
-			horizontal_tiles = this.getValue();
-
-		}
-	)
-
-// VERTICAL TILES COUNT
-gui.add(settings, "vertical_tiles").min(2).max(20).step(1)
-	.onChange(
-		function () {
-
-			vertical_tiles = this.getValue();
-
-		}
-	)
-// TILES DENSITY 
-
-gui.add(settings, "connector_count_favor").min(1).max(4).step(1)
-	.onChange(
-		function () {
-
-			connector_count_favor = this.getValue();
-			console.log("connector_count_favor", connector_count_favor);
 
 
-		}
-	)
 
 
-// GENERATE BTN
-var obj = {
-	Generate: function () {
+// const gui = new dat.GUI();
+// // gui.close();
 
-		regenerate();
+// var settings =
+// {
+// 	debug_mode: debug_mode_activated,
+// 	canvas_size: default_size_id,
+// 	debug_patterns: debug_mode_pattern_activated,
+// 	pen_size: default_pen_id,
+// 	renderStyle: renderStyle,
+// 	horizontal_tiles: horizontal_tiles,
+// 	vertical_tiles: vertical_tiles,
+// 	connector_count_favor: connector_count_favor,
+// 	lines_per_tiles: lines_per_tiles,
+// 	random_colors: activate_random_colors,
+// 	debugStyle: debugStyle
+// }
 
-	}
-};
+// // DEBUG
+// gui.add(settings, 'debug_mode')
+// 	.onChange(
+// 		function () {
+// 			debug_mode_activated = this.getValue();
 
-gui.add(obj, "Generate");
+// 			console.log("debug_mode_activated : ", debug_mode_activated);
+// 		}
+// 	);
 
+// // PATTERNS
+// gui.add(settings, 'debug_patterns')
+// 	.onChange(
+// 		function () {
+// 			debug_mode_pattern_activated = this.getValue();
 
-// pen_Setting
-gui.add(settings, 'pen_size', { "1.5mm": 0, "2mm": 1, "2.4mm": 2, "3.8mm": 3, "4mm": 4, "6.0mm": 5 })
-	.onChange(
-		function () {
-			default_pen_id = this.getValue();
+// 			console.log("debug_mode_pattern_activated : ", debug_mode_pattern_activated);
+// 		}
+// 	);
 
-			console.log(pen_size);
-			brush_w = pen_size[this.getValue()][1];
-			brush_h = pen_size[this.getValue()][2];
-			console.log("pen_size : ", this.getValue());
-			console.log("brush_w : ", brush_w);
-			console.log("brush_h : ", brush_h);
-			stroke_size = brush_w;
-		}
-	);
+// // CANVAS SIZE
+// gui.add(settings, 'canvas_size', { A0: 0, A1: 1, A2: 2, A3: 3, A4: 4, A5: 5, A6: 6, C6: 7 })
+// 	.onChange(
+// 		function () {
+// 			resolution_data = canvas_size_storage[this.getValue()];
 
+// 			console.log("canvas_size : ", this.getValue());
+// 		}
+// 	);
+// ////// SEEDS
 
-// RENDER STYLE
-gui.add(settings, 'renderStyle', { Stroke: render_style_vector, Parallel: render_style_parallel, Marker: render_style_marker })
-	.onChange(
-		function () {
-			renderStyle = this.getValue();
-			console.log("render style : ", renderStyle);
-		}
-	);
-
-// RENDER STYLE
-gui.add(settings, 'debugStyle', { Black: theme_style_black, Random: theme_style_random, Three_Colors: theme_style_3colors })
-	.onChange(
-		function () {
-			debugStyle = this.getValue();
-			setThemeColors();
-			console.log("debug style : ", debugStyle);
-		}
-	);
-
-// Random colors 
-gui.add(settings, 'random_colors')
-	.onChange(
-		function () {
-			activate_random_colors = this.getValue();
-			console.log("activate_random_colors : ", activate_random_colors);
-		}
-	);
-
-// LINES PER TILES 
-gui.add(settings, "lines_per_tiles").min(2).max(75).step(1)
-	.onChange(
-		function () {
-
-			lines_per_tiles = this.getValue() + 1;
-			console.log("lines_per_tiles", lines_per_tiles);
+// var seedFolder = gui.addFolder('seeds');
 
 
-		}
-	)
+// // CENTER STAGE
+// var center_stage =
+// {
+// 	center_stage: activate_center_stage
+// }
+// seedFolder.add(center_stage, 'center_stage')
+// 	.onChange(
+// 		function () {
+// 			activate_center_stage = this.getValue();
+
+// 			console.log("activate_center_stage : ", activate_center_stage);
+// 		}
+// 	);
+
+// var forced_border =
+// {
+// 	forced_border: activate_forced_border
+// }
+// seedFolder.add(forced_border, 'forced_border')
+// 	.onChange(
+// 		function () {
+// 			activate_forced_border = this.getValue();
+
+// 			console.log("activate_forced_border : ", activate_forced_border);
+// 		}
+// 	);
+
+// // BLANK CELLS 
+// const blank_cells = {
+// 	blank_rnd_cell_needed: blank_rnd_cell_needed,
+// };
+// seedFolder.add(blank_cells, "blank_rnd_cell_needed").min(0).max(20).step(1)
+// 	.onChange(
+// 		function () {
+
+// 			blank_rnd_cell_needed = this.getValue();
+// 			console.log("blank_rnd_cell_needed", blank_rnd_cell_needed);
 
 
-// UPDATE BTN
-var obj = {
-	Update: function () {
+// 		}
+// 	)
+// // HORIZONTAL TILES COUNT
 
-		update_rendering();
+// gui.add(settings, "horizontal_tiles").min(2).max(20).step(1)
+// 	.onChange(
+// 		function () {
 
-	}
-};
+// 			horizontal_tiles = this.getValue();
 
-gui.add(obj, "Update");
+// 		}
+// 	)
+
+// // VERTICAL TILES COUNT
+// gui.add(settings, "vertical_tiles").min(2).max(20).step(1)
+// 	.onChange(
+// 		function () {
+
+// 			vertical_tiles = this.getValue();
+
+// 		}
+// 	)
+// // TILES DENSITY 
+
+// gui.add(settings, "connector_count_favor").min(1).max(4).step(1)
+// 	.onChange(
+// 		function () {
+
+// 			connector_count_favor = this.getValue();
+// 			console.log("connector_count_favor", connector_count_favor);
+
+
+// 		}
+// 	)
+
+
+// // GENERATE BTN
+// var obj = {
+// 	Generate: function () {
+
+// 		regenerate();
+
+// 	}
+// };
+
+// gui.add(obj, "Generate");
+
+
+// // pen_Setting
+// gui.add(settings, 'pen_size', { "1.5mm": 0, "2mm": 1, "2.4mm": 2, "3.8mm": 3, "4mm": 4, "6.0mm": 5 })
+// 	.onChange(
+// 		function () {
+// 			default_pen_id = this.getValue();
+
+// 			console.log(pen_size);
+// 			brush_w = pen_size[this.getValue()][1];
+// 			brush_h = pen_size[this.getValue()][2];
+// 			console.log("pen_size : ", this.getValue());
+// 			console.log("brush_w : ", brush_w);
+// 			console.log("brush_h : ", brush_h);
+// 			stroke_size = brush_w;
+// 		}
+// 	);
+
+
+// // RENDER STYLE
+// gui.add(settings, 'renderStyle', { Stroke: render_style_vector, Parallel: render_style_parallel, Marker: render_style_marker })
+// 	.onChange(
+// 		function () {
+// 			renderStyle = this.getValue();
+// 			console.log("render style : ", renderStyle);
+// 		}
+// 	);
+
+// // RENDER STYLE
+// gui.add(settings, 'debugStyle', { Black: theme_style_black, Random: theme_style_random, Three_Colors: theme_style_3colors })
+// 	.onChange(
+// 		function () {
+// 			debugStyle = this.getValue();
+// 			setThemeColors();
+// 			console.log("debug style : ", debugStyle);
+// 		}
+// 	);
+
+// // Random colors 
+// gui.add(settings, 'random_colors')
+// 	.onChange(
+// 		function () {
+// 			activate_random_colors = this.getValue();
+// 			console.log("activate_random_colors : ", activate_random_colors);
+// 		}
+// 	);
+
+// // LINES PER TILES 
+// gui.add(settings, "lines_per_tiles").min(2).max(75).step(1)
+// 	.onChange(
+// 		function () {
+
+// 			lines_per_tiles = this.getValue() + 1;
+// 			console.log("lines_per_tiles", lines_per_tiles);
+
+
+// 		}
+// 	)
+
+
+// // UPDATE BTN
+// var obj = {
+// 	Update: function () {
+
+// 		update_rendering();
+
+// 	}
+// };
+
+// gui.add(obj, "Update");
 
 
 function setThemeColors() {
@@ -660,7 +711,6 @@ function set_colors_array(){
 
 
 function setup() {
-	
 	lines_per_tiles++;
 	color_cyan = color('hsba(200, 100%, 100%, 1)');
 	color_magenta = color('#e812e0');
