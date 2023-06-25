@@ -106,30 +106,34 @@ function main() {
   const bgcolor = $fx.getParam("color_id").hex.rgba
   const textcolor = getContrastTextColor(bgcolor.replace("#", ""))
 
+
+
+ 
+
   // update the document based on the parameters
-  document.body.style.background = bgcolor
-  document.body.innerHTML = `
-  <div style="color: ${textcolor};">
-    <p>
-    hash: ${$fx.hash}
-    </p>
-    <p>
-    minter: ${$fx.minter}
-    </p>
-    <p>
-    inputBytes: ${$fx.inputBytes}
-    </p>
-    <p>
-    context: ${$fx.context}
-    </p>
-    <p>
-    params:
-    </p>
-    <pre>
-    ${$fx.stringifyParams($fx.getRawParams())}
-    </pre>
-  <div>
-  `
+  // document.body.style.background = bgcolor
+  // document.body.innerHTML = `
+  // <div style="color: ${textcolor};">
+  //   <p>
+  //   hash: ${$fx.hash}
+  //   </p>
+  //   <p>
+  //   minter: ${$fx.minter}
+  //   </p>
+  //   <p>
+  //   inputBytes: ${$fx.inputBytes}
+  //   </p>
+  //   <p>
+  //   context: ${$fx.context}
+  //   </p>
+  //   <p>
+  //   params:
+  //   </p>
+  //   <pre>
+  //   ${$fx.stringifyParams($fx.getRawParams())}
+  //   </pre>
+  // <div>
+  // `
 }
 
 main()
@@ -144,3 +148,8 @@ $fx.on(
   },
   (optInDefault, newValues) => main()
 )
+
+
+
+
+
