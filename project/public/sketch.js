@@ -5,31 +5,6 @@ console.log(fxrand()) // deterministic PRNG function, use it instead of Math.ran
 
 console.log("$fx.rand()",$fx.rand());
 'use strict';
-// note about the fxrand() function 
-// when the "fxhash" is always the same, it will generate the same sequence of
-// pseudo random numbers, always
-
-//----------------------
-// defining features
-//----------------------
-// You can define some token features by populating the $fxhashFeatures property
-// of the window object.
-// More about it in the guide, section features:
-// [https://fxhash.xyz/articles/guide-mint-generative-token#features]
-//
-// window.$fxhashFeatures = {
-//   "Background": "Black",
-//   "Number of lines": 10,
-//   "Inverted": true
-// }
-
-// this code writes the values to the DOM as an example
-// const container = document.createElement("div")
-// container.innerText = `
-//   random hash: ${fxhash}\n
-//   some pseudo random values: [ ${fxrand()}, ${fxrand()}, ${fxrand()}, ${fxrand()}, ${fxrand()},... ]\n
-// `
-// document.body.prepend(container)
 
 // TODO
 // [ ] regarder ces brush https://codepen.io/lbebber/pen/GJrxdR
@@ -530,16 +505,16 @@ function set_colors_array(){
 	var theme_colors_list = [];
 		
 	if(color_theme == 1){
-		color_theme_name = "Crimson Majesty";
-		theme_colors_list = [6,10,11,6,10,11];
-		
+		color_theme_name = "Random";
+		// color_theme_name = "Crimson Majesty";
+		theme_colors_list = [0,1,2,3,4,5,6,7,8,9];
 	}else if(color_theme == 2){
-
 		color_theme_name = "CMJ";
 		theme_colors_list = [2,4,6,2,4,6];
 	}else if(color_theme == 3){
-		color_theme_name = "SUNSET BLAZE";
-		theme_colors_list = [2,9,0,2,9,0];
+		color_theme_name = "PASTEL GREENISH";
+		// theme_colors_list = [7,7,7,7,7,7];
+		theme_colors_list = [8,5,6,8,5,6];
 		
 	}else if(color_theme == 4){
 		color_theme_name = "PINK";
@@ -957,22 +932,7 @@ function generate_cells_grid() {
 
 function addSeedTiles() {
 
-	// add blank spaces 
-	// var rnd_cell = getRandomCell();
-	// rnd_cell.tile = tiles_database[0];
-	// rnd_cell.collapsed = true;
 
-	// var all_rnd_cell_added = false;
-
-	// var added_cells = 0;
-	// while(!all_rnd_cell_added && added_cells < blank_rnd_cell_needed){
-	// 	var rnd_cell = getRandomCell();
-	// 	if(!rnd_cell.collapsed){
-	// 		added_cells++;
-	// 		rnd_cell.tile = tiles_database[0];
-	// 		rnd_cell.collapsed = true;
-	// 	}
-	// }
 
 
 	if (activate_center_stage) {
@@ -998,12 +958,7 @@ function addSeedTiles() {
 			s = [mh, 2 + mv];
 		}
 
-		// console.log("o,n,e,s", o, n, e, s);
-
-		// addTileToCell(o[0],o[1],6);
-		// addTileToCell(n[0],n[1],7);
-		// addTileToCell(e[0],e[1],8);
-		// addTileToCell(s[0],s[1],5);
+	
 
 	}
 
