@@ -95,24 +95,24 @@ $fx.params([
 	//default: Math.PI,
 	// update: "sync",
 	options: {
-		min: 10,
-		max: 12,
-		step: 2,
+		min: 13,
+		max: 16,
+		step: 1,
 		},
 	},
 
 	{
-		id: "layer_count",
-		name: "number of layers",
-		type: "number",
-		//default: Math.PI,
-		// update: "sync",
-		options: {
-			min: 2,
-			max: 4,
-			step: 1,
-			},
+	id: "layer_count",
+	name: "number of layers",
+	type: "number",
+	//default: Math.PI,
+	// update: "sync",
+	options: {
+		min: 2,
+		max: 4,
+		step: 1,
 		},
+	},
 
   ]);
 
@@ -530,7 +530,7 @@ function set_colors_array(){
 	var theme_colors_list = [];
 		
 	if(color_theme == 1){
-		color_theme_name = "PURPLE HAZE";
+		color_theme_name = "Crimson Majesty";
 		theme_colors_list = [6,10,11,6,10,11];
 		
 	}else if(color_theme == 2){
@@ -538,23 +538,23 @@ function set_colors_array(){
 		color_theme_name = "CMJ";
 		theme_colors_list = [2,4,6,2,4,6];
 	}else if(color_theme == 3){
-		color_theme_name = "SUNNY";
-		theme_colors_list = [2,2,0,0,9,9];
+		color_theme_name = "SUNSET BLAZE";
+		theme_colors_list = [2,9,0,2,9,0];
 		
 	}else if(color_theme == 4){
 		color_theme_name = "PINK";
-		theme_colors_list = [6,6,9,9,5,5];
+		theme_colors_list = [6,5,11,6,5,11];
 
 	}else if(color_theme == 5){
-		color_theme_name = "RAINBOW";
-		theme_colors_list = [10,2,0,8,3,11];
+		color_theme_name = "AQUA MARINE";
+		theme_colors_list = [4,8,3,4,8,3];
 
 	}else if(color_theme == 6){
-		color_theme_name = "PASTEL";
-		theme_colors_list = [3,3,5,5,8,8];
+		color_theme_name = "COMPACT DISK";
+		theme_colors_list = [3,5,8,3,5,8];
 
 	}else if(color_theme == 7){
-		color_theme_name = "GRRRREEEEN";
+		color_theme_name = "GREEN ORCHID";
 		theme_colors_list = [8,11,8,11,8,11];
 
 	}
@@ -568,18 +568,7 @@ function set_colors_array(){
 		
 	}
 
-	// colors_array = [
-	// 	["Lemon-Yellow-205" , color('#ffff07')],
-	// 	["Chartreuse-233" , color('#e6b319')],
-	// 	["Light-Orange-236" , color('#f2670d')],
-	// 	["Pastel-Blue-580" , color('#8cffff')],
-	// 	["Sky-Blue-578" , color('#33bfda')],
-	// 	["Pastel-Roser-390" , color('#f281e6')],
-	// 	["Magenta-337" , color('#ff00ff')],
-	// 	["Turquoise-Green-661" , color('#44a6a6')],
-	// 	["Pastel-Green-666" , color('#a6f273')],
-	// 	["Carmine-318" , color('#9c1e32')],
-	// ];
+
 
 	brush_agnle_array=[
 		0,45,90,135
