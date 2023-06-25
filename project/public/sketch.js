@@ -49,48 +49,80 @@ console.log("$fx.rand()",$fx.rand());
 
 $fx.params([
 	{
+		id: "color_theme",
+		name: "color theme",
+		type: "number",
+		//default: Math.PI,
+	  //   update: "sync",
+		options: {
+		  min: 1,
+		  max: 7,
+		  step: 1,
+		},
+	  },
+
+
+	{
 	  id: "horizontal_tiles",
-	  name: "horizontal_tiles",
+	  name: "horizontal tiles count",
 	  type: "number",
 	  //default: Math.PI,
-	  update: "sync",
+	//   update: "sync",
 	  options: {
-		min: 3,
-		max: 20,
+		min: 4,
+		max: 4,
 		step: 1,
 	  },
 	},
+
 	{
 	id: "vertical_tiles",
 	name: "vertical_tiles",
 	type: "number",
 	//default: Math.PI,
-	update: "sync",
+	// update: "sync",
 	options: {
 		min: 10,
-		max: 20,
+		max: 10,
 		step: 1,
-	},
-	},
-	{
-	id: "lines_per_tiles",
-	name: "lines_per_tiles",
-	type: "number",
-	//default: Math.PI,
-	update: "sync",
-	options: {
-		min: 1,
-		max: 50,
-		step: 1,
-	},
+		},
 	},
 
+	{
+	id: "lines_per_tiles",
+	name: "number of lines",
+	type: "number",
+	//default: Math.PI,
+	// update: "sync",
+	options: {
+		min: 10,
+		max: 12,
+		step: 2,
+		},
+	},
+
+	{
+		id: "layer_count",
+		name: "number of layers",
+		type: "number",
+		//default: Math.PI,
+		// update: "sync",
+		options: {
+			min: 2,
+			max: 4,
+			step: 1,
+			},
+		},
 
   ]);
 
 
-var tileArrayCount = 0;
 
+
+
+var tileArrayCount = 0;
+// var layer_count =  getLayerCount(fxrand());
+var layer_count =  $fx.getRawParam("layer_count"); 
 var params = [];
 
 const hasMaxSize 	= true; // if true, then the canvas cannot be larger than the reference size
@@ -135,9 +167,11 @@ var default_pen_id = 3; 				/////// 4
 var blank_rnd_cell_needed = 0;  	/////// 0
 var connector_count_favor = 4;  	/////// 4
 // 5x13 | i
-let horizontal_tiles = $fx.getRawParam("horizontal_tiles");  				/////// 4  
+let horizontal_tiles = $fx.getRawParam("horizontal_tiles");  		/////// 4  
 let vertical_tiles = $fx.getRawParam("vertical_tiles");			 	/////// 10
-let lines_per_tiles = $fx.getRawParam("lines_per_tiles");;   			/////// 14
+let lines_per_tiles = $fx.getRawParam("lines_per_tiles");;   		/////// 14
+let color_theme = $fx.getRawParam("color_theme");		 			/////// 14
+let color_theme_name;
 
 var renderStyle = render_style_parallel; // render_style_parallel //render_style_vector;
 var debugStyle = theme_style_random; //  theme_style_black
@@ -173,6 +207,7 @@ const canvas_size_storage = [
 	['C6', 114, 162],
 ];
 var colors_array = [];
+var colors_theme = [];
 var brush_agnle_array = [];
 var color_palette;
 
@@ -257,6 +292,28 @@ var color_purple;
 var color_pink;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function calculate_tiles_count() {
 	// vertical_tiles = Math.floor(horizontal_tiles*2.6);
 	// if(horizontal_tiles==4) vertical_tiles = 11;
@@ -311,232 +368,6 @@ function generateTheTest() {
 
 
 var cells_grid = [];
-
-// // ┌───────────────────────────────────────────────────────────────────────────────────┐
-// // │    _  _  _              _            _           _  _  _                          │
-// // │ _ (_)(_)(_) _          (_)          (_)         (_)(_)(_)                         │
-// // │(_)         (_)         (_)          (_)            (_)                            │
-// // │(_)    _  _  _          (_)          (_)            (_)                            │
-// // │(_)   (_)(_)(_)         (_)          (_)            (_)                            │
-// // │(_)         (_)  _  _   (_)          (_)  _  _      (_)                            │
-// // │(_) _  _  _ (_) (_)(_)  (_)_  _  _  _(_) (_)(_)   _ (_) _                          │
-// // │   (_)(_)(_)(_) (_)(_)    (_)(_)(_)(_)   (_)(_)  (_)(_)(_)                         │
-// // └───────────────────────────────────────────────────────────────────────────────────┘
-
-
-
-
-
-
-
-
-// const gui = new dat.GUI();
-// // gui.close();
-
-// var settings =
-// {
-// 	debug_mode: debug_mode_activated,
-// 	canvas_size: default_size_id,
-// 	debug_patterns: debug_mode_pattern_activated,
-// 	pen_size: default_pen_id,
-// 	renderStyle: renderStyle,
-// 	horizontal_tiles: horizontal_tiles,
-// 	vertical_tiles: vertical_tiles,
-// 	connector_count_favor: connector_count_favor,
-// 	lines_per_tiles: lines_per_tiles,
-// 	random_colors: activate_random_colors,
-// 	debugStyle: debugStyle
-// }
-
-// // DEBUG
-// gui.add(settings, 'debug_mode')
-// 	.onChange(
-// 		function () {
-// 			debug_mode_activated = this.getValue();
-
-// 			console.log("debug_mode_activated : ", debug_mode_activated);
-// 		}
-// 	);
-
-// // PATTERNS
-// gui.add(settings, 'debug_patterns')
-// 	.onChange(
-// 		function () {
-// 			debug_mode_pattern_activated = this.getValue();
-
-// 			console.log("debug_mode_pattern_activated : ", debug_mode_pattern_activated);
-// 		}
-// 	);
-
-// // CANVAS SIZE
-// gui.add(settings, 'canvas_size', { A0: 0, A1: 1, A2: 2, A3: 3, A4: 4, A5: 5, A6: 6, C6: 7 })
-// 	.onChange(
-// 		function () {
-// 			resolution_data = canvas_size_storage[this.getValue()];
-
-// 			console.log("canvas_size : ", this.getValue());
-// 		}
-// 	);
-// ////// SEEDS
-
-// var seedFolder = gui.addFolder('seeds');
-
-
-// // CENTER STAGE
-// var center_stage =
-// {
-// 	center_stage: activate_center_stage
-// }
-// seedFolder.add(center_stage, 'center_stage')
-// 	.onChange(
-// 		function () {
-// 			activate_center_stage = this.getValue();
-
-// 			console.log("activate_center_stage : ", activate_center_stage);
-// 		}
-// 	);
-
-// var forced_border =
-// {
-// 	forced_border: activate_forced_border
-// }
-// seedFolder.add(forced_border, 'forced_border')
-// 	.onChange(
-// 		function () {
-// 			activate_forced_border = this.getValue();
-
-// 			console.log("activate_forced_border : ", activate_forced_border);
-// 		}
-// 	);
-
-// // BLANK CELLS 
-// const blank_cells = {
-// 	blank_rnd_cell_needed: blank_rnd_cell_needed,
-// };
-// seedFolder.add(blank_cells, "blank_rnd_cell_needed").min(0).max(20).step(1)
-// 	.onChange(
-// 		function () {
-
-// 			blank_rnd_cell_needed = this.getValue();
-// 			console.log("blank_rnd_cell_needed", blank_rnd_cell_needed);
-
-
-// 		}
-// 	)
-// // HORIZONTAL TILES COUNT
-
-// gui.add(settings, "horizontal_tiles").min(2).max(20).step(1)
-// 	.onChange(
-// 		function () {
-
-// 			horizontal_tiles = this.getValue();
-
-// 		}
-// 	)
-
-// // VERTICAL TILES COUNT
-// gui.add(settings, "vertical_tiles").min(2).max(20).step(1)
-// 	.onChange(
-// 		function () {
-
-// 			vertical_tiles = this.getValue();
-
-// 		}
-// 	)
-// // TILES DENSITY 
-
-// gui.add(settings, "connector_count_favor").min(1).max(4).step(1)
-// 	.onChange(
-// 		function () {
-
-// 			connector_count_favor = this.getValue();
-// 			console.log("connector_count_favor", connector_count_favor);
-
-
-// 		}
-// 	)
-
-
-// // GENERATE BTN
-// var obj = {
-// 	Generate: function () {
-
-// 		regenerate();
-
-// 	}
-// };
-
-// gui.add(obj, "Generate");
-
-
-// // pen_Setting
-// gui.add(settings, 'pen_size', { "1.5mm": 0, "2mm": 1, "2.4mm": 2, "3.8mm": 3, "4mm": 4, "6.0mm": 5 })
-// 	.onChange(
-// 		function () {
-// 			default_pen_id = this.getValue();
-
-// 			console.log(pen_size);
-// 			brush_w = pen_size[this.getValue()][1];
-// 			brush_h = pen_size[this.getValue()][2];
-// 			console.log("pen_size : ", this.getValue());
-// 			console.log("brush_w : ", brush_w);
-// 			console.log("brush_h : ", brush_h);
-// 			stroke_size = brush_w;
-// 		}
-// 	);
-
-
-// // RENDER STYLE
-// gui.add(settings, 'renderStyle', { Stroke: render_style_vector, Parallel: render_style_parallel, Marker: render_style_marker })
-// 	.onChange(
-// 		function () {
-// 			renderStyle = this.getValue();
-// 			console.log("render style : ", renderStyle);
-// 		}
-// 	);
-
-// // RENDER STYLE
-// gui.add(settings, 'debugStyle', { Black: theme_style_black, Random: theme_style_random, Three_Colors: theme_style_3colors })
-// 	.onChange(
-// 		function () {
-// 			debugStyle = this.getValue();
-// 			setThemeColors();
-// 			console.log("debug style : ", debugStyle);
-// 		}
-// 	);
-
-// // Random colors 
-// gui.add(settings, 'random_colors')
-// 	.onChange(
-// 		function () {
-// 			activate_random_colors = this.getValue();
-// 			console.log("activate_random_colors : ", activate_random_colors);
-// 		}
-// 	);
-
-// // LINES PER TILES 
-// gui.add(settings, "lines_per_tiles").min(2).max(75).step(1)
-// 	.onChange(
-// 		function () {
-
-// 			lines_per_tiles = this.getValue() + 1;
-// 			console.log("lines_per_tiles", lines_per_tiles);
-
-
-// 		}
-// 	)
-
-
-// // UPDATE BTN
-// var obj = {
-// 	Update: function () {
-
-// 		update_rendering();
-
-// 	}
-// };
-
-// gui.add(obj, "Update");
 
 
 function setThemeColors() {
@@ -677,25 +508,90 @@ function setup_canvas_size() {
 }
 
 
+
 function set_colors_array(){
 	// https://www.royaltalens.com/en/products/ecoline/bottles/?productCode=1125P
-	colors_array = [
-		["Lemon-Yellow-205" , color('#ffff07')],
-		["Chartreuse-233" , color('#e6b319')],
-		["Light-Orange-236" , color('#f2670d')],
-		["Pastel-Blue-580" , color('#8cffff')],
-		["Sky-Blue-578" , color('#33bfda')],
-		["Pastel-Roser-390" , color('#f281e6')],
-		["Magenta-337" , color('#ff00ff')],
-		["Turquoise-Green-661" , color('#44a6a6')],
-		["Pastel-Green-666" , color('#a6f273')],
-		["Carmine-318" , color('#9c1e32')],
+	
+	var available_colors = [
+		["Lemon-Yellow-205" , color('#ffff07')], 	// 0
+		["Chartreuse-233" , color('#e6b319')],   	// 1
+		["Light-Orange-236" , color('#f2670d')], 	// 2
+		["Pastel-Blue-580" , color('#8cffff')],  	// 3
+		["Sky-Blue-578" , color('#33bfda')],     	// 4
+		["Pastel-Roser-390" , color('#f281e6')], 	// 5 
+		["Magenta-337" , color('#ff00ff')],		 	// 6	
+		["Turquoise-Green-661" , color('#44a6a6')], // 7
+		["Pastel-Green-666" , color('#a6f273')], 	// 8
+		["Carmine-318" , color('#9c1e32')],			// 9
+		["Red" , color('#E51714')],			// 10
+		["Violet" , color('#7A128B')],			// 11
 	];
+
+	var theme_colors_list = [];
+		
+	if(color_theme == 1){
+		color_theme_name = "PURPLE HAZE";
+		theme_colors_list = [6,10,11,6,10,11];
+		
+	}else if(color_theme == 2){
+
+		color_theme_name = "CMJ";
+		theme_colors_list = [2,4,6,2,4,6];
+	}else if(color_theme == 3){
+		color_theme_name = "SUNNY";
+		theme_colors_list = [2,2,0,0,9,9];
+		
+	}else if(color_theme == 4){
+		color_theme_name = "PINK";
+		theme_colors_list = [6,6,9,9,5,5];
+
+	}else if(color_theme == 5){
+		color_theme_name = "RAINBOW";
+		theme_colors_list = [10,2,0,8,3,11];
+
+	}else if(color_theme == 6){
+		color_theme_name = "PASTEL";
+		theme_colors_list = [3,3,5,5,8,8];
+
+	}else if(color_theme == 7){
+		color_theme_name = "GRRRREEEEN";
+		theme_colors_list = [8,11,8,11,8,11];
+
+	}
+
+	// theme_colors_list = [2,1,1,1,2,2];
+
+	for (let i = 0; i < theme_colors_list.length; i++) {
+		const color = available_colors[theme_colors_list[i]];
+		colors_array.push(color);
+		console.log("theme_colors_list",color);
+		
+	}
+
+	// colors_array = [
+	// 	["Lemon-Yellow-205" , color('#ffff07')],
+	// 	["Chartreuse-233" , color('#e6b319')],
+	// 	["Light-Orange-236" , color('#f2670d')],
+	// 	["Pastel-Blue-580" , color('#8cffff')],
+	// 	["Sky-Blue-578" , color('#33bfda')],
+	// 	["Pastel-Roser-390" , color('#f281e6')],
+	// 	["Magenta-337" , color('#ff00ff')],
+	// 	["Turquoise-Green-661" , color('#44a6a6')],
+	// 	["Pastel-Green-666" , color('#a6f273')],
+	// 	["Carmine-318" , color('#9c1e32')],
+	// ];
 
 	brush_agnle_array=[
 		0,45,90,135
 	];
 }
+
+function set_colors_theme(){
+
+
+}
+
+
 
 // ┌───────────────────────────────────────────────────────────────────────────────────┐
 // │   _  _  _  _    _  _  _  _  _  _  _  _  _  _  _            _  _  _  _  _          │
@@ -711,6 +607,7 @@ function set_colors_array(){
 
 
 function setup() {
+
 	lines_per_tiles++;
 	color_cyan = color('hsba(200, 100%, 100%, 1)');
 	color_magenta = color('#e812e0');
@@ -731,6 +628,11 @@ function setup() {
 	populate_tiles_array();
 	create_layers();
 
+	// // this is how features can be defined
+	$fx.features({
+		"Color theme": color_theme_name,
+	
+	})
 }
 
 
@@ -954,7 +856,7 @@ function create_layers(block_iterate) {
 	iterate();
 
 	// var base_brush_angle = randomPenAngle(fxrand());
-	var layer_count =  getLayerCount(fxrand());
+	
 	console.log("create_layers",layer_count);
 	fxfeature("layer_count",layer_count);
 
@@ -1427,6 +1329,11 @@ function draw() {
 		// image(canv,-60,0,1200,600);
 	}
 	console.table(window.$fxhashFeatures);
+
+
+
+
+
 	noLoop();
 }
 
@@ -1451,6 +1358,7 @@ function fxfeature(name,value){
 	console.log("fxfeature("+name+","+value+")");
 	params.push(name+":"+value);
 	window.$fxhashFeatures[ name ] = value;
+	$fx.features[ name ] = value;
 	
 }
 

@@ -10,7 +10,7 @@
 // TILES 
 function getRandomLayerColor(value){
   var cl = colors_array.length-1;
-  var color_id = Math.round(map(value,0,1,0,cl));
+  var color_id = 0;
   // console.log("color_id",color_id);
   // console.log("cl",cl);
   // console.log("value",value);
@@ -21,6 +21,19 @@ function getRandomLayerColor(value){
   // console.log(colors_array);
   return color;
 }
+// function getRandomLayerColor(value){
+//   var cl = colors_array.length-1;
+//   var color_id = Math.round(map(value,0,1,0,cl));
+//   // console.log("color_id",color_id);
+//   // console.log("cl",cl);
+//   // console.log("value",value);
+//   var color = colors_array[color_id];
+//   // console.log("@@@@@@@@@@@@colors_array");
+//   // console.log(colors_array);
+//   colors_array.splice(color_id,1);
+//   // console.log(colors_array);
+//   return color;
+// }
 
 function getRandomLayerBrushAngle(value){
   console.log("--------------------getRandomLayerBrushAngle",value);
