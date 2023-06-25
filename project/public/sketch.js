@@ -517,12 +517,12 @@ function set_colors_array(){
 		theme_colors_list = [8,5,6,8,5,6];
 		
 	}else if(color_theme == 4){
-		color_theme_name = "PINK";
-		theme_colors_list = [6,5,11,6,5,11];
+		color_theme_name = "FADED RGB";
+		theme_colors_list = [5,1,7,5,1,7];
 
 	}else if(color_theme == 5){
-		color_theme_name = "AQUA MARINE";
-		theme_colors_list = [4,8,3,4,8,3];
+		color_theme_name = "THE NEW ORANGE";
+		theme_colors_list = [2,3,4,2,3,4];
 
 	}else if(color_theme == 6){
 		color_theme_name = "COMPACT DISK";
