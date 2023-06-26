@@ -25,13 +25,13 @@ console.log("$fx.rand()",$fx.rand());
 $fx.params([
 	{
 		id: "color_theme",
-		name: "color theme",
+		name: "Color Theme",
 		type: "number",
 		//default: Math.PI,
 	  //   update: "sync",
 		options: {
 		  min: 1,
-		  max: 7,
+		  max: 6,
 		  step: 1,
 		},
 	  },
@@ -65,7 +65,7 @@ $fx.params([
 
 	{
 	id: "lines_per_tiles",
-	name: "number of lines",
+	name: "Lines Count",
 	type: "number",
 	//default: Math.PI,
 	// update: "sync",
@@ -78,7 +78,7 @@ $fx.params([
 
 	{
 	id: "layer_count",
-	name: "number of layers",
+	name: "Layers Count",
 	type: "number",
 	//default: Math.PI,
 	// update: "sync",
@@ -88,6 +88,20 @@ $fx.params([
 		step: 1,
 		},
 	},
+
+	{
+		id: "brush_size",
+		name: "Brush Width",
+		type: "number",
+		//default: Math.PI,
+		// update: "sync",
+		options: {
+			min: 3,
+			max: 4,
+			step: 1,
+			},
+		},
+
 
   ]);
 
@@ -137,7 +151,7 @@ var debug_mode_activated = false; 		  ///////
 var debug_mode_pattern_activated = false; ///////
 
 var default_size_id = 3;    			/////// 1
-var default_pen_id = 3; 				/////// 4
+var default_pen_id = $fx.getRawParam("brush_size"); 				/////// 4
 
 var blank_rnd_cell_needed = 0;  	/////// 0
 var connector_count_favor = 4;  	/////// 4
@@ -524,11 +538,11 @@ function set_colors_array(){
 		color_theme_name = "THE NEW ORANGE";
 		theme_colors_list = [2,3,4,2,3,4];
 
-	}else if(color_theme == 6){
-		color_theme_name = "COMPACT DISK";
-		theme_colors_list = [3,5,8,3,5,8];
+	// }else if(color_theme == 6){
+	// 	color_theme_name = "COMPACT DISK";
+	// 	theme_colors_list = [3,5,8,3,5,8];
 
-	}else if(color_theme == 7){
+	}else if(color_theme == 6){
 		color_theme_name = "GREEN ORCHID";
 		theme_colors_list = [8,11,8,11,8,11];
 
@@ -592,10 +606,12 @@ function setup() {
 	populate_tiles_array();
 	create_layers();
 
+
+	fxfeature("Brush Width",pen_size[default_pen_id][0]);
 	// // this is how features can be defined
 	$fx.features({
-		"Color theme": color_theme_name,
-	
+		"Color Theme": color_theme_name,
+		"Brush Width":pen_size[default_pen_id][0],
 	})
 }
 
