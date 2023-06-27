@@ -51,11 +51,15 @@ function getRandomLayerBrushAngle(value){
   return brush_angle;
 }
 
-function getLayerRotation(){
-  console.log("getLayerRotation()");
+function getLayerRotation(i){
+  console.log("getLayerRotation("+i+")");
   console.log(layers_rotation);
+
+  // IF FLIP
   if($fx.getRawParam("layers_flip")){
-    if($fx.getRawParam("random_layers_flip")){
+    // IF RANDOM FLIP
+    console.log("getLayerRotation random_layers_flip_count",$fx.getRawParam("random_layers_flip_count"));
+    if($fx.getRawParam("random_layers_flip_count")>i){
       return [[H_flip($fx.rand()),V_flip($fx.rand())]];
     }else{
       return layers_rotation.splice(0,1);

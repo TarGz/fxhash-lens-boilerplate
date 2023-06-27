@@ -21,6 +21,7 @@ console.log("$fx.rand()",$fx.rand());
 // │      (_)     (_)         (_)(_)         (_)  (_)(_)(_)(_)    │
 // └──────────────────────────────────────────────────────────────┘
 
+// var paramsArray
 
 $fx.params([
 	{
@@ -34,7 +35,7 @@ $fx.params([
 		  max: 6,
 		  step: 1,
 		},
-	  },
+	},
 
 
 	{
@@ -108,21 +109,30 @@ $fx.params([
 
 	},
 	{
-		id: "random_layers_flip",
+		id: "random_layers_flip_count",
 		name: "Random flip",
-		type: "boolean",
+		type: "number",
+		//default: Math.PI,
+		// update: "sync",
+		options: {
+			min: 0,
+			max: 4,
+			step: 1,
+			},
 
 	},
 
   ]);
+  var layer_count =  $fx.getRawParam("layer_count"); 
 
+//   console.log("layer_count",$fx.getRawParam("layer_count"));
 
 
 
 
 var tileArrayCount = 0;
 // var layer_count =  getLayerCount(fxrand());
-var layer_count =  $fx.getRawParam("layer_count"); 
+
 var params = [];
 
 const hasMaxSize 	= true; // if true, then the canvas cannot be larger than the reference size
@@ -572,9 +582,8 @@ function set_array(){
 	layers_rotation = [
 		// H,V
 		[false,false],
-		[false,true],
+		[false,false],
 		[true,false],
-		[true,true],
 		[false,false],
 		[false,true],
 		[true,false],
@@ -854,6 +863,11 @@ function draw_layer(layer){
 
 
 function create_layers(block_iterate) {
+
+
+
+
+
 	
 	canvas_layers_for_export=[];
 	pixel_canvas = createGraphics(canvas_Width, canvas_Height, P2D);
@@ -875,7 +889,7 @@ function create_layers(block_iterate) {
 		var brush_angle=getRandomLayerBrushAngle(fxrand());
 		console.log("BEFORE LAYER brush_angle",brush_angle);
 
-		var flips = getLayerRotation();
+		var flips = getLayerRotation(i);
 		// console.log("create_layers layerXXX->"+i+"--",flips);
 		// var l = new Layer(
 		// 		i,
