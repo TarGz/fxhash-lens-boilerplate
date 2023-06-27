@@ -100,8 +100,19 @@ $fx.params([
 			max: 4,
 			step: 1,
 			},
-		},
+	},
+	{
+		id: "layers_flip",
+		name: "Layers flip",
+		type: "boolean",
 
+	},
+	{
+		id: "random_layers_flip",
+		name: "Random flip",
+		type: "boolean",
+
+	},
 
   ]);
 
@@ -198,6 +209,7 @@ const canvas_size_storage = [
 var colors_array = [];
 var colors_theme = [];
 var brush_agnle_array = [];
+var layers_rotation = [];
 var color_palette;
 
 var stroke_color = "#000000";
@@ -498,7 +510,7 @@ function setup_canvas_size() {
 
 
 
-function set_colors_array(){
+function set_array(){
 	// https://www.royaltalens.com/en/products/ecoline/bottles/?productCode=1125P
 	
 	var available_colors = [
@@ -557,7 +569,21 @@ function set_colors_array(){
 		
 	}
 
-
+	layers_rotation = [
+		// H,V
+		[false,false],
+		[false,true],
+		[true,false],
+		[true,true],
+		[false,false],
+		[false,true],
+		[true,false],
+		[true,true],
+		[false,false],
+		[false,true],
+		[true,false],
+		[true,true]
+	]
 
 	brush_agnle_array=[
 		0,45,90,135
@@ -596,7 +622,7 @@ function setup() {
 	color_pink = color('#f708c2');
 	params=[];
 	params.push("fxhash:"+fxhash);
-	set_colors_array();
+	set_array();
 	color_palette = [color_cyan, color_magenta, color_yellow];
 	// set_lines_colors();
 	setThemeColors();
@@ -746,7 +772,7 @@ function update_rendering() {
 function regenerate() {
 	params=[];
 	params.push("fxhash:"+fxhash);
-	set_colors_array();
+	set_array();
 	setup_canvas_size();
 	calculate_tiles_count();
 	setDimensions();
@@ -761,7 +787,8 @@ function draw_layer(layer){
 	console.log("draw_layer"+layer.id,"- color",layer.color_name);
 	console.log("draw_layer"+layer.id,"- brush angle",layer.brush_angle);
 	
-	// fxfeature("layer"+layer.id+".color_name",layer.color_name);
+	// fxfeature("layerXXX"+layer.id+".horizontal_flip",layer.horizontal_flip);
+	// fxfeature("layerXXX"+layer.id+".vertical_flip",layer.vertical_flip);
 
 	var drawings = drawPattern(layer.brush_angle, layer.color);
 
@@ -840,16 +867,29 @@ function create_layers(block_iterate) {
 	console.log("create_layers",layer_count);
 	fxfeature("layer_count",layer_count);
 
+
+
+
 	for (let i = 0; i < layer_count; i++) {
 		// var brush_angle=randomPenAngle(fxrand());
 		var brush_angle=getRandomLayerBrushAngle(fxrand());
 		console.log("BEFORE LAYER brush_angle",brush_angle);
+
+		var flips = getLayerRotation();
+		// console.log("create_layers layerXXX->"+i+"--",flips);
+		// var l = new Layer(
+		// 		i,
+		// 		getRandomLayerColor(fxrand()),
+		// 		brush_angle,
+		// 		H_flip(fxrand()),
+		// 		V_flip(fxrand()),
+		// 		);
 		var l = new Layer(
 				i,
 				getRandomLayerColor(fxrand()),
 				brush_angle,
-				H_flip(fxrand()),
-				V_flip(fxrand()),
+				flips[0][0],
+				flips[0][1],
 				);
 		draw_layer(l,i);
 		// brush_angle+=45;
