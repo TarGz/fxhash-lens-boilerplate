@@ -72,7 +72,7 @@ $fx.params([
 	// update: "sync",
 	options: {
 		min: 13,
-		max: 16,
+		max: 30,
 		step: 1,
 		},
 	},
@@ -97,7 +97,7 @@ $fx.params([
 		//default: Math.PI,
 		// update: "sync",
 		options: {
-			min: 3,
+			min: 2,
 			max: 4,
 			step: 1,
 			},
@@ -171,7 +171,7 @@ const theme_style_3colors = "THEME_STYLE_3COLORS";``
 var debug_mode_activated = false; 		  ///////
 var debug_mode_pattern_activated = false; ///////
 
-var default_size_id = 3;    			/////// 1
+var default_size_id = 2;    			/////// 1
 var default_pen_id = $fx.getRawParam("brush_size"); 				/////// 4
 
 var blank_rnd_cell_needed = 0;  	/////// 0
@@ -542,7 +542,6 @@ function set_array(){
 		
 	if(color_theme == 1){
 		color_theme_name = "Random";
-		// color_theme_name = "Crimson Majesty";
 		theme_colors_list = [0,1,2,3,4,5,6,7,8,9];
 	}else if(color_theme == 2){
 		color_theme_name = "CMJ";
@@ -647,6 +646,7 @@ function setup() {
 	$fx.features({
 		"Color Theme": color_theme_name,
 		"Brush Width":pen_size[default_pen_id][0],
+		"Canvas size":canvas_size_storage[default_size_id][0],
 	})
 }
 
@@ -1289,7 +1289,7 @@ function draw() {
 		console.log("SVG save_file", save_file);
 
 
-		drawID(0.4, canvas_Height);
+		
 
 
 		if (fileformat == "svg"){
@@ -1306,12 +1306,14 @@ function draw() {
 			// }
 			background(background_color);
 			image(vector_canvas_full, 0, 0, canvas_Width, canvas_Height);
+			drawID(0.4, canvas_Height);
 			save(filename + "." + fileformat);
 			saveStrings(params, filename+'.txt');
 		} 
 		if (fileformat == "png" || fileformat == "jpg"){
 			background(background_color);
 			image(pixel_canvas, 0, 0, canvas_Width, canvas_Height);
+			drawID(0.4, canvas_Height);
 			save(filename + "." + fileformat);
 		} 
 
@@ -1332,7 +1334,8 @@ function draw() {
 			tint(255, 220);
 			console.log("DRAW STYLE_PARALLEL");
 			// pixel_canvas.scale(-1, 1);
-			background(background_color);
+			// background(background_color);
+			background("#efefef");
 			// DEBUG
 			// image(vector_canvas, 0, -vertical_position_offset, scaled_width, scaled_height);
 			image(pixel_canvas, 0, 0, scaled_width, scaled_height);
@@ -1389,12 +1392,14 @@ function keyTyped() {
 		console.log("keyTyped -> i");
 		save_file = true;
 		fileformat = "png";
+		// trick -> the resize is trigering the draw call;
 		resizeCanvas(canvas_Width, canvas_Height, false);
 		resizeCanvas(scaled_width, scaled_height, false);
 	} else if (key === 'j') {
 		console.log("keyTyped -> j");
 		save_file = true;
 		fileformat = "jpg";
+		// trick -> the resize is trigering the draw call;
 		resizeCanvas(canvas_Width, canvas_Height, false);
 		resizeCanvas(scaled_width, scaled_height, false);
 	} else if (key === 'g') {

@@ -62,11 +62,12 @@ function getLayerRotation(i){
     if($fx.getRawParam("random_layers_flip_count")>i){
       return [[H_flip($fx.rand()),V_flip($fx.rand())]];
     }else{
+      return [[false,false]];
       return layers_rotation.splice(0,1);
     }
     
   }else{
-    return [[0,0]];
+    return [[false,false]];
   }
   
 }
