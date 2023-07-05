@@ -52,21 +52,26 @@ function getRandomLayerBrushAngle(value){
 }
 
 function getLayerRotation(i){
-  console.log("getLayerRotation("+i+")");
-  console.log(layers_rotation);
+  
 
   // IF FLIP
   if($fx.getRawParam("layers_flip")){
+    // console.log("FLIP getLayerRotation("+i+")",$fx.getRawParam("layers_flip_count"));
+    
     // IF RANDOM FLIP
-    console.log("getLayerRotation random_layers_flip_count",$fx.getRawParam("random_layers_flip_count"));
-    if($fx.getRawParam("random_layers_flip_count")>i){
-      return [[H_flip($fx.rand()),V_flip($fx.rand())]];
+    // console.log("getLayerRotation layers_flip_count",$fx.getRawParam("layers_flip_count"));
+ 
+    if(i<=$fx.getRawParam("layers_flip_count")){
+      var flips = layers_rotation.splice(0,1);
+      // console.log("getLayerRotation",flips);
+      return flips;
     }else{
       return [[false,false]];
-      return layers_rotation.splice(0,1);
+      // return layers_rotation.splice(0,1);
     }
     
   }else{
+    // console.log("NO FLIP getLayerRotation("+i+")");
     return [[false,false]];
   }
   
@@ -92,7 +97,7 @@ function getLayerCount(value){
 
 function getEmptyTilesCount(value){
   // return 30;
-  return Math.floor(value*20);
+  return 1+Math.floor(value*10);
 }
 
 // getDotTilesCount(fxrand());

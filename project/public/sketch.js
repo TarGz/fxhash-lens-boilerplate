@@ -109,8 +109,8 @@ $fx.params([
 
 	},
 	{
-		id: "random_layers_flip_count",
-		name: "Random flip",
+		id: "layers_flip_count",
+		name: "Flip count",
 		type: "number",
 		//default: Math.PI,
 		// update: "sync",
@@ -581,16 +581,13 @@ function set_array(){
 	layers_rotation = [
 		// H,V
 		[false,false],
-		[false,false],
 		[true,false],
-		[false,false],
 		[false,true],
-		[true,false],
 		[true,true],
 		[false,false],
-		[false,true],
 		[true,false],
-		[true,true]
+		[false,true],
+		[true,true],
 	]
 
 	brush_agnle_array=[
