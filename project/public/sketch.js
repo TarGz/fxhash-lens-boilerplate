@@ -21,111 +21,18 @@ console.log("$fx.rand()",$fx.rand());
 // │      (_)     (_)         (_)(_)         (_)  (_)(_)(_)(_)    │
 // └──────────────────────────────────────────────────────────────┘
 
-// var paramsArray
-
-$fx.params([
-	{
-		id: "color_theme",
-		name: "Color Theme",
-		type: "number",
-		//default: Math.PI,
-	  //   update: "sync",
-		options: {
-		  min: 1,
-		  max: 6,
-		  step: 1,
-		},
-	},
+const scale_params = [
+	// name, H,W,min L, max L 
+	// pour 2.4mm
+	  ["2X4",2,4,[36,60]],
+	  ["3X7",3,7,[25,36]],
+	  ["4X10",4,10,[20,30]],
+	  ["5X13",5,13,[16,22]],
+  ]; 
 
 
-	{
-	  id: "horizontal_tiles",
-	  name: "horizontal tiles count",
-	  type: "number",
-	  //default: Math.PI,
-	//   update: "sync",
-	  options: {
-		min: 4,
-		max: 4,
-		step: 1,
-	  },
-	},
 
-	{
-	id: "vertical_tiles",
-	name: "vertical_tiles",
-	type: "number",
-	//default: Math.PI,
-	// update: "sync",
-	options: {
-		min: 10,
-		max: 10,
-		step: 1,
-		},
-	},
 
-	{
-	id: "lines_per_tiles",
-	name: "Lines Count",
-	type: "number",
-	//default: Math.PI,
-	// update: "sync",
-	options: {
-		min: 13,
-		max: 30,
-		step: 1,
-		},
-	},
-
-	{
-	id: "layer_count",
-	name: "Layers Count",
-	type: "number",
-	//default: Math.PI,
-	// update: "sync",
-	options: {
-		min: 2,
-		max: 4,
-		step: 1,
-		},
-	},
-
-	{
-		id: "brush_size",
-		name: "Brush Width",
-		type: "number",
-		//default: Math.PI,
-		// update: "sync",
-		options: {
-			min: 2,
-			max: 4,
-			step: 1,
-			},
-	},
-	{
-		id: "layers_flip",
-		name: "Layers flip",
-		type: "boolean",
-
-	},
-	{
-		id: "layers_flip_count",
-		name: "Flip count",
-		type: "number",
-		//default: Math.PI,
-		// update: "sync",
-		options: {
-			min: 0,
-			max: 4,
-			step: 1,
-			},
-
-	},
-
-  ]);
-  var layer_count =  $fx.getRawParam("layer_count"); 
-
-//   console.log("layer_count",$fx.getRawParam("layer_count"));
 
 
 
@@ -172,16 +79,17 @@ var debug_mode_activated = false; 		  ///////
 var debug_mode_pattern_activated = false; ///////
 
 var default_size_id = 2;    			/////// 1
-var default_pen_id = $fx.getRawParam("brush_size"); 				/////// 4
+var default_pen_id; 				/////// 4
 
 var blank_rnd_cell_needed = 0;  	/////// 0
 var connector_count_favor = 4;  	/////// 4
 // 5x13 | i
-let horizontal_tiles = $fx.getRawParam("horizontal_tiles");  		/////// 4  
-let vertical_tiles = $fx.getRawParam("vertical_tiles");			 	/////// 10
-let lines_per_tiles = $fx.getRawParam("lines_per_tiles");;   		/////// 14
-let color_theme = $fx.getRawParam("color_theme");		 			/////// 14
+let horizontal_tiles;  		/////// 4  
+let vertical_tiles;			 	/////// 10
+let lines_per_tiles;   		/////// 14
+let color_theme;		 			/////// 14
 let color_theme_name;
+var layer_count;
 
 var renderStyle = render_style_parallel; // render_style_parallel //render_style_vector;
 var debugStyle = theme_style_random; //  theme_style_black
@@ -205,6 +113,8 @@ var canvas_Height;
 var canvas_database = [];
 var tiles_database = [];
 var canv;
+
+
 
 const canvas_size_storage = [
 	['A0', 841, 1189],
@@ -231,10 +141,8 @@ resolution_data = canvas_size_storage[default_size_id];
 
 let tile_Empty, tile_C, tile_CxC, tile_L, tile_1CE, tile_2CE, tile_CxL;
 
+var stroke_size;
 
-brush_w = pen_size[default_pen_id][1];
-brush_h = pen_size[default_pen_id][2];
-var stroke_size = brush_w;
 
 
 
@@ -301,6 +209,7 @@ var color_magenta;
 var color_red;
 var color_purple;
 var color_pink;
+var fx_paramsArray;
 
 
 
@@ -312,8 +221,143 @@ var color_pink;
 
 
 
+function setFxParamsSettings(){
 
 
+	$fx.params([
+		{
+			id: "color_theme",
+			name: "Color Theme",
+			type: "number",
+			//default: Math.PI,
+		//   update: "sync",
+			options: {
+			min: 1,
+			max: 6,
+			step: 1,
+			},
+		},
+
+		{
+			id: "scale",
+			name: "pattern scale",
+			type: "number",
+			//default: Math.PI,
+			//   update: "sync",
+				options: {
+					min: 0,
+					max: 3,
+					step: 1,
+				},
+			},
+
+
+		// {
+		// id: "horizontal_tiles",
+		// name: "horizontal tiles count",
+		// type: "number",
+		// //default: Math.PI,
+		// //   update: "sync",
+		// 	options: {
+		// 		min: 2,
+		// 		max: 5,
+		// 		step: 1,
+		// 	},
+		// },
+
+		// {
+		// id: "vertical_tiles",
+		// name: "vertical_tiles",
+		// type: "number",
+		// //default: Math.PI,
+		// // update: "sync",
+		// options: {
+		// 	min: 3,
+		// 	max: 20,
+		// 	step: 1,
+		// 	},
+		// },
+
+		// {
+		// id: "lines_per_tiles",
+		// name: "Lines Count",
+		// type: "number",
+		// //default: Math.PI,
+		// // update: "sync",
+		// // update: "code-driven",
+		// options: {
+		// 	min: 10,
+		// 	max: 60,
+		// 	step: 1,
+		// 	},
+		// },
+
+		{
+			id: "layer_count",
+			name: "Layers Count",
+			type: "number",
+			//default: Math.PI,
+			// update: "sync",
+			options: {
+				min: 2,
+				max: 4,
+				step: 1,
+				},
+		},
+
+		// {
+		// 	id: "brush_size",
+		// 	name: "Brush Width",
+		// 	type: "number",
+		// 	//default: Math.PI,
+		// 	// update: "sync",
+		// 	options: {
+		// 		min: 2,
+		// 		max: 4,
+		// 		step: 1,
+		// 		},
+		// },
+		{
+			id: "layers_flip",
+			name: "Layers flip",
+			type: "boolean",
+
+		},
+		{
+			id: "layers_flip_count",
+			name: "Flip count",
+			type: "number",
+			//default: Math.PI,
+			// update: "sync",
+			options: {
+				min: 0,
+				max: 4,
+				step: 1,
+				},
+
+		},
+
+	]);
+
+
+	
+	layer_count =  $fx.getRawParam("layer_count"); 
+	color_theme = $fx.getRawParam("color_theme");		 			/////// 14
+	// default_pen_id = $fx.getRawParam("brush_size"); 	
+	default_pen_id = 2; 	
+	
+	fx_paramsArray = scale_params[$fx.getRawParam("scale")];
+	// name, H,W,min L, max L 
+	console.log("setFxParamsSettings",fx_paramsArray[0],fx_paramsArray[1],fx_paramsArray[2],fx_paramsArray[3] );
+	
+	horizontal_tiles = fx_paramsArray[1];  		/////// 4  
+	vertical_tiles = fx_paramsArray[2];			 	/////// 10
+	lines_per_tiles = getLinePerTile($fx.rand(),fx_paramsArray[3][0],fx_paramsArray[3][1]);		/////// 14
+	brush_w = pen_size[default_pen_id][1];
+	brush_h = pen_size[default_pen_id][2];
+	stroke_size = brush_w;
+}
+//   console.log("layer_count",$fx.getRawParam("layer_count"));
 
 
 
@@ -616,7 +660,8 @@ function set_colors_theme(){
 
 
 function setup() {
-
+	
+	setFxParamsSettings();
 	lines_per_tiles++;
 	color_cyan = color('hsba(200, 100%, 100%, 1)');
 	color_magenta = color('#e812e0');

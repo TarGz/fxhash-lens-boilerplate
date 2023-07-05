@@ -7,6 +7,18 @@
 // └─────────────────────────────────────────────────────┘
 
 
+// SIZE PARAMS, the first call taht define the grid size and the lines 
+
+function getLinePerTile(random,min,max){
+  
+  // var sp = size_params.length;
+  var lines = Math.floor(map(random,0,1,min,max));
+
+  console.log("getLinePerTile()",random,min,"->",max,"::",lines);
+  return lines;
+}
+
+
 // TILES 
 function getRandomLayerColor(value){
   var cl = colors_array.length-1;
