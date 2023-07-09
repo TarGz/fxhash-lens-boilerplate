@@ -50,16 +50,18 @@ function getRandomLayerColor(value){
 
 function getRandomLayerBrushAngle(value){
   console.log("--------------------getRandomLayerBrushAngle",value);
-  console.log(brush_agnle_array);
-  var cl = brush_agnle_array.length-1;
+  // return brush_angle_array[3];
+
+  // console.log(brush_angle_array);
+  var cl = brush_angle_array.length-1;
   var brush_id = Math.round(map(value,0,1,0,cl));
   
-  var brush_angle = brush_agnle_array[brush_id];
-  console.log("brush_id",brush_id);
-  console.log("cl",cl);
-  console.log("value",value);
-  brush_agnle_array.splice(brush_id,1);
-  console.log(brush_agnle_array);
+  var brush_angle = brush_angle_array[brush_id];
+  // console.log("brush_id",brush_id);
+  // console.log("cl",cl);
+  // console.log("value",value);
+  // brush_angle_array.splice(brush_id,1);
+  // console.log(brush_angle_array);
   return brush_angle;
 }
 
@@ -67,25 +69,21 @@ function getLayerRotation(i){
   
 
   // IF FLIP
-  if($fx.getRawParam("layers_flip")){
-    // console.log("FLIP getLayerRotation("+i+")",$fx.getRawParam("layers_flip_count"));
+
+    // console.log("getLayerRotation layers_flip_count",i,"-",$fx.getRawParam("layers_flip_count"));
+    var flips = layers_rotation.splice(0,1);
+    // console.log("getLayerRotation",flips);
+    return flips;
+
+
+    // if(i<$fx.getRawParam("layers_flip_count")){
+    //   var flips = layers_rotation.splice(0,1);
+    //   console.log("getLayerRotation",flips);
+    //   return flips;
+    // }else{
+    //   return [[false,false]];
+    // }
     
-    // IF RANDOM FLIP
-    // console.log("getLayerRotation layers_flip_count",$fx.getRawParam("layers_flip_count"));
- 
-    if(i<=$fx.getRawParam("layers_flip_count")){
-      var flips = layers_rotation.splice(0,1);
-      // console.log("getLayerRotation",flips);
-      return flips;
-    }else{
-      return [[false,false]];
-      // return layers_rotation.splice(0,1);
-    }
-    
-  }else{
-    // console.log("NO FLIP getLayerRotation("+i+")");
-    return [[false,false]];
-  }
   
 }
 

@@ -128,7 +128,7 @@ const canvas_size_storage = [
 ];
 var colors_array = [];
 var colors_theme = [];
-var brush_agnle_array = [];
+var brush_angle_array = [];
 var layers_rotation = [];
 var color_palette;
 
@@ -299,7 +299,7 @@ function setFxParamsSettings(){
 			//default: Math.PI,
 			// update: "sync",
 			options: {
-				min: 2,
+				min: 1,
 				max: 4,
 				step: 1,
 				},
@@ -634,7 +634,7 @@ function set_array(){
 		[true,true],
 	]
 
-	brush_agnle_array=[
+	brush_angle_array=[
 		0,45,90,135
 	];
 }
@@ -836,12 +836,10 @@ function regenerate() {
 function draw_layer(layer){
 
 	console.log("draw_layer"+layer.id,"- color",layer.color_name);
-	console.log("draw_layer"+layer.id,"- brush angle",layer.brush_angle);
-	
-	fxfeature("draw_layer"+layer.id+".horizontal_flip",layer.horizontal_flip);
-	fxfeature("draw_layer"+layer.id+".vertical_flip",layer.vertical_flip);
+	console.log("draw_layer"+layer.id,"- fixed_brush_angle",layer.fixed_brush_angle);
 
-	var drawings = drawPattern(layer.brush_angle, layer.color);
+
+	var drawings = drawPattern(layer.fixed_brush_angle, layer.color);
 
 
 
@@ -849,9 +847,7 @@ function draw_layer(layer){
 	var vect = drawings[1];
 	var drawn_canvas_height = ((vertical_tiles-1)*cells_diag/2)+cells_diag;
 	var vertical_white_space_size = pixel_canvas.height-drawn_canvas_height;
-	// console.log("vertical_white_space_size",vertical_white_space_size);
-	var flip_or_not = flipOrNot(fxrand(),0.5);
-	// console.log(layer);
+
 	var vector_canvas = createGraphics(canvas_Width, canvas_Height,SVG);
 	vector_canvas.push();
 	pixel_canvas.push();
@@ -859,34 +855,24 @@ function draw_layer(layer){
 
 
 	if(layer.horizontal_flip){
-		// console.log("flip_brush_value",layer.id);
-		//vertical_white_space_size/2
+		console.log("DRAW FLIPPED H->",layer.id);
 		pixel_canvas.translate(canvas_Width, 0);
 		pixel_canvas.scale(-1, 1);
 
 		vector_canvas.translate(canvas_Width, 0);
 		vector_canvas.scale(-1, 1);
-
-		// layer.brush_angle = flip_brush(layer.brush_angle);
-		console.log("draw_layer"+layer.id,"- FLIP H");
 	}
 
 	if(layer.vertical_flip){
-	// if(layer.id == 1){
-		// console.log("flip_brush_value",layer.id);
+		console.log("DRAW FLIPPED V->",layer.id);
 		pixel_canvas.translate(0,canvas_Height-vertical_white_space_size );
 		pixel_canvas.scale(1, -1);
 
 		vector_canvas.translate(0,canvas_Height-vertical_white_space_size );
 		vector_canvas.scale(1, -1);
-
-		// layer.brush_angle = flip_brush(layer.brush_angle);
-		console.log("draw_layer"+layer.id,"- FLIP V");
 	}
 
-	// console.log("draw_layer"+layer.id,"before adapt"+layer.brush_angle);
-	// layer.brush_angle = adapt_brush_value_to_plotter(layer.brush_angle );
-	// console.log("draw_layer"+layer.id,"after adapt"+layer.brush_angle);
+
 	pixel_canvas.image(pix, 0, 0, canvas_Width, canvas_Height);
 	pixel_canvas.pop();
 	vector_canvas.image(vect, 0, 0, canvas_Width, canvas_Height);
@@ -896,21 +882,12 @@ function draw_layer(layer){
 	vector_canvas_full.image(vector_canvas,0,0,canvas_Width,canvas_Height);
 	canvas_layers_for_export.push(vector_canvas);
 
-	// VECTOR
-	
-	// if(flip_or_not) vector_canvas.translate(canvas_Width,vertical_white_space_size/2 );
-	// if(flip_or_not) vector_canvas.scale(-1, 1);
 
 }
 
 
-function create_layers(block_iterate) {
+function create_layers() {
 
-
-
-
-
-	
 	canvas_layers_for_export=[];
 	pixel_canvas = createGraphics(canvas_Width, canvas_Height, P2D);
 	vector_canvas_full = createGraphics(canvas_Width, canvas_Height, SVG);
@@ -920,7 +897,6 @@ function create_layers(block_iterate) {
 
 	// var base_brush_angle = randomPenAngle(fxrand());
 	
-	console.log("create_layers",layer_count);
 	fxfeature("layer_count",layer_count);
 
 
@@ -932,14 +908,7 @@ function create_layers(block_iterate) {
 		console.log("BEFORE LAYER brush_angle",brush_angle);
 
 		var flips = getLayerRotation(i);
-		// console.log("create_layers layerXXX->"+i+"--",flips);
-		// var l = new Layer(
-		// 		i,
-		// 		getRandomLayerColor(fxrand()),
-		// 		brush_angle,
-		// 		H_flip(fxrand()),
-		// 		V_flip(fxrand()),
-		// 		);
+
 		var l = new Layer(
 				i,
 				getRandomLayerColor(fxrand()),
@@ -947,8 +916,8 @@ function create_layers(block_iterate) {
 				flips[0][0],
 				flips[0][1],
 				);
+
 		draw_layer(l,i);
-		// brush_angle+=45;
 		layers_array.push(l);
 		fxfeature("layer"+l.id+".color",l.color_name);
 		fxfeature("layer"+l.id+".brush_angle",l.brush_angle);
@@ -1140,8 +1109,8 @@ function initCanvas(brush_color) {
 
 function drawPattern(brush_angle, brush_color) {
 	// FIX pour que l'angle de dessins soit ISO avec l'angle des stylos par rapport à la machine
-	// if(brush_angle ==0 ) brush_angle = 45;
-	// if(brush_angle ==45 ) brush_angle = 0;
+	// if(brush_angle == 0 ) brush_angle = 45;
+	// if(brush_angle == 45 ) brush_angle = 0;
 	// if(brush_angle ==90 ) brush_angle = 135;
 	// if(brush_angle ==135 ) brush_angle = 90;
 	
@@ -1199,6 +1168,7 @@ function drawPattern(brush_angle, brush_color) {
 				if (eval(func_name)) {
 					var fn = window[func_name];
 					var fnparams = [cell.tile.rotation + brush_angle, brush_color];
+					// console.log("drawPattern->brush_angle",brush_angle);	
 					if (typeof fn === "function") {
 						var new_tiles = fn.apply(null, fnparams);
 						var new_tile = new_tiles[0];
