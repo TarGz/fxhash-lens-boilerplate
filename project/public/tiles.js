@@ -38,25 +38,7 @@ class Tile {
 
 }
 
-function get_fixed_rotation(r){
-	var  fixed_angle = 0;
-	if(r==0 || r==180 || r==360){
-		// console.log("get_fixed_rotation CAS 0 360");
-		fixed_angle =  45;
-	}else if(r==45){
-		// console.log("get_fixed_rotation CAS 45");
-		fixed_angle =  45;
-	}else if(r==90){
-		// console.log("get_fixed_rotation CAS 90");
-		fixed_angle =  0;
-	}else if(r==135){
-		// console.log("get_fixed_rotation CAS 135");
-		fixed_angle =  45;
-	}
-	// console.log("get_fixed_rotation2 "+r+"->"+fixed_angle);
-	return r;
 
-}
 
 
 function drawArc2(graphics, centerX, centerY, radius, startAngle, endAngle, brush_rotation, expand_start, expand_end) {
@@ -79,15 +61,55 @@ function drawArc2(graphics, centerX, centerY, radius, startAngle, endAngle, brus
 		graphics.push();
 		graphics.translate(x, y);
 		// the -45 compensate the tile 45° rotation
-		// graphics.rotate(radians(brush_rotation-45));
-		// graphics.rotate(radians(90));
-		graphics.rotate(radians(get_fixed_rotation(brush_rotation)));
+		graphics.rotate(radians(brush_rotation-45));
 		graphics.ellipse(0, 0, brush_w, brush_h);
 		graphics.pop();
 
 	}
 }
+// function drawArc(graphics, centerX, centerY, localradius, startAngle, endAngle, numSquares, brush_rotation, expand_start, expand_end) {
+// 	// -> hack pour que les edges ce touche 
+// 	if (expand_start) startAngle = startAngle - radians(20);
+// 	if (expand_end) endAngle = endAngle + radians(20);
 
+// 	if (localradius == 0) return;
+// 	// <- hack
+// 	const arc_angle = (endAngle - startAngle);
+// 	var maxRadius = lines_space * lines_per_tiles;
+// 	var arclength = arcLength = (degrees(arc_angle) / 360) * 2 * Math.PI * localradius;
+// 	// console.log("localradius",localradius);
+// 	// console.log("arc_angle",degrees(arc_angle));
+// 	// console.log("max radius",maxRadius);
+// 	// console.log("arclength",arclength);
+
+// 	const angleStep = arclength / 10000;
+// 	// console.log("angleStep",angleStep);
+
+// 	// FAIRE UNE MAP
+// 	// var map =  localradius.map(maxRadius,0 , 0, 0.1);
+// 	// console.log("map",map);
+
+
+// 	// const angleStep = localradius*0.001;
+
+// 	// if(angleStep==0) angleStep=0.01;
+
+// 	// console.log("angleStep",angleStep);
+// 	// const angleStep = (endAngle - startAngle) / numSquares;
+
+// 	for (let angle = startAngle; angle <= endAngle; angle += angleStep) {
+// 		const x = localradius * cos(angle) + centerX;
+// 		const y = localradius * sin(angle) + centerY;
+// 		// graphics.imageMode(CENTER);
+// 		graphics.push();
+
+// 		graphics.translate(x, y);
+		
+// 		graphics.rotate(radians(brush_rotation));
+// 		// graphics.ellipse(0, 0, brush_w, brush_h*5);
+// 		graphics.pop();
+// 	}
+// }
 
 
 function drawLine(graphics, x1, y1, x2, y2, brush_rotation, expand_start, expand_end) {
@@ -95,7 +117,7 @@ function drawLine(graphics, x1, y1, x2, y2, brush_rotation, expand_start, expand
 	// ça bug puisque en fonction de l'angle c'est pas la meme valeur qu'il faut editer
 	if (expand_end) x1 = x1 - cells_size / 20;
 	if (expand_start) x2 = x2 + cells_size / 20;
-	brush_h = brush_w / 6;
+	brush_h = brush_w / 12;
 	// endAngle = endAngle+radians(20);
 	// <- hack
 	// console.log("distance:",distance);
@@ -116,9 +138,7 @@ function drawLine(graphics, x1, y1, x2, y2, brush_rotation, expand_start, expand
 		graphics.push();
 		graphics.translate(nX, nY);
 		// the -45 compensate the tile 45° rotation
-		// graphics.rotate(radians(brush_rotation-45));
-		graphics.rotate(radians(get_fixed_rotation(brush_rotation)));
-		// graphics.rotate(radians(90));
+		graphics.rotate(radians(brush_rotation-45));
 		graphics.ellipse(0, 0, brush_w, brush_h);
 		graphics.pop();
 	}

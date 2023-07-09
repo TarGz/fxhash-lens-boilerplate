@@ -7,18 +7,6 @@
 // └─────────────────────────────────────────────────────┘
 
 
-// SIZE PARAMS, the first call taht define the grid size and the lines 
-
-function getLinePerTile(random,min,max){
-  
-  // var sp = size_params.length;
-  var lines = Math.floor(map(random,0,1,min,max));
-
-  console.log("getLinePerTile()",random,min,"->",max,"::",lines);
-  return lines;
-}
-
-
 // TILES 
 function getRandomLayerColor(value){
   var cl = colors_array.length-1;
@@ -50,42 +38,20 @@ function getRandomLayerColor(value){
 
 function getRandomLayerBrushAngle(value){
   console.log("--------------------getRandomLayerBrushAngle",value);
-  // return brush_angle_array[3];
-
-  // console.log(brush_angle_array);
-  var cl = brush_angle_array.length-1;
+  console.log(brush_agnle_array);
+  var cl = brush_agnle_array.length-1;
   var brush_id = Math.round(map(value,0,1,0,cl));
   
-  var brush_angle = brush_angle_array[brush_id];
-  // console.log("brush_id",brush_id);
-  // console.log("cl",cl);
-  // console.log("value",value);
-  // brush_angle_array.splice(brush_id,1);
-  // console.log(brush_angle_array);
+  var brush_angle = brush_agnle_array[brush_id];
+  console.log("brush_id",brush_id);
+  console.log("cl",cl);
+  console.log("value",value);
+  brush_agnle_array.splice(brush_id,1);
+  console.log(brush_agnle_array);
   return brush_angle;
 }
 
-function getLayerRotation(i){
-  
 
-  // IF FLIP
-
-    // console.log("getLayerRotation layers_flip_count",i,"-",$fx.getRawParam("layers_flip_count"));
-    var flips = layers_rotation.splice(0,1);
-    // console.log("getLayerRotation",flips);
-    return flips;
-
-
-    // if(i<$fx.getRawParam("layers_flip_count")){
-    //   var flips = layers_rotation.splice(0,1);
-    //   console.log("getLayerRotation",flips);
-    //   return flips;
-    // }else{
-    //   return [[false,false]];
-    // }
-    
-  
-}
 
 
 function getLayerCount(value){
@@ -107,7 +73,7 @@ function getLayerCount(value){
 
 function getEmptyTilesCount(value){
   // return 30;
-  return 1+Math.floor(value*10);
+  return Math.floor(value*20);
 }
 
 // getDotTilesCount(fxrand());
