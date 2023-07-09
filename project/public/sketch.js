@@ -672,6 +672,7 @@ function setup() {
 	color_pink = color('#f708c2');
 	params=[];
 	params.push("fxhash:"+fxhash);
+	params.push("Canvas_size:"+canvas_size_storage[default_size_id][0]);
 	set_array();
 	color_palette = [color_cyan, color_magenta, color_yellow];
 	// set_lines_colors();
@@ -684,6 +685,7 @@ function setup() {
 
 
 	fxfeature("Brush Width",pen_size[default_pen_id][0]);
+	// fxfeature("Canvas size",canvas_size_storage[default_size_id][0]);
 	// // this is how features can be defined
 	$fx.features({
 		"Color Theme": color_theme_name,
