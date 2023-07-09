@@ -838,8 +838,8 @@ function draw_layer(layer){
 	console.log("draw_layer"+layer.id,"- color",layer.color_name);
 	console.log("draw_layer"+layer.id,"- brush angle",layer.brush_angle);
 	
-	// fxfeature("layerXXX"+layer.id+".horizontal_flip",layer.horizontal_flip);
-	// fxfeature("layerXXX"+layer.id+".vertical_flip",layer.vertical_flip);
+	fxfeature("draw_layer"+layer.id+".horizontal_flip",layer.horizontal_flip);
+	fxfeature("draw_layer"+layer.id+".vertical_flip",layer.vertical_flip);
 
 	var drawings = drawPattern(layer.brush_angle, layer.color);
 
@@ -858,7 +858,7 @@ function draw_layer(layer){
 
 
 
-	if(layer.vertical_flip){
+	if(layer.horizontal_flip){
 		// console.log("flip_brush_value",layer.id);
 		//vertical_white_space_size/2
 		pixel_canvas.translate(canvas_Width, 0);
@@ -868,10 +868,10 @@ function draw_layer(layer){
 		vector_canvas.scale(-1, 1);
 
 		// layer.brush_angle = flip_brush(layer.brush_angle);
-		console.log("draw_layer"+layer.id,"- FLIP V");
+		console.log("draw_layer"+layer.id,"- FLIP H");
 	}
 
-	if(layer.horizontal_flip){
+	if(layer.vertical_flip){
 	// if(layer.id == 1){
 		// console.log("flip_brush_value",layer.id);
 		pixel_canvas.translate(0,canvas_Height-vertical_white_space_size );
@@ -881,7 +881,7 @@ function draw_layer(layer){
 		vector_canvas.scale(1, -1);
 
 		// layer.brush_angle = flip_brush(layer.brush_angle);
-		console.log("draw_layer"+layer.id,"- FLIP H");
+		console.log("draw_layer"+layer.id,"- FLIP V");
 	}
 
 	// console.log("draw_layer"+layer.id,"before adapt"+layer.brush_angle);
