@@ -10,7 +10,7 @@
 // SIZE PARAMS, the first call taht define the grid size and the lines 
 
 function getLinePerTile(random,min,max){
-  
+  return 33;
   // var sp = size_params.length;
   var lines = Math.floor(map(random,0,1,min,max));
 
@@ -106,13 +106,13 @@ function getLayerCount(value){
 
 
 function getEmptyTilesCount(value){
-  // return 30;
+  return 1;
   return 1+Math.floor(value*10);
 }
 
 // getDotTilesCount(fxrand());
 function getDotTilesCount(value){
-  // return 10;
+  return 0;
   if(value<0.5){
     return 0;
   }else{
