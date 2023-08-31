@@ -78,7 +78,7 @@ const theme_style_3colors = "THEME_STYLE_3COLORS";``
 var debug_mode_activated = false; 		  ///////
 var debug_mode_pattern_activated = false; ///////
 
-var default_size_id = 2;    			/////// 1
+var default_size_id = 1;    			/////// 1
 var default_pen_id; 				/////// 4
 
 var blank_rnd_cell_needed = 0;  	/////// 0
@@ -344,7 +344,7 @@ function setFxParamsSettings(){
 	layer_count =  $fx.getRawParam("layer_count"); 
 	color_theme = $fx.getRawParam("color_theme");		 			/////// 14
 	// default_pen_id = $fx.getRawParam("brush_size"); 	
-	default_pen_id = 4; 	
+	default_pen_id = 2; 	
 	
 	fx_paramsArray = scale_params[$fx.getRawParam("scale")];
 	// name, H,W,min L, max L 
@@ -589,7 +589,7 @@ function set_array(){
 		theme_colors_list = [0,1,2,3,4,5,6,7,8,9];
 	}else if(color_theme == 2){
 		color_theme_name = "CMJ";
-		theme_colors_list = [2,4,6,2,4,6];
+		theme_colors_list = [3,6,2,4,11,10];
 	}else if(color_theme == 3){
 		color_theme_name = "PASTEL GREENISH";
 		// theme_colors_list = [7,7,7,7,7,7];

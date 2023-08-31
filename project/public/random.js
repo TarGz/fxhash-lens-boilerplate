@@ -10,7 +10,7 @@
 // SIZE PARAMS, the first call taht define the grid size and the lines 
 
 function getLinePerTile(random,min,max){
-  return 33;
+  return 38;
   // var sp = size_params.length;
   var lines = Math.floor(map(random,0,1,min,max));
 
