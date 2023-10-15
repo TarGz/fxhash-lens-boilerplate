@@ -683,21 +683,7 @@ function get_tile_1CE_pix(brush_angle, paint_color) {
 	var pix = createGraphics(cells_size, cells_size, P2D);
 	pix.noStroke();
 	pix.fill(paint_color);
-	// ARCS
-	// for (var i = 0; i < lines_per_tiles; i++) {
-	// 	// for (var i = 0; i < 2; i++) {
-	// 	var lcolor;
-	// 	var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
-	// 	lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
-	// 	var mylines_radius = lines_space * i;
-	// 	if (i % 2 != 0 && lines_per_tiles % 2 != 0 || i % 2 == 0 && lines_per_tiles % 2 == 0) {
-	// 		vect.stroke(getColorLine(lcolor, "#ff54ab"));
-	// 		vect.arc(cells_size / 2, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
 
-	// 		drawArc2(pix, cells_size / 2, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
-	// 	}
-
-	// }
 	for (var i = 1; i < lines_per_tiles; i++) {
 		var lcolor;
 		var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
@@ -705,28 +691,45 @@ function get_tile_1CE_pix(brush_angle, paint_color) {
 		var mylines_radius = lines_space * i;
 		if (i % 2 == 0 && lines_per_tiles % 2 == 0) {
 			vect.stroke(getColorLine(lcolor, "#ff54ab"));
-			vect.arc(cells_size / 2, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-			drawArc2(pix, cells_size / 2, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
+			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
 		} else if (i % 2 == 1 && lines_per_tiles % 2 == 1) {
 			vect.stroke(getColorLine(lcolor, "#ff54ab"));
-			vect.arc(cells_size / 2, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-			drawArc2(pix, cells_size / 2, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
+			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
 		}
 	}	
-	// LINES
-	for (var i = 1; i < lines_per_tiles; i++) {
-		// tile_1CE.line(0,i*lines_space,cells_size/2,i*lines_space);
-		vect.stroke(getColorLine(i - 1, color(255, 114, 0)));
-		vect.line(0, i * lines_space, cells_size / 2, i * lines_space);
-		drawLine(pix, 0, i * lines_space, cells_size / 2, i * lines_space, brush_angle, false, true);
-	}
+
+
+	// for (var i = 1; i < lines_per_tiles; i++) {
+	// 	var lcolor;
+	// 	var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
+	// 	lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
+	// 	var mylines_radius = lines_space * i;
+	// 	if (i % 2 == 0 && lines_per_tiles % 2 == 0) {
+	// 		vect.stroke(getColorLine(lcolor, "#ff54ab"));
+	// 		vect.arc(cells_size / 2, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
+	// 		drawArc2(pix, cells_size / 2, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+	// 	} else if (i % 2 == 1 && lines_per_tiles % 2 == 1) {
+	// 		vect.stroke(getColorLine(lcolor, "#ff54ab"));
+	// 		vect.arc(cells_size / 2, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
+	// 		drawArc2(pix, cells_size / 2, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+	// 	}
+	// }	
+	// // LINES
+	// for (var i = 1; i < lines_per_tiles; i++) {
+	// 	// tile_1CE.line(0,i*lines_space,cells_size/2,i*lines_space);
+	// 	vect.stroke(getColorLine(i - 1, color(255, 114, 0)));
+	// 	vect.line(0, i * lines_space, cells_size / 2, i * lines_space);
+	// 	drawLine(pix, 0, i * lines_space, cells_size / 2, i * lines_space, brush_angle, false, true);
+	// }
 
 	return [pix,vect];
 }
 
 // ┌───────────────────────────────────────────┐
 // │ _____ ___ _    ___         _    ___ ___   │
-// │|_   _|_ _| |  | __|  ___  222  / __| __|  │
+// │|_   _|_ _| |  | __|  ___  | |  / __| __|  │
 // │  | |  | || |__| _|  |___| | | | (__| _|   │
 // │  |_| |___|____|___|       |_|  \___|___|  │
 // └───────────────────────────────────────────┘
