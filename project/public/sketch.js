@@ -58,10 +58,12 @@ var piecename;
 
 // PARALLEL_PEN
 const pen_size = [
+	['0.5mm', 0.5 * cm_ratio, 0.2 * cm_ratio],
+	['1.0mm', 1.0 * cm_ratio, 0.2 * cm_ratio],
 	['1.5mm', 1.5 * cm_ratio, 0.2 * cm_ratio],
 	['2mm', 2 * cm_ratio, 0.2 * cm_ratio],
 	['2.4mm', 2.4 * cm_ratio, 0.2 * cm_ratio],
-	['3.8mm', 3.8 * cm_ratio, 0.2 * cm_ratio],
+	['2.8mm', 2.8 * cm_ratio, 0.2 * cm_ratio],
 	['4mm', 4 * cm_ratio, 0.2 * cm_ratio],
 	['6.0mm', 6.0 * cm_ratio, 0.2 * cm_ratio],
 ];
@@ -233,7 +235,7 @@ function setFxParamsSettings(){
 		//   update: "sync",
 			options: {
 			min: 1,
-			max: 6,
+			max: 7,
 			step: 1,
 			},
 		},
@@ -252,46 +254,30 @@ function setFxParamsSettings(){
 			},
 
 
-		// {
-		// id: "horizontal_tiles",
-		// name: "horizontal tiles count",
-		// type: "number",
-		// //default: Math.PI,
-		// //   update: "sync",
-		// 	options: {
-		// 		min: 2,
-		// 		max: 5,
-		// 		step: 1,
-		// 	},
-		// },
+		{
+			id: "lines_per_tiles",
+			name: "Lines Count",
+			type: "number",
+			//default: Math.PI,
+			// update: "sync",
+			// update: "code-driven",
+			options: {
+				min: 10,
+				max: 175,
+				step: 1,
+				},
+		},
+		{
+			id: "empty_count",
+			name: "Empty cells",
+			type: "number",
 
-		// {
-		// id: "vertical_tiles",
-		// name: "vertical_tiles",
-		// type: "number",
-		// //default: Math.PI,
-		// // update: "sync",
-		// options: {
-		// 	min: 3,
-		// 	max: 20,
-		// 	step: 1,
-		// 	},
-		// },
-
-		// {
-		// id: "lines_per_tiles",
-		// name: "Lines Count",
-		// type: "number",
-		// //default: Math.PI,
-		// // update: "sync",
-		// // update: "code-driven",
-		// options: {
-		// 	min: 10,
-		// 	max: 60,
-		// 	step: 1,
-		// 	},
-		// },
-
+			options: {
+				min: 1,
+				max: 40,
+				step: 1,
+				},
+		},
 		{
 			id: "layer_count",
 			name: "Layers Count",
@@ -305,18 +291,18 @@ function setFxParamsSettings(){
 				},
 		},
 
-		// {
-		// 	id: "brush_size",
-		// 	name: "Brush Width",
-		// 	type: "number",
-		// 	//default: Math.PI,
-		// 	// update: "sync",
-		// 	options: {
-		// 		min: 2,
-		// 		max: 4,
-		// 		step: 1,
-		// 		},
-		// },
+		{
+			id: "brush_size",
+			name: "Brush Width",
+			type: "number",
+			//default: Math.PI,
+			// update: "sync",
+			options: {
+				min: 0,
+				max: pen_size.length-1,
+				step: 1,
+				},
+		},
 		{
 			id: "layers_flip",
 			name: "Layers flip",
@@ -343,8 +329,8 @@ function setFxParamsSettings(){
 	
 	layer_count =  $fx.getRawParam("layer_count"); 
 	color_theme = $fx.getRawParam("color_theme");		 			/////// 14
-	// default_pen_id = $fx.getRawParam("brush_size"); 	
-	default_pen_id = 2; 	
+	default_pen_id = $fx.getRawParam("brush_size"); 	
+	// default_pen_id = 0; 	
 	
 	fx_paramsArray = scale_params[$fx.getRawParam("scale")];
 	// name, H,W,min L, max L 
@@ -352,7 +338,9 @@ function setFxParamsSettings(){
 	
 	horizontal_tiles = fx_paramsArray[1];  		/////// 4  
 	vertical_tiles = fx_paramsArray[2];			 	/////// 10
-	lines_per_tiles = getLinePerTile($fx.rand(),fx_paramsArray[3][0],fx_paramsArray[3][1]);		/////// 14
+	// lines_per_tiles = getLinePerTile($fx.rand(),fx_paramsArray[3][0],fx_paramsArray[3][1]);		/////// 14
+	lines_per_tiles =  $fx.getRawParam("lines_per_tiles");		
+	
 	brush_w = pen_size[default_pen_id][1];
 	brush_h = pen_size[default_pen_id][2];
 	stroke_size = brush_w;
@@ -536,6 +524,8 @@ function set_piece_name() {
 	// piecename = `BS ${(new Date().toJSON().slice(0,19))}`;
 	piecename = new Date().toJSON().slice(0, 10) + "_BS-" + (new Date().getTime()).toString(36).toUpperCase() + "-" + horizontal_tiles + "x" + vertical_tiles + "-" + resolution_data[0] + "-" + (lines_per_tiles - 1) + "l-" + pen_size[default_pen_id][0];
 	filename = piecename;
+	// params.push("piecename:"+piecename);
+	fxfeature("piecename",piecename);
 	// console.log(piecename);
 }
 
@@ -580,6 +570,7 @@ function set_array(){
 		["Carmine-318" , color('#9c1e32')],			// 9
 		["Red" , color('#E51714')],			// 10
 		["Violet" , color('#7A128B')],			// 11
+		["Black" , color('#000000')],			// 12
 	];
 
 	var theme_colors_list = [];
@@ -611,8 +602,11 @@ function set_array(){
 		color_theme_name = "GREEN ORCHID";
 		theme_colors_list = [8,11,8,11,8,11];
 
-	}
+	}else if(color_theme == 7){
+		color_theme_name = "BLACK";
+		theme_colors_list = [12,12,12,12,12,12];
 
+	}
 	// theme_colors_list = [2,1,1,1,2,2];
 
 	for (let i = 0; i < theme_colors_list.length; i++) {
@@ -703,7 +697,9 @@ function populate_tiles_array(){
 	empty_tile = new Tile("tile_Empty", 9999, [0, 0, 0, 0], 0);
 
 
-	var emptyCount = getEmptyTilesCount(fxrand());
+	// var emptyCount = getEmptyTilesCount(fxrand());
+	var emptyCount = $fx.getRawParam("empty_count");
+
 	fxfeature("emptyCount",emptyCount);
 	for (let i = 0; i < emptyCount; i++) {
 		addTilesToArray("tile_Empty", [0, 0, 0, 0], 0);
@@ -900,6 +896,7 @@ function create_layers() {
 	// var base_brush_angle = randomPenAngle(fxrand());
 	
 	fxfeature("layer_count",layer_count);
+	fxfeature("lines_per_tiles",$fx.getRawParam("lines_per_tiles"));
 
 
 
@@ -1275,13 +1272,13 @@ function generateID() {
 
 
 
-function drawID(text_scale, height) {
+function drawID(myheight,myscale) {
 	push();
-	translate(10, height - 10);
+	translate(10, myheight - 20*myscale);
 	noFill();
 	stroke(0);
 	strokeWeight(1);
-	scale(text_scale);
+	scale(myscale);
 	// P5.hershey.putText("TARGZ-GBS-OJD54D54DK",{
 	P5.hershey.putText(piecename, {
 		cmap: FONT_HERSHEY.PLAIN,
@@ -1320,14 +1317,16 @@ function draw() {
 			// }
 			background(background_color);
 			image(vector_canvas_full, 0, 0, canvas_Width, canvas_Height);
-			drawID(0.4, canvas_Height);
+			drawID(canvas_Height,0.6);
 			save(filename + "." + fileformat);
+			console.log("params avant de save");
+			console.log(params);
 			saveStrings(params, filename+'.txt');
 		} 
 		if (fileformat == "png" || fileformat == "jpg"){
 			background(background_color);
 			image(pixel_canvas, 0, 0, canvas_Width, canvas_Height);
-			drawID(0.4, canvas_Height);
+			drawID(canvas_Height,0.5);
 			save(filename + "." + fileformat);
 		} 
 
@@ -1355,7 +1354,7 @@ function draw() {
 			image(pixel_canvas, 0, 0, scaled_width, scaled_height);
 		}
 
-		drawID(0.4, scaled_height);
+		drawID(scaled_height,0.4);
 		
 		// image(canv,-60,0,1200,600);
 	}
