@@ -31,12 +31,6 @@ const scale_params = [
   ]; 
 
 
-
-
-
-
-
-
 var tileArrayCount = 0;
 // var layer_count =  getLayerCount(fxrand());
 
@@ -63,7 +57,7 @@ const pen_size = [
 	['1.5mm', 1.5 * cm_ratio, 0.2 * cm_ratio],
 	['2mm', 2 * cm_ratio, 0.2 * cm_ratio],
 	['2.4mm', 2.4 * cm_ratio, 0.2 * cm_ratio],
-	['2.8mm', 2.8 * cm_ratio, 0.2 * cm_ratio],
+	['3.8mm', 3.8 * cm_ratio, 0.2 * cm_ratio],
 	['4mm', 4 * cm_ratio, 0.2 * cm_ratio],
 	['6.0mm', 6.0 * cm_ratio, 0.2 * cm_ratio],
 ];
@@ -92,6 +86,8 @@ let lines_per_tiles;   		/////// 14
 let color_theme;		 			/////// 14
 let color_theme_name;
 var layer_count;
+var layers_flip;
+
 
 var renderStyle = render_style_parallel; // render_style_parallel //render_style_vector;
 var debugStyle = theme_style_random; //  theme_style_black
@@ -235,7 +231,7 @@ function setFxParamsSettings(){
 		//   update: "sync",
 			options: {
 			min: 1,
-			max: 7,
+			max: 8,
 			step: 1,
 			},
 		},
@@ -263,7 +259,7 @@ function setFxParamsSettings(){
 			// update: "code-driven",
 			options: {
 				min: 10,
-				max: 175,
+				max: 60,
 				step: 1,
 				},
 		},
@@ -330,9 +326,8 @@ function setFxParamsSettings(){
 	layer_count =  $fx.getRawParam("layer_count"); 
 	color_theme = $fx.getRawParam("color_theme");		 			/////// 14
 	default_pen_id = $fx.getRawParam("brush_size"); 	
-	// default_pen_id = 0; 	
-	
 	fx_paramsArray = scale_params[$fx.getRawParam("scale")];
+	layers_flip = $fx.getRawParam("layers_flip");
 	// name, H,W,min L, max L 
 	console.log("setFxParamsSettings",fx_paramsArray[0],fx_paramsArray[1],fx_paramsArray[2],fx_paramsArray[3] );
 	
@@ -514,6 +509,8 @@ function getColorLine(i, debug_color) {
 	if (debug_mode_activated) {
 		return debug_color;
 	}
+	// console.log("getColorLine");
+	// #targz
 	return color_array[i];
 }
 
@@ -580,7 +577,7 @@ function set_array(){
 		theme_colors_list = [0,1,2,3,4,5,6,7,8,9];
 	}else if(color_theme == 2){
 		color_theme_name = "CMJ";
-		theme_colors_list = [3,6,2,4,11,10];
+		theme_colors_list = [3,6,2,3,6,2,3,6,2];
 	}else if(color_theme == 3){
 		color_theme_name = "PASTEL GREENISH";
 		// theme_colors_list = [7,7,7,7,7,7];
@@ -605,6 +602,10 @@ function set_array(){
 	}else if(color_theme == 7){
 		color_theme_name = "BLACK";
 		theme_colors_list = [12,12,12,12,12,12];
+
+	}else if(color_theme == 8){
+		color_theme_name = "CYAN MAGENTA";
+		theme_colors_list = [4,6,4,6,4,6];
 
 	}
 	// theme_colors_list = [2,1,1,1,2,2];
@@ -677,15 +678,13 @@ function setup() {
 	populate_tiles_array();
 	create_layers();
 
-
-	fxfeature("Brush Width",pen_size[default_pen_id][0]);
-	// fxfeature("Canvas size",canvas_size_storage[default_size_id][0]);
-	// // this is how features can be defined
 	$fx.features({
-		"Color Theme": color_theme_name,
+		"Color Theme !!!": color_theme_name,
+		"Pattern Scale": scale_params[$fx.getRawParam("scale")][0],
 		"Brush Width":pen_size[default_pen_id][0],
 		"Canvas size":canvas_size_storage[default_size_id][0],
 	})
+
 }
 
 
@@ -722,23 +721,23 @@ function populate_tiles_array(){
 		addTilesToArray("tile_Cx2C", [1, 1, 1, 1], 3);
 	}
 
-	tileCount = getMainTilesCount(fxrand(),0.5,20);
-	fxfeature("tile_CxC",tileCount);
-	for (let i = 0; i < tileCount; i++) {
-		addTilesToArray("tile_CxC", [1, 1, 1, 1], 0);
-		addTilesToArray("tile_CxC", [1, 1, 1, 1], 1);
-		addTilesToArray("tile_CxC", [1, 1, 1, 1], 2);
-		addTilesToArray("tile_CxC", [1, 1, 1, 1], 3);
-	}
-
-	// tileCount = getMainTilesCount(fxrand(),0.5,10);
-	// fxfeature("tile_LxL",tileCount);
+	// tileCount = getMainTilesCount(fxrand(),0.5,20);
+	// fxfeature("tile_CxC",tileCount);
 	// for (let i = 0; i < tileCount; i++) {
-	// 	addTilesToArray("tile_LxL",[1,1,1,1],0);
-	// 	addTilesToArray("tile_LxL",[1,1,1,1],1);
-	// 	addTilesToArray("tile_LxL",[1,1,1,1],2);
-	// 	addTilesToArray("tile_LxL",[1,1,1,1],3);
+	// 	addTilesToArray("tile_CxC", [1, 1, 1, 1], 0);
+	// 	addTilesToArray("tile_CxC", [1, 1, 1, 1], 1);
+	// 	addTilesToArray("tile_CxC", [1, 1, 1, 1], 2);
+	// 	addTilesToArray("tile_CxC", [1, 1, 1, 1], 3);
 	// }
+
+	tileCount = getMainTilesCount(fxrand(),0.5,10);
+	fxfeature("tile_LxL",tileCount);
+	for (let i = 0; i < tileCount; i++) {
+		addTilesToArray("tile_LxL",[1,1,1,1],0);
+		addTilesToArray("tile_LxL",[1,1,1,1],1);
+		addTilesToArray("tile_LxL",[1,1,1,1],2);
+		addTilesToArray("tile_LxL",[1,1,1,1],3);
+	}
 
 
 
@@ -850,9 +849,9 @@ function draw_layer(layer){
 	vector_canvas.push();
 	pixel_canvas.push();
 
+	console.log("layers_flip",layers_flip);
 
-
-	if(layer.horizontal_flip){
+	if(layer.horizontal_flip && layers_flip){
 		console.log("DRAW FLIPPED H->",layer.id);
 		pixel_canvas.translate(canvas_Width, 0);
 		pixel_canvas.scale(-1, 1);
@@ -861,7 +860,7 @@ function draw_layer(layer){
 		vector_canvas.scale(-1, 1);
 	}
 
-	if(layer.vertical_flip){
+	if(layer.vertical_flip && layers_flip){
 		console.log("DRAW FLIPPED V->",layer.id);
 		pixel_canvas.translate(0,canvas_Height-vertical_white_space_size );
 		pixel_canvas.scale(1, -1);
@@ -891,6 +890,9 @@ function create_layers() {
 	vector_canvas_full = createGraphics(canvas_Width, canvas_Height, SVG);
 	
 	pixel_canvas.blendMode(MULTIPLY);
+
+
+	// GENERATE THE PATTERN
 	iterate();
 
 	// var base_brush_angle = randomPenAngle(fxrand());
@@ -907,14 +909,15 @@ function create_layers() {
 		console.log("BEFORE LAYER brush_angle",brush_angle);
 
 		var flips = getLayerRotation(i);
-
+		// targz
 		var l = new Layer(
-				i,
-				getRandomLayerColor(fxrand()),
-				brush_angle,
-				flips[0][0],
-				flips[0][1],
-				);
+			i,
+			// getRandomLayerColor(fxrand()),
+			getRandomLayerColor(fxrand()),
+			brush_angle,
+			flips[0][0],
+			flips[0][1],
+		);
 
 		draw_layer(l,i);
 		layers_array.push(l);
@@ -1279,7 +1282,6 @@ function drawID(myheight,myscale) {
 	stroke(0);
 	strokeWeight(1);
 	scale(myscale);
-	// P5.hershey.putText("TARGZ-GBS-OJD54D54DK",{
 	P5.hershey.putText(piecename, {
 		cmap: FONT_HERSHEY.PLAIN,
 		align: "left",
@@ -1388,7 +1390,7 @@ function fxfeature(name,value){
 	console.log("fxfeature("+name+","+value+")");
 	params.push(name+":"+value);
 	window.$fxhashFeatures[ name ] = value;
-	$fx.features[ name ] = value;
+	// $fx.features[ name ] = value;
 	
 }
 
