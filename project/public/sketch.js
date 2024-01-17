@@ -696,8 +696,8 @@ function set_array(){
 		color_theme_name = "Random";
 		theme_colors_list = [0,1,2,3,4,5,6,7,8,9];
 	}else if(color_theme == 2){
-		color_theme_name = "CMJ";
-		theme_colors_list = [3,6,2,3,6,2,3,6,2];
+		color_theme_name = "CMJK";
+		theme_colors_list = [12,3,6,2];
 	}else if(color_theme == 3){
 		color_theme_name = "PASTEL GREENISH";
 		// theme_colors_list = [7,7,7,7,7,7];
