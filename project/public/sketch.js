@@ -21,36 +21,23 @@ console.log("$fx.rand()",$fx.rand());
 // │      (_)     (_)         (_)(_)         (_)  (_)(_)(_)(_)    │
 // └──────────────────────────────────────────────────────────────┘
 
+// Configuration variables
+const hasMaxSize = true; // if true, then the canvas cannot be larger than the reference size
+const isCentered = true; // if true the canvas will be vertically and horizontally centered
+const cm_ratio = 2.834645791245791;
+const paper_ratio = 1.414141414141414;
+
+// Scale parameters for different sizes
 const scale_params = [
 	// name, H,W,min L, max L 
 	// pour 2.4mm
-	  ["2X4",2,4,[36,60]],
-	  ["3X7",3,7,[25,36]],
-	  ["4X10",4,10,[20,30]],
-	  ["5X13",5,13,[16,22]],
-  ]; 
+	["2X4",2,4,[36,60]],
+	["3X7",3,7,[25,36]],
+	["4X10",4,10,[20,30]],
+	["5X13",5,13,[16,22]],
+]; 
 
-
-var tileArrayCount = 0;
-// var layer_count =  getLayerCount(fxrand());
-
-var params = [];
-
-const hasMaxSize 	= true; // if true, then the canvas cannot be larger than the reference size
-const isCentered 	= true; // if true the canvas will be vertically and horizontally centered
-const cm_ratio 		= 2.834645791245791;
-const paper_ratio 	= 1.414141414141414;
-
-var h_cells_size;
-var v_cells_size;
-var v_cells_diag;
-
-// NAME 
-var filename;
-var fileformat;
-var piecename;
-
-// PARALLEL_PEN
+// Pen size options
 const pen_size = [
 	['0.5mm', 0.5 * cm_ratio, 0.2 * cm_ratio],
 	['1.0mm', 1.0 * cm_ratio, 0.2 * cm_ratio],
@@ -62,58 +49,7 @@ const pen_size = [
 	['6.0mm', 6.0 * cm_ratio, 0.2 * cm_ratio],
 ];
 
-
-const render_style_vector = "STYLE_VECTOR";
-const render_style_parallel = "STYLE_PARALLEL";
-const render_style_marker = "STYLE_MARKER";
-
-const theme_style_black = "THEME_STYLE_BLACK";
-const theme_style_random = "THEME_STYLE_RND";
-const theme_style_3colors = "THEME_STYLE_3COLORS";``
-
-var debug_mode_activated = false; 		  ///////
-var debug_mode_pattern_activated = false; ///////
-
-var default_size_id = 1;    			/////// 1
-var default_pen_id; 				/////// 4
-
-var blank_rnd_cell_needed = 0;  	/////// 0
-var connector_count_favor = 4;  	/////// 4
-// 5x13 | i
-let horizontal_tiles;  		/////// 4  
-let vertical_tiles;			 	/////// 10
-let lines_per_tiles;   		/////// 14
-let color_theme;		 			/////// 14
-let color_theme_name;
-var layer_count;
-var layers_flip;
-
-
-var renderStyle = render_style_parallel; // render_style_parallel //render_style_vector;
-var debugStyle = theme_style_random; //  theme_style_black
-
-var background_color = 255;
-
-
-// SEEDS 
-
-var activate_center_stage = true; 		///////
-var activate_forced_border = false; 	///////
-var activate_random_colors = true; 		///////
-
-
-var canvas_layers_for_export;
-var layers_array = [];
-
-
-var canvas_Width;
-var canvas_Height;
-var canvas_database = [];
-var tiles_database = [];
-var canv;
-
-
-
+// Canvas size storage
 const canvas_size_storage = [
 	['A0', 841, 1189],
 	['A1', 594, 841],
@@ -124,48 +60,6 @@ const canvas_size_storage = [
 	['A6', 105, 148],
 	['C6', 114, 162],
 ];
-var colors_array = [];
-var colors_theme = [];
-var brush_angle_array = [];
-var layers_rotation = [];
-var color_palette;
-
-var stroke_color = "#000000";
-
-
-
-
-resolution_data = canvas_size_storage[default_size_id];
-
-let tile_Empty, tile_C, tile_CxC, tile_L, tile_1CE, tile_2CE, tile_CxL;
-
-var stroke_size;
-
-
-
-
-
-window.$fxhashFeatures = {
-}
-
-let cells_size;
-let vertical_position_offset;
-
-
-var empty_tile;
-// var vector_canvas;
-var vector_canvas_full;
-var pixel_canvas;
-var pixel_canvas_temp1;
-var pixel_canvas_temp2;
-var pixel_canvas_temp3;
-
-var tile_debug_view;
-var save_file = false;
-var html_Canvas_Size;
-var windowScale;
-var scaled_width;
-var scaled_height;
 
 const cell_count_ratio = [
 	[2, 5],
@@ -176,30 +70,121 @@ const cell_count_ratio = [
 	[7, 7],
 	[8, 7],
 ];
+// Count of tiles in the array
+var tileArrayCount = 0;
 
+// Parameters for the sketch
+var params = [];
+
+// Variables for cell sizes
+var h_cells_size;
+var v_cells_size;
+var v_cells_diag;
+
+// Variables for file details
+var filename;
+var fileformat;
+var piecename;
+
+// Render and theme style options
+const render_style_vector = "STYLE_VECTOR";
+const render_style_parallel = "STYLE_PARALLEL";
+const render_style_marker = "STYLE_MARKER";
+const theme_style_black = "THEME_STYLE_BLACK";
+const theme_style_random = "THEME_STYLE_RND";
+const theme_style_3colors = "THEME_STYLE_3COLORS";
+
+// Debug mode variables
+var debug_mode_activated = false; 
+var debug_mode_pattern_activated = false; 
+
+// Default settings
+var default_size_id = 1; 
+var default_pen_id; 
+
+// Variables for tile settings
+var blank_rnd_cell_needed = 0; 
+var connector_count_favor = 4; 
+let horizontal_tiles; 
+let vertical_tiles; 
+let lines_per_tiles; 
+let color_theme; 
+let color_theme_name;
+var layer_count;
+var layers_flip;
+
+// Render and debug style variables
+var renderStyle = render_style_parallel; 
+var debugStyle = theme_style_random; 
+
+// Background color
+var background_color = 255;
+
+// Seed activation variables
+var activate_center_stage = true; 
+var activate_forced_border = false; 
+var activate_random_colors = true; 
+
+// Canvas layer variables
+var canvas_layers_for_export;
+var layers_array = [];
+
+// Canvas size and database variables
+var canvas_Width;
+var canvas_Height;
+var canvas_database = [];
+var tiles_database = [];
+var canv;
+
+// Color and brush angle arrays
+var colors_array = [];
+var colors_theme = [];
+var brush_angle_array = [];
+var layers_rotation = [];
+var color_palette;
+
+// Stroke color
+var stroke_color = "#000000";
+
+// Resolution data
+var resolution_data = canvas_size_storage[default_size_id];
+
+// Tile variables
+let tile_Empty, tile_C, tile_CxC, tile_L, tile_1CE, tile_2CE, tile_CxL;
+
+// Stroke size
+var stroke_size;
+
+
+
+
+
+
+// Canvas and tile variables
+var canv;
+var empty_tile;
+var pixel_canvas;
+var pixel_canvas_temp1;
+var pixel_canvas_temp2;
+var pixel_canvas_temp3;
+var vector_canvas_full;
+let cells_size;
+let vertical_position_offset;
 let total_tiles_count;
 let current_tiles_count = 0;
-
-let lines_space;
-let lines_radius;
-var canvas_Wi
+var tile_debug_view;
+var html_Canvas_Size;
+var windowScale;
+var scaled_width;
+var scaled_height;
+var canvas_Wi;
 var canvas_Height;
 
-// console.log("vertical_tiles:",vertical_tiles);
-// console.log("horizontal_tiles:",horizontal_tiles);
-// console.log("total_tiles_count:",total_tiles_count);
+// Line variables
+let lines_space;
+let lines_radius;
 
-
-
-var gr1;
-var gr2;
-var gr3;
-var canv;
-var samples = 1000;
-var myalpha = 10;
-
-var myradius = 100;
-var bg;
+// Color variables
 var color_yellow;
 var color_black;
 var color_cyan;
@@ -207,10 +192,27 @@ var color_magenta;
 var color_red;
 var color_purple;
 var color_pink;
+
+// Other variables
+var gr1;
+var gr2;
+var gr3;
+var samples = 1000;
+var myalpha = 10;
+var myradius = 100;
+var bg;
 var fx_paramsArray;
+var save_file = false;
+
+// Debugging console logs
+// console.log("vertical_tiles:",vertical_tiles);
+// console.log("horizontal_tiles:",horizontal_tiles);
+// console.log("total_tiles_count:",total_tiles_count);
 
 
 
+window.$fxhashFeatures = {
+}
 
 
 function setFxParamsSettings(){
@@ -316,18 +318,18 @@ function setFxParamsSettings(){
 	]);
 
 
-	
+
+	// DEFAULT VALUES
 	layer_count =  $fx.getRawParam("layer_count"); 
-	color_theme = $fx.getRawParam("color_theme");		 			/////// 14
+	color_theme = $fx.getRawParam("color_theme");
 	default_pen_id = $fx.getRawParam("brush_size"); 	
 	fx_paramsArray = scale_params[$fx.getRawParam("scale")];
 	layers_flip = $fx.getRawParam("layers_flip");
-	// name, H,W,min L, max L 
-	console.log("setFxParamsSettings",fx_paramsArray[0],fx_paramsArray[1],fx_paramsArray[2],fx_paramsArray[3] );
+	// // name, H,W,min L, max L 
+	// console.log("setFxParamsSettings",fx_paramsArray[0],fx_paramsArray[1],fx_paramsArray[2],fx_paramsArray[3] );
 	
 	horizontal_tiles = fx_paramsArray[1];  		/////// 4  
-	vertical_tiles = fx_paramsArray[2];			 	/////// 10
-	// lines_per_tiles = getLinePerTile($fx.rand(),fx_paramsArray[3][0],fx_paramsArray[3][1]);		/////// 14
+	vertical_tiles = fx_paramsArray[2];			/////// 10
 	lines_per_tiles =  $fx.getRawParam("lines_per_tiles");		
 	
 	brush_w = pen_size[default_pen_id][1];
@@ -698,11 +700,11 @@ function populate_tiles_array(){
 		addTilesToArray("tile_Empty", [0, 0, 0, 0], 0);
 	}
 	
-	var dotCount = getDotTilesCount(fxrand());
-	fxfeature("dotCount",dotCount);
-	for (let i = 0; i < dotCount; i++) {
-		addTilesToArray("tile_Dot", [0, 0, 0, 0], 0);
-	}
+	// var dotCount = getDotTilesCount(fxrand());
+	// fxfeature("dotCount",dotCount);
+	// for (let i = 0; i < dotCount; i++) {
+	// 	addTilesToArray("tile_Dot", [0, 0, 0, 0], 0);
+	// }
 
 	var tileCount;
 	
@@ -715,29 +717,31 @@ function populate_tiles_array(){
 		addTilesToArray("tile_Cx2C", [1, 1, 1, 1], 3);
 	}
 
-	// tileCount = getMainTilesCount(fxrand(),0.5,20);
-	// fxfeature("tile_CxC",tileCount);
-	// for (let i = 0; i < tileCount; i++) {
-	// 	addTilesToArray("tile_CxC", [1, 1, 1, 1], 0);
-	// 	addTilesToArray("tile_CxC", [1, 1, 1, 1], 1);
-	// 	addTilesToArray("tile_CxC", [1, 1, 1, 1], 2);
-	// 	addTilesToArray("tile_CxC", [1, 1, 1, 1], 3);
-	// }
-
-	tileCount = getMainTilesCount(fxrand(),0.5,10);
-	fxfeature("tile_LxL",tileCount);
+	tileCount = getMainTilesCount(fxrand(),0.5,20);
+	fxfeature("tile_CxC",tileCount);
 	for (let i = 0; i < tileCount; i++) {
-		addTilesToArray("tile_LxL",[1,1,1,1],0);
-		addTilesToArray("tile_LxL",[1,1,1,1],1);
-		addTilesToArray("tile_LxL",[1,1,1,1],2);
-		addTilesToArray("tile_LxL",[1,1,1,1],3);
+		addTilesToArray("tile_CxC", [1, 1, 1, 1], 0);
+		addTilesToArray("tile_CxC", [1, 1, 1, 1], 1);
+		addTilesToArray("tile_CxC", [1, 1, 1, 1], 2);
+		addTilesToArray("tile_CxC", [1, 1, 1, 1], 3);
 	}
 
+	// tileCount = getMainTilesCount(fxrand(),0.5,10);
+	// fxfeature("tile_LxL",tileCount);
+	// for (let i = 0; i < tileCount; i++) {
+	// 	addTilesToArray("tile_LxL",[1,1,1,1],0);
+	// 	addTilesToArray("tile_LxL",[1,1,1,1],1);
+	// 	addTilesToArray("tile_LxL",[1,1,1,1],2);
+	// 	addTilesToArray("tile_LxL",[1,1,1,1],3);
+	// }
 
 
 
 
-	// 3X4
+
+	// **********************************
+	// ************ 3X4 TILES ************
+	// **********************************
 	tileCount = getMainTilesCount(fxrand(),0.5,10);
 	fxfeature("tile_Cx1C",tileCount);
 	for (let i = 0; i < tileCount; i++) {
@@ -760,7 +764,11 @@ function populate_tiles_array(){
 
 
 
-	// 2X4
+	// **********************************
+	// ************ 2X4 TILES ************
+	// **********************************
+
+	
 	// tileCount = getMainTilesCount(fxrand(),0.5,10);
 	// fxfeature("tile_2CE",tileCount);
 	// for (let i = 0; i < tileCount; i++) {
