@@ -259,17 +259,7 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},
-		{
-			id: "empty_count",
-			name: "Empty cells",
-			type: "number",
 
-			options: {
-				min: 1,
-				max: 40,
-				step: 1,
-				},
-		},
 		{
 			id: "layer_count",
 			name: "Layers Count",
@@ -314,6 +304,136 @@ function setFxParamsSettings(){
 				},
 
 		},
+		{
+			id: "empty_count",
+			name: "x0 Empty ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+		{
+			id: "dot_count",
+			name: "x0 Dot ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+		{
+			id: "tile_Cx2C_count",
+			name: "x4 tile_Cx2C ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+		{
+			id: "tile_CxC_Count",
+			name: "x4 tile_CxC ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+
+
+		// tile_LxL_Count
+		{
+			id: "tile_LxL_Count",
+			name: "x4 tile_LxL ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+		// tile_Cx1C_Count
+		{
+			id: "tile_Cx1C_Count",
+			name: "x3 tile_Cx1C ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+		// tile_CxL_Count
+		{
+			id: "tile_CxL_Count",
+			name: "x3 tile_CxL ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+		// tile_2CE_Count
+		{
+			id: "tile_2CE_Count",
+			name: "x2 tile_2CE ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+		// tile_L_Count
+		{
+			id: "tile_L_Count",
+			name: "x2 tile_L ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+		// tile_C_Count
+		{
+			id: "tile_C_Count",
+			name: "x2 tile_C ~",
+			type: "number",
+
+			options: {
+				min: 1,
+				max: 40,
+				step: 1,
+				},
+		},
+		// tile_1CE_Count	
+		{
+			id: "tile_1CE_Count",
+			name: "x1 tile_1CE ~",
+			type: "number",
+
+			options: {
+				min: 1,
+				max: 40,
+				step: 1,
+				},
+		},	
 
 	]);
 
@@ -694,32 +814,50 @@ function populate_tiles_array(){
 
 	// var emptyCount = getEmptyTilesCount(fxrand());
 	var emptyCount = $fx.getRawParam("empty_count");
+	var dotCount = $fx.getRawParam("dot_count");
+	var tile_Cx2C_Count = $fx.getRawParam("tile_Cx2C_count");
+	var tile_CxC_Count = $fx.getRawParam("tile_CxC_Count");
+	var tile_LxL_Count = $fx.getRawParam("tile_LxL_Count");
+	var tile_Cx1C_Count = $fx.getRawParam("tile_Cx1C_Count");
+	var tile_CxL_Count = $fx.getRawParam("tile_CxL_Count");
+	var tile_2CE_Count = $fx.getRawParam("tile_2CE_Count");
+	var tile_L_Count = $fx.getRawParam("tile_L_Count");
+	var tile_C_Count = $fx.getRawParam("tile_C_Count");
+	var tile_1CE_Count = $fx.getRawParam("tile_1CE_Count");
+	
 
 	fxfeature("emptyCount",emptyCount);
 	for (let i = 0; i < emptyCount; i++) {
 		addTilesToArray("tile_Empty", [0, 0, 0, 0], 0);
 	}
 	
+	// **********************************
+	// ************ 4X4 TILES ***********
+	// **********************************	
 	// var dotCount = getDotTilesCount(fxrand());
-	// fxfeature("dotCount",dotCount);
-	// for (let i = 0; i < dotCount; i++) {
-	// 	addTilesToArray("tile_Dot", [0, 0, 0, 0], 0);
-	// }
+	fxfeature("dotCount",dotCount);
+	for (let i = 0; i < dotCount; i++) {
+		addTilesToArray("tile_Dot", [0, 0, 0, 0], 0);
+	}
 
 	var tileCount;
 	
-	tileCount = getMainTilesCount(fxrand(),0.5,20);
-	fxfeature("tile_Cx2C",tileCount);
-	for (let i = 0; i < tileCount; i++) {
+
+	// **********************************
+	// ************ 4X4 TILES ***********
+	// **********************************
+	// tileCount = getMainTilesCount(fxrand(),0.5,20);
+	fxfeature("tile_Cx2C",tile_Cx2C_Count);
+	for (let i = 0; i < tile_Cx2C_Count; i++) {
 		addTilesToArray("tile_Cx2C", [1, 1, 1, 1], 0);
 		addTilesToArray("tile_Cx2C", [1, 1, 1, 1], 1);
 		addTilesToArray("tile_Cx2C", [1, 1, 1, 1], 2);
 		addTilesToArray("tile_Cx2C", [1, 1, 1, 1], 3);
 	}
 
-	tileCount = getMainTilesCount(fxrand(),0.5,20);
-	fxfeature("tile_CxC",tileCount);
-	for (let i = 0; i < tileCount; i++) {
+	// tileCount = getMainTilesCount(fxrand(),0.5,20);
+	fxfeature("tile_CxC",tile_CxC_Count);
+	for (let i = 0; i < tile_CxC_Count; i++) {
 		addTilesToArray("tile_CxC", [1, 1, 1, 1], 0);
 		addTilesToArray("tile_CxC", [1, 1, 1, 1], 1);
 		addTilesToArray("tile_CxC", [1, 1, 1, 1], 2);
@@ -727,24 +865,24 @@ function populate_tiles_array(){
 	}
 
 	// tileCount = getMainTilesCount(fxrand(),0.5,10);
-	// fxfeature("tile_LxL",tileCount);
-	// for (let i = 0; i < tileCount; i++) {
-	// 	addTilesToArray("tile_LxL",[1,1,1,1],0);
-	// 	addTilesToArray("tile_LxL",[1,1,1,1],1);
-	// 	addTilesToArray("tile_LxL",[1,1,1,1],2);
-	// 	addTilesToArray("tile_LxL",[1,1,1,1],3);
-	// }
 
+	fxfeature("tile_LxL",tile_LxL_Count);
+	for (let i = 0; i < tile_LxL_Count; i++) {
+		addTilesToArray("tile_LxL",[1,1,1,1],0);
+		addTilesToArray("tile_LxL",[1,1,1,1],1);
+		addTilesToArray("tile_LxL",[1,1,1,1],2);
+		addTilesToArray("tile_LxL",[1,1,1,1],3);
+	}
 
 
 
 
 	// **********************************
-	// ************ 3X4 TILES ************
+	// ************ 3X4 TILES ***********
 	// **********************************
-	tileCount = getMainTilesCount(fxrand(),0.5,10);
-	fxfeature("tile_Cx1C",tileCount);
-	for (let i = 0; i < tileCount; i++) {
+	// tileCount = getMainTilesCount(fxrand(),0.5,10);
+	fxfeature("tile_Cx1C",tile_Cx1C_Count);
+	for (let i = 0; i < tile_Cx1C_Count; i++) {
 		addTilesToArray("tile_Cx1C",[1,0,1,1],0);
 		addTilesToArray("tile_Cx1C",[1,0,1,1],1);
 		addTilesToArray("tile_Cx1C",[1,0,1,1],2);
@@ -752,44 +890,43 @@ function populate_tiles_array(){
 	}
 
 	// tileCount = getMainTilesCount(fxrand(),0.5,10);
-	// fxfeature("tile_CxL",tileCount);
-	// for (let i = 0; i < tileCount; i++) {
-	// 	addTilesToArray("tile_CxL", [1, 1, 0, 1], 0);
-	// 	addTilesToArray("tile_CxL", [1, 1, 0, 1], 1);
-	// 	addTilesToArray("tile_CxL", [1, 1, 0, 1], 2);
-	// 	addTilesToArray("tile_CxL", [1, 1, 0, 1], 3);
-	// }
-
+	fxfeature("tile_CxL",tile_CxL_Count);
+	for (let i = 0; i < tile_CxL_Count; i++) {
+		addTilesToArray("tile_CxL", [1, 1, 0, 1], 0);
+		addTilesToArray("tile_CxL", [1, 1, 0, 1], 1);
+		addTilesToArray("tile_CxL", [1, 1, 0, 1], 2);
+		addTilesToArray("tile_CxL", [1, 1, 0, 1], 3);
+	}
 
 
 
 
 	// **********************************
-	// ************ 2X4 TILES ************
+	// ************ 2X4 TILES ***********
 	// **********************************
 
 	
 	// tileCount = getMainTilesCount(fxrand(),0.5,10);
-	// fxfeature("tile_2CE",tileCount);
-	// for (let i = 0; i < tileCount; i++) {
-	// 	addTilesToArray("tile_2CE",[0,1,0,1],0);
-	// 	addTilesToArray("tile_2CE",[0,1,0,1],1);
-	// 	addTilesToArray("tile_2CE",[0,1,0,1],2);
-	// 	addTilesToArray("tile_2CE",[0,1,0,1],3);
-	// }
+	fxfeature("tile_2CE",tile_2CE_Count);
+	for (let i = 0; i < tile_2CE_Count; i++) {
+		addTilesToArray("tile_2CE",[0,1,0,1],0);
+		addTilesToArray("tile_2CE",[0,1,0,1],1);
+		addTilesToArray("tile_2CE",[0,1,0,1],2);
+		addTilesToArray("tile_2CE",[0,1,0,1],3);
+	}
 
 
-	tileCount = getMainTilesCount(fxrand(),0.5,10);
-	fxfeature("tile_L",tileCount);
-	for (let i = 0; i < tileCount; i++) {
+	// tileCount = getMainTilesCount(fxrand(),0.5,10);
+	fxfeature("tile_L",tile_L_Count);
+	for (let i = 0; i < tile_L_Count; i++) {
 		addTilesToArray("tile_L", [0, 1, 0, 1], 1);
 		addTilesToArray("tile_L", [0, 1, 0, 1], 0);
 	}
 
 
-	tileCount = getMainTilesCount(fxrand(),0.5,10);
-	fxfeature("tile_C",tileCount);
-	for (let i = 0; i < tileCount; i++) {
+	// tileCount = getMainTilesCount(fxrand(),0.5,10);
+	fxfeature("tile_C",tile_C_Count);
+	for (let i = 0; i < tile_C_Count; i++) {
 		addTilesToArray("tile_C", [1, 0, 0, 1], 0);
 		addTilesToArray("tile_C", [1, 0, 0, 1], 1);
 		addTilesToArray("tile_C", [1, 0, 0, 1], 2);
@@ -798,10 +935,12 @@ function populate_tiles_array(){
 
 
 
-	// 1X4
-	tileCount = getMainTilesCount(fxrand(),0.5,10);
-	fxfeature("tile_1CE",tileCount);
-	for (let i = 0; i < tileCount; i++) {
+	// **********************************
+	// ************ 1X4 TILES ***********
+	// **********************************
+	// tileCount = getMainTilesCount(fxrand(),0.5,10);
+	fxfeature("tile_1CE",tile_1CE_Count);
+	for (let i = 0; i < tile_1CE_Count; i++) {
 		addTilesToArray("tile_1CE", [0, 0, 0, 1], 0);
 		addTilesToArray("tile_1CE", [0, 0, 0, 1], 1);
 		addTilesToArray("tile_1CE", [0, 0, 0, 1], 2);
