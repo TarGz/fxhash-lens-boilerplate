@@ -49,42 +49,37 @@ function getRandomLayerColor(value){
 // }
 
 function getRandomLayerBrushAngle(value){
-  console.log("--------------------getRandomLayerBrushAngle",value);
-
-
-
   var cl = brush_angle_array.length-1;
   var brush_id = Math.round(map(value,0,1,0,cl));
-  console.log("--------------------getRandomLayerBrushAngle brush_id",brush_id);
-  console.log("1brush_angle_array", brush_angle_array);
   var brush_angle = brush_angle_array.splice(brush_id, 1)[0];
-  console.log("2brush_angle_array", brush_angle_array);
-  
-
   return brush_angle;
 }
 
-function getLayerRotation(i){
+
   
 
-  // IF FLIP
+function getLayerRotation(layer_id, random_value){
+  console.log("getLayerRotation layer_id: ", layer_id);
+  console.log("getLayerRotation random_value: ", random_value);
+  console.log("getLayerRotation layers_flip_count: ", layers_flip_count);
+  console.log("getLayerRotation flip_options_debug.length: ", flip_options_debug.length);
+  
 
-    // console.log("getLayerRotation layers_flip_count",i,"-",$fx.getRawParam("layers_flip_count"));
-    // var flips = layers_rotation.splice(0,1);
-    // console.log("getLayerRotation",flips);
-    return layers_rotation[0];
-
-
-    // if(i<$fx.getRawParam("layers_flip_count")){
-    //   var flips = layers_rotation.splice(0,1);
-    //   console.log("getLayerRotation",flips);
-    //   return flips;
-    // }else{
-    //   return [[false,false]];
-    // }
+  var flip_count = 0;
+  
+  if (layer_id <= layers_flip_count){
     
-  
+    var random_index = Math.round(map(random_value,0,1,0,flip_options_debug.length-1));
+    console.log("getLayerRotation random_index: ", random_index);
+    var flip = flip_options_debug.splice(random_index, 1);
+    console.log("getLayerRotation flip: ", flip);
+    return flip;
+  }else{
+    return [[false,false]];
+  }
 }
+    
+
 
 
 function getLayerCount(value){

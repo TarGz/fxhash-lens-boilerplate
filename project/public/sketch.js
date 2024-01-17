@@ -113,6 +113,7 @@ let color_theme;
 let color_theme_name;
 var layer_count;
 var layers_flip;
+var layers_flip_count;
 
 // Render and debug style variables
 var renderStyle = render_style_parallel; 
@@ -141,6 +142,7 @@ var canv;
 var colors_array = [];
 var colors_theme = [];
 var brush_angle_array = [];
+var flip_options_debug;
 var layers_rotation = [];
 var color_palette;
 
@@ -446,6 +448,7 @@ function setFxParamsSettings(){
 	default_pen_id = $fx.getRawParam("brush_size"); 	
 	fx_paramsArray = scale_params[$fx.getRawParam("scale")];
 	layers_flip = $fx.getRawParam("layers_flip");
+	layers_flip_count = $fx.getRawParam("layers_flip_count");
 	// // name, H,W,min L, max L 
 	// console.log("setFxParamsSettings",fx_paramsArray[0],fx_paramsArray[1],fx_paramsArray[2],fx_paramsArray[3] );
 	
@@ -736,12 +739,20 @@ function set_array(){
 
 	layers_rotation = [
 		// H,V
-		[false,false],
-		[true,false],
-		[false,true],
-		[true,true],
+		[false,false,false,false],
+		[true,false,false,false],
+		[true,true,false,false],
+		[true,true,true,false],
+		[true,true,true,true],
 	]
 
+	flip_options_debug = [
+		[true, false],
+		[false, true],
+		[true, true],
+		[false, false],
+	  ];
+	  
 	brush_angle_array=[
 		0,45,90,135
 	];
@@ -993,19 +1004,25 @@ function create_layers() {
 		// var brush_angle=randomPenAngle(fxrand());
 		var brush_angle=getRandomLayerBrushAngle(fxrand());
 		console.log("BEFORE LAYER brush_angle",brush_angle);
+		console.log("create_layers LAYER LOOP",i);
 
-		var flips = getLayerRotation(i);
-		console.log("flips array", flips);
+		var flips = getLayerRotation(i,fxrand());
+		console.log("flips_array", flips);
 		// targz
+		// var l = new Layer(
+		// 	i,
+		// 	getRandomLayerColor(fxrand()),
+		// 	brush_angle,
+		// 	flips[0][0],
+		// 	flips[0][1],
+		// );
 		var l = new Layer(
 			i,
-			// getRandomLayerColor(fxrand()),
 			getRandomLayerColor(fxrand()),
 			brush_angle,
 			flips[0][0],
 			flips[0][1],
 		);
-
 		draw_layer(l,i);
 		layers_array.push(l);
 		fxfeature("layer"+l.id+".color",l.color_name);
