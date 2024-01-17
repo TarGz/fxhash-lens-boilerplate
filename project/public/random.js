@@ -50,18 +50,17 @@ function getRandomLayerColor(value){
 
 function getRandomLayerBrushAngle(value){
   console.log("--------------------getRandomLayerBrushAngle",value);
-  // return brush_angle_array[3];
 
-  // console.log(brush_angle_array);
+
+
   var cl = brush_angle_array.length-1;
   var brush_id = Math.round(map(value,0,1,0,cl));
+  console.log("--------------------getRandomLayerBrushAngle brush_id",brush_id);
+  console.log("1brush_angle_array", brush_angle_array);
+  var brush_angle = brush_angle_array.splice(brush_id, 1)[0];
+  console.log("2brush_angle_array", brush_angle_array);
   
-  var brush_angle = brush_angle_array[brush_id];
-  // console.log("brush_id",brush_id);
-  // console.log("cl",cl);
-  // console.log("value",value);
-  // brush_angle_array.splice(brush_id,1);
-  // console.log(brush_angle_array);
+
   return brush_angle;
 }
 
@@ -71,9 +70,9 @@ function getLayerRotation(i){
   // IF FLIP
 
     // console.log("getLayerRotation layers_flip_count",i,"-",$fx.getRawParam("layers_flip_count"));
-    var flips = layers_rotation.splice(0,1);
+    // var flips = layers_rotation.splice(0,1);
     // console.log("getLayerRotation",flips);
-    return flips;
+    return layers_rotation[0];
 
 
     // if(i<$fx.getRawParam("layers_flip_count")){

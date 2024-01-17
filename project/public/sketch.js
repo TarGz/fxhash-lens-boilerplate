@@ -27,6 +27,7 @@ const isCentered = true; // if true the canvas will be vertically and horizontal
 const cm_ratio = 2.834645791245791;
 const paper_ratio = 1.414141414141414;
 
+
 // Scale parameters for different sizes
 const scale_params = [
 	// name, H,W,min L, max L 
@@ -739,10 +740,6 @@ function set_array(){
 		[true,false],
 		[false,true],
 		[true,true],
-		[false,false],
-		[true,false],
-		[false,true],
-		[true,true],
 	]
 
 	brush_angle_array=[
@@ -971,6 +968,62 @@ function regenerate() {
 }
 
 
+
+function create_layers() {
+
+	canvas_layers_for_export=[];
+	pixel_canvas = createGraphics(canvas_Width, canvas_Height, P2D);
+	vector_canvas_full = createGraphics(canvas_Width, canvas_Height, SVG);
+	
+	pixel_canvas.blendMode(MULTIPLY);
+
+
+	// GENERATE THE PATTERN
+	iterate();
+
+	// var base_brush_angle = randomPenAngle(fxrand());
+	
+	fxfeature("layer_count",layer_count);
+	fxfeature("lines_per_tiles",$fx.getRawParam("lines_per_tiles"));
+
+
+
+
+	for (let i = 0; i < layer_count; i++) {
+		// var brush_angle=randomPenAngle(fxrand());
+		var brush_angle=getRandomLayerBrushAngle(fxrand());
+		console.log("BEFORE LAYER brush_angle",brush_angle);
+
+		var flips = getLayerRotation(i);
+		console.log("flips array", flips);
+		// targz
+		var l = new Layer(
+			i,
+			// getRandomLayerColor(fxrand()),
+			getRandomLayerColor(fxrand()),
+			brush_angle,
+			flips[0][0],
+			flips[0][1],
+		);
+
+		draw_layer(l,i);
+		layers_array.push(l);
+		fxfeature("layer"+l.id+".color",l.color_name);
+		fxfeature("layer"+l.id+".brush_angle",l.brush_angle);
+		fxfeature("layer"+l.id+".fixed_brush_angle",l.brush_angle);
+		fxfeature("layer"+l.id+".fliped_brush_angle",l.fliped_brush_angle);
+		fxfeature("layer"+l.id+".horizontal_flip",l.horizontal_flip);
+		fxfeature("layer"+l.id+".vertical_flip",l.vertical_flip);
+	}
+
+	
+
+	
+
+
+}
+
+
 function draw_layer(layer){
 
 	console.log("draw_layer"+layer.id,"- color",layer.color_name);
@@ -1024,56 +1077,6 @@ function draw_layer(layer){
 }
 
 
-function create_layers() {
-
-	canvas_layers_for_export=[];
-	pixel_canvas = createGraphics(canvas_Width, canvas_Height, P2D);
-	vector_canvas_full = createGraphics(canvas_Width, canvas_Height, SVG);
-	
-	pixel_canvas.blendMode(MULTIPLY);
-
-
-	// GENERATE THE PATTERN
-	iterate();
-
-	// var base_brush_angle = randomPenAngle(fxrand());
-	
-	fxfeature("layer_count",layer_count);
-	fxfeature("lines_per_tiles",$fx.getRawParam("lines_per_tiles"));
-
-
-
-
-	for (let i = 0; i < layer_count; i++) {
-		// var brush_angle=randomPenAngle(fxrand());
-		var brush_angle=getRandomLayerBrushAngle(fxrand());
-		console.log("BEFORE LAYER brush_angle",brush_angle);
-
-		var flips = getLayerRotation(i);
-		// targz
-		var l = new Layer(
-			i,
-			// getRandomLayerColor(fxrand()),
-			getRandomLayerColor(fxrand()),
-			brush_angle,
-			flips[0][0],
-			flips[0][1],
-		);
-
-		draw_layer(l,i);
-		layers_array.push(l);
-		fxfeature("layer"+l.id+".color",l.color_name);
-		fxfeature("layer"+l.id+".brush_angle",l.brush_angle);
-		fxfeature("layer"+l.id+".horizontal_flip",l.horizontal_flip);
-		fxfeature("layer"+l.id+".vertical_flip",l.vertical_flip);
-	}
-
-	
-
-	
-
-
-}
 
 function iterate() {
 	set_piece_name();
