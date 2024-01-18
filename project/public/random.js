@@ -67,7 +67,7 @@ function getLayerRotation(layer_id, random_value){
 
   var flip_count = 0;
   
-  if (layer_id <= layers_flip_count){
+  if (layer_id < layers_flip_count){
     
     var random_index = Math.round(map(random_value,0,1,0,flip_options_debug.length-1));
     console.log("getLayerRotation random_index: ", random_index);
