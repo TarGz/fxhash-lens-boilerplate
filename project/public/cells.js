@@ -23,6 +23,7 @@ class Cell {
 		this.e = false;
 		this.s = false;
 		this.w = false;
+		this.number=0;
 	}
 
 
@@ -55,6 +56,10 @@ class Cell {
 		// It checks the possible tiles that can be placed in the cell based on the connectors of the neighbouring cells.
 		// It then stores the possible solutions in the respective direction arrays (north, est, south, west).
 		// Finally, it selects a tile from the possible solutions based on the number of connectors and collapses the cell.
+		// This method calculates the entropy of the cell.
+		// redraw();
+		// debugger;
+
 
 		if (this.y % 2 != 0) {
 			this.decal = true;

@@ -21,7 +21,7 @@ class Tile {
 		// console.log(this.name, "tile.rotation",this.rotation);
 	}
 
-
+	
 	set_rotation(quarter_rotations_count) {
 		// console.log("quarter_rotations_count",quarter_rotations_count);
 		for (var i = 0; i < quarter_rotations_count; i++) {

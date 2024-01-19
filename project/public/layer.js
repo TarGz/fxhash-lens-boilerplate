@@ -9,6 +9,7 @@ class Layer {
      * @param {boolean} v_flip - The vertical flip status of the layer.
      */
     constructor(id,col,angle,h_flip,v_flip) {
+        console.log("Layer constructor params:", id, col, angle, h_flip, v_flip);
         this.id = id;
         this.brush_angle=angle;
         this.fliped_brush_angle=angle;

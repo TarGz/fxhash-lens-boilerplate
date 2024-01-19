@@ -14,7 +14,7 @@ function getLinePerTile(random,min,max){
   // var sp = size_params.length;
   var lines = Math.floor(map(random,0,1,min,max));
 
-  console.log("getLinePerTile()",random,min,"->",max,"::",lines);
+  // console.log("getLinePerTile()",random,min,"->",max,"::",lines);
   return lines;
 }
 
@@ -59,10 +59,10 @@ function getRandomLayerBrushAngle(value){
   
 
 function getLayerRotation(layer_id, random_value){
-  console.log("getLayerRotation layer_id: ", layer_id);
-  console.log("getLayerRotation random_value: ", random_value);
-  console.log("getLayerRotation layers_flip_count: ", layers_flip_count);
-  console.log("getLayerRotation flip_options_debug.length: ", flip_options_debug.length);
+  // console.log("getLayerRotation layer_id: ", layer_id);
+  // console.log("getLayerRotation random_value: ", random_value);
+  // console.log("getLayerRotation layers_flip_count: ", layers_flip_count);
+  // console.log("getLayerRotation flip_options_debug.length: ", flip_options_debug.length);
   
 
   var flip_count = 0;
@@ -70,9 +70,9 @@ function getLayerRotation(layer_id, random_value){
   if (layer_id < layers_flip_count){
     
     var random_index = Math.round(map(random_value,0,1,0,flip_options_debug.length-1));
-    console.log("getLayerRotation random_index: ", random_index);
+    // console.log("getLayerRotation random_index: ", random_index);
     var flip = flip_options_debug.splice(random_index, 1);
-    console.log("getLayerRotation flip: ", flip);
+    // console.log("getLayerRotation flip: ", flip);
     return flip;
   }else{
     return [[false,false]];
@@ -84,7 +84,7 @@ function getLayerRotation(layer_id, random_value){
 
 function getLayerCount(value){
   var v = Math.trunc(value*100)/100;
-  console.log("fxrand",v);
+  // console.log("fxrand",v);
 
   // return 3;
 

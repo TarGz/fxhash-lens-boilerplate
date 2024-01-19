@@ -100,7 +100,7 @@ const theme_style_random = "THEME_STYLE_RND";
 const theme_style_3colors = "THEME_STYLE_3COLORS";
 
 // Debug mode variables
-var debug_mode_activated = false; 
+var debug_mode_activated = true;  // use var renderStyle = render_style_vector;  to view the debug
 var debug_mode_pattern_activated = false; 
 
 // Default settings
@@ -120,7 +120,7 @@ var layers_flip;
 var layers_flip_count;
 
 // Render and debug style variables
-var renderStyle = render_style_parallel; 
+var renderStyle = render_style_vector; 
 var debugStyle = theme_style_random; 
 
 // Background color
@@ -449,7 +449,7 @@ function setFxParamsSettings(){
 			type: "number",
 
 			options: {
-				min: 1,
+				min: 0,
 				max: 40,
 				step: 1,
 				},
@@ -769,7 +769,7 @@ function set_array(){
 	for (let i = 0; i < theme_colors_list.length; i++) {
 		const color = available_colors[theme_colors_list[i]];
 		colors_array.push(color);
-		console.log("theme_colors_list",color);
+		// console.log("theme_colors_list",color);
 		
 	}
 
@@ -869,22 +869,35 @@ function populate_tiles_array(){
 	// addTilesToArray("tile_Empty",[0,0,0,0],0);
 	empty_tile = new Tile("tile_Empty", 9999, [0, 0, 0, 0], 0);
 
-
-	// var emptyCount = getEmptyTilesCount(fxrand());
 	var emptyCount = $fx.getRawParam("empty_count");
-	var dotCount = $fx.getRawParam("dot_count");
-	var tile_Cx2C_Count = $fx.getRawParam("tile_Cx2C_count");
-	var tile_CxC_Count = $fx.getRawParam("tile_CxC_Count");
-	var tile_LxL_Count = $fx.getRawParam("tile_LxL_Count");
-	var tile_Cx1C_Count = $fx.getRawParam("tile_Cx1C_Count");
-	var tile_CxL_Count = $fx.getRawParam("tile_CxL_Count");
-	var tile_2CE_Count = $fx.getRawParam("tile_2CE_Count");
-	var tile_L_Count = $fx.getRawParam("tile_L_Count");
-	var tile_C_Count = $fx.getRawParam("tile_C_Count");
-	var tile_1CE_Count = $fx.getRawParam("tile_1CE_Count");
+    var dotCount = $fx.getRawParam("dot_count");
+    var tile_Cx2C_Count = $fx.getRawParam("tile_Cx2C_count");
+    var tile_CxC_Count = $fx.getRawParam("tile_CxC_Count");
+    var tile_LxL_Count = $fx.getRawParam("tile_LxL_Count");
+    var tile_Cx1C_Count = $fx.getRawParam("tile_Cx1C_Count");
+    var tile_CxL_Count = $fx.getRawParam("tile_CxL_Count");
+    var tile_2CE_Count = $fx.getRawParam("tile_2CE_Count");
+    var tile_L_Count = $fx.getRawParam("tile_L_Count");
+    var tile_C_Count = $fx.getRawParam("tile_C_Count");
+    var tile_1CE_Count = $fx.getRawParam("tile_1CE_Count");
+	// var emptyCount = getEmptyTilesCount(fxrand());
+	// console.log("emptyCount", emptyCount);
+	// console.log("dotCount", dotCount);
+	// console.log("tile_Cx2C_Count", tile_Cx2C_Count);
+	// console.log("tile_CxC_Count", tile_CxC_Count);
+	// console.log("tile_LxL_Count", tile_LxL_Count);
+	// console.log("tile_Cx1C_Count", tile_Cx1C_Count);
+	// console.log("tile_CxL_Count", tile_CxL_Count);
+	// console.log("tile_2CE_Count", tile_2CE_Count);
+	// console.log("tile_L_Count", tile_L_Count);
+	// console.log("tile_C_Count", tile_C_Count);
+	// console.log("tile_1CE_Count", tile_1CE_Count);
+	
+	console.log("tiles_database");
+	console.log(tiles_database);
 	
 
-	fxfeature("emptyCount",emptyCount);
+	fxfeature("tile_emptyCount",emptyCount);
 	for (let i = 0; i < emptyCount; i++) {
 		addTilesToArray("tile_Empty", [0, 0, 0, 0], 0);
 	}
@@ -893,7 +906,7 @@ function populate_tiles_array(){
 	// ************ 4X4 TILES ***********
 	// **********************************	
 	// var dotCount = getDotTilesCount(fxrand());
-	fxfeature("dotCount",dotCount);
+	fxfeature("tile_dotCount",dotCount);
 	for (let i = 0; i < dotCount; i++) {
 		addTilesToArray("tile_Dot", [0, 0, 0, 0], 0);
 	}
@@ -1061,11 +1074,11 @@ function create_layers() {
 	for (let i = 0; i < layer_count; i++) {
 		// var brush_angle=randomPenAngle(fxrand());
 		var brush_angle=getRandomLayerBrushAngle(fxrand());
-		console.log("BEFORE LAYER brush_angle",brush_angle);
-		console.log("create_layers LAYER LOOP",i);
+		// console.log("BEFORE LAYER brush_angle",brush_angle);
+		// console.log("create_layers LAYER LOOP",i);
 
 		var flips = getLayerRotation(i,fxrand());
-		console.log("flips_array", flips);
+		// console.log("flips_array", flips);
 		// targz
 		// var l = new Layer(
 		// 	i,
@@ -1101,8 +1114,8 @@ function create_layers() {
 
 function draw_layer(layer){
 
-	console.log("draw_layer"+layer.id,"- color",layer.color_name);
-	console.log("draw_layer"+layer.id,"- fixed_brush_angle",layer.fixed_brush_angle);
+	// console.log("draw_layer"+layer.id,"- color",layer.color_name);
+	// console.log("draw_layer"+layer.id,"- fixed_brush_angle",layer.fixed_brush_angle);
 
 
 	var drawings = drawPattern(layer.fixed_brush_angle, layer.color);
@@ -1118,10 +1131,10 @@ function draw_layer(layer){
 	vector_canvas.push();
 	pixel_canvas.push();
 
-	console.log("layers_flip",layers_flip);
+	// console.log("layers_flip",layers_flip);
 
 	if(layer.horizontal_flip && layers_flip){
-		console.log("DRAW FLIPPED H->",layer.id);
+		// console.log("DRAW FLIPPED H->",layer.id);
 		pixel_canvas.translate(canvas_Width, 0);
 		pixel_canvas.scale(-1, 1);
 
@@ -1130,7 +1143,7 @@ function draw_layer(layer){
 	}
 
 	if(layer.vertical_flip && layers_flip){
-		console.log("DRAW FLIPPED V->",layer.id);
+		// console.log("DRAW FLIPPED V->",layer.id);
 		pixel_canvas.translate(0,canvas_Height-vertical_white_space_size );
 		pixel_canvas.scale(1, -1);
 
@@ -1171,32 +1184,66 @@ function draw_layer(layer){
 function iterate() {
 	set_piece_name();
 	generate_cells_grid();
-	addSeedTiles();
+	// addSeedTiles();
 	calculateEntropy();
 	
 }
 
+// function calculateEntropy() {
+
+// 	for (var x = 0; x < horizontal_tiles; x++) {
+// 		for (var y = 0; y <= vertical_tiles; y++) {
+// 			// console.log("tile x:",x," y:",y);
+// 			var c = cells_grid[x][y];
+
+// 			// console.log("calculateEntropy",x,y);
+// 			c.calculateEntropy(tiles_database);
+// 			// draw();
+// 			// debugger;
+// 			// if(x==1 && y== 2){
+// 			// 	debugger;
+// 			// }
+
+
+// 			// console.log("c:",c);
+// 		}
+// 	}
+
+// }
+// function calculateEntropy() {
+
+// 	for (var x = 0; x < horizontal_tiles; x++) {
+// 		for (var y = 0; y <= vertical_tiles; y++) {
+// 			var mycell = cells_grid[x][y];
+// 			mycell.calculateEntropy(tiles_database);
+// 		}
+// 	}
+// }
+
 function calculateEntropy() {
-	for (var x = 0; x < horizontal_tiles; x++) {
-		for (var y = 0; y <= vertical_tiles; y++) {
-			// console.log("tile x:",x," y:",y);
-			var c = cells_grid[x][y];
+    var allCells = [];
 
-			// console.log("calculateEntropy",x,y);
-			c.calculateEntropy(tiles_database);
-			// draw();
-			// debugger;
-			// if(x==1 && y== 2){
-			// 	debugger;
-			// }
+    // Create a list of all cell coordinates
+    for (var x = 0; x < horizontal_tiles; x++) {
+        for (var y = 0; y <= vertical_tiles; y++) { // Corrected <= to <
+            allCells.push({x: x, y: y});
+        }
+    }
 
+    // Shuffle the list to randomize the order
+    allCells.sort(() => fxrand());
+    console.log(allCells);
 
-			// console.log("c:",c);
-		}
-	}
-	// console.log("calculateEntropy() cells_grid");
-	// console.log(cells_grid);
+    // Iterate through the shuffled list and call calculateEntropy on each cell
+    for (var i = 0; i < allCells.length; i++) {
+        var sorted_cell_ID = allCells[i];
+        var mycell = cells_grid[sorted_cell_ID.x][sorted_cell_ID.y];
+        console.log(sorted_cell_ID);
+        console.log(mycell);
+        mycell.calculateEntropy(tiles_database);
+    }
 }
+
 
 function getCell(x, y) {
 	return cells_grid[x][y];
@@ -1226,8 +1273,9 @@ function generate_cells_grid() {
 			}
 		}
 	}
-	// console.table("cells_grid");
+	console.log("cells_grid");
 	// console.table(cells_grid);
+	console.log(cells_grid);
 }
 
 
@@ -1385,8 +1433,9 @@ function drawPattern(brush_angle, brush_color) {
 				// console.log("cell.tile.name",eval(cell.tile.name + "_pix" ));
 				// && renderStyle == render_style_parallel
 				// console.log(cell.tile.name );
-				// console.log(eval(cell.tile.name + "_pix" ));
+				
 				var func_name = "get_" + cell.tile.name + "_pix";
+				// console.log("func_name",func_name);
 				if (eval(func_name)) {
 					var fn = window[func_name];
 					var fnparams = [cell.tile.rotation + brush_angle, brush_color];
@@ -1582,10 +1631,6 @@ function draw() {
 	}
 	console.table(window.$fxhashFeatures);
 
-
-
-
-
 	noLoop();
 }
 
@@ -1607,7 +1652,7 @@ function draw() {
 
 
 function fxfeature(name,value){
-	console.log("fxfeature("+name+","+value+")");
+	// console.log("fxfeature("+name+","+value+")");
 	params.push(name+":"+value);
 	window.$fxhashFeatures[ name ] = value;
 	// $fx.features[ name ] = value;
@@ -1701,6 +1746,7 @@ function centerCanvas() {
 	s.alignItems = "center";
 	s.justifyContent = "center";
 }
+
 
 
 
