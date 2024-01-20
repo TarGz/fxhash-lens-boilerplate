@@ -1505,6 +1505,8 @@ function drawPattern(brush_angle, brush_color) {
 				debug_tile.rotate(radians(-45));
 				// debug_tile.text('x:'+x+'-y:'+y+'-c:'+cell_count, 0, cells_size/1.35);
 				debug_tile.text('x:' + x + '-y:' + y, 0, cells_size / 1.35);
+				// console.log(cell);
+				if(cell.tile) debug_tile.text(cell.tile.name, 0, cells_size / 1.7);
 				debug_tile.pop();
 				// debug_tile.textSize(30);
 				// debug_tile.text('north:'+cell.north, cells_size/2, 30);
