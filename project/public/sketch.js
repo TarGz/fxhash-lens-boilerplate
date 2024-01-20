@@ -107,6 +107,7 @@ var debug_mode_pattern_activated = false;
 var default_size_id = 1; 
 var default_pen_id; 
 
+
 // Variables for tile settings
 var blank_rnd_cell_needed = 0; 
 var connector_count_favor = 4; 
@@ -120,7 +121,7 @@ var layers_flip;
 var layers_flip_count;
 
 // Render and debug style variables
-var renderStyle = render_style_vector; 
+var renderStyle = render_style_parallel; 
 var debugStyle = theme_style_random; 
 
 // Background color
@@ -240,11 +241,25 @@ function setFxParamsSettings(){
 
 	$fx.params([
 		{
+			id: "debug_mode_activated",
+			name: "DEBUG",
+			type: "boolean",
+
+		},
+		{
+			id: "default_size_id",
+			name: "Paper size",
+			type: "number",
+			options: {
+			min: 1,
+			max: canvas_size_storage.length,
+			step: 1,
+			},
+		},
+		{
 			id: "color_theme",
 			name: "Color Theme",
 			type: "number",
-			//default: Math.PI,
-		//   update: "sync",
 			options: {
 			min: 1,
 			max: 8,
@@ -280,18 +295,7 @@ function setFxParamsSettings(){
 				},
 		},
 
-		{
-			id: "layer_count",
-			name: "Layers Count",
-			type: "number",
-			//default: Math.PI,
-			// update: "sync",
-			options: {
-				min: 1,
-				max: 4,
-				step: 1,
-				},
-		},
+
 
 		{
 			id: "brush_size",
@@ -305,12 +309,26 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},
+
 		{
 			id: "layers_flip",
 			name: "Layers flip",
 			type: "boolean",
 
 		},
+		{
+			id: "layer_count",
+			name: "Layers Count",
+			type: "number",
+			//default: Math.PI,
+			// update: "sync",
+			options: {
+				min: 1,
+				max: 4,
+				step: 1,
+				},
+		},
+
 		{
 			id: "layers_flip_count",
 			name: "Flip count",
@@ -425,7 +443,7 @@ function setFxParamsSettings(){
 			type: "number",
 
 			options: {
-				min: 0,
+				min: 1,
 				max: 40,
 				step: 1,
 				},
@@ -460,6 +478,8 @@ function setFxParamsSettings(){
 
 
 	// DEFAULT VALUES
+	debug_mode_activated =  $fx.getRawParam("debug_mode_activated"); 
+	default_size_id =  $fx.getRawParam("default_size_id"); 
 	layer_count =  $fx.getRawParam("layer_count"); 
 	color_theme = $fx.getRawParam("color_theme");
 	default_pen_id = $fx.getRawParam("brush_size"); 	
@@ -843,6 +863,8 @@ function setup() {
 		"Brush Width":pen_size[default_pen_id][0],
 		"Canvas size":canvas_size_storage[default_size_id][0],
 	})
+
+	if(debug_mode_activated) renderStyle = render_style_vector;
 
 }
 
