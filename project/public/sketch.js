@@ -257,6 +257,18 @@ function setFxParamsSettings(){
 			},
 		},
 		{
+			id: "brush_size",
+			name: "Brush Width",
+			type: "number",
+			//default: Math.PI,
+			// update: "sync",
+			options: {
+				min: 0,
+				max: pen_size.length-1,
+				step: 1,
+				},
+		},
+		{
 			id: "color_theme",
 			name: "Color Theme",
 			type: "number",
@@ -297,18 +309,7 @@ function setFxParamsSettings(){
 
 
 
-		{
-			id: "brush_size",
-			name: "Brush Width",
-			type: "number",
-			//default: Math.PI,
-			// update: "sync",
-			options: {
-				min: 0,
-				max: pen_size.length-1,
-				step: 1,
-				},
-		},
+
 
 		{
 			id: "layers_flip",
@@ -496,6 +497,9 @@ function setFxParamsSettings(){
 	brush_w = pen_size[default_pen_id][1];
 	brush_h = pen_size[default_pen_id][2];
 	stroke_size = brush_w;
+
+
+	resolution_data = canvas_size_storage[default_size_id];
 }
 //   console.log("layer_count",$fx.getRawParam("layer_count"));
 

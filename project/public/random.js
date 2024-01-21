@@ -218,16 +218,16 @@ function getTileID(value) {
 
 function getResolution(value) {
   // var resolution;
-  return 3;
+  // return 3;
   // return Math.ceil(map(0.1, 0, 1, 0, 4));
-  if (value < 0.5) resolution = 0;
-  else if (value <= 0.7) resolution = 1;
-  else if (value <= 0.9) resolution = 2;
-  else if (value <= 1.0) resolution = 3;
+  // if (value < 0.5) resolution = 0;
+  // else if (value <= 0.7) resolution = 1;
+  // else if (value <= 0.9) resolution = 2;
+  // else if (value <= 1.0) resolution = 3;
 
-  resolution = 1;
-  window.$fxhashFeatures.resolution = canvas_size_storage[resolution][0];
-  return resolution;
+  // resolution = 1;
+  // window.$fxhashFeatures.resolution = canvas_size_storage[resolution][0];
+  return default_size_id;
 }
 
 function getRandomCell() {
