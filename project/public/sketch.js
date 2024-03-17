@@ -40,6 +40,9 @@ const scale_params = [
 	["3X7",3,7,[25,36]],
 	["4X10",4,10,[20,30]],
 	["5X13",5,13,[16,22]],
+	["6X16",6,15,[16,22]],
+	["7X21",7,19,[16,22]],
+	["7X21",8,21,[16,22]],
 ]; 
 
 // Pen size options
@@ -77,6 +80,8 @@ const cell_count_ratio = [
 ];
 // Count of tiles in the array
 var tileArrayCount = 0;
+var maxTtlePerTileType=40;
+var minTtlePerTileType=0
 
 // Parameters for the sketch
 var params = [];
@@ -251,7 +256,7 @@ function setFxParamsSettings(){
 			name: "Paper size",
 			type: "number",
 			options: {
-			min: 1,
+			min: 0,
 			max: canvas_size_storage.length,
 			step: 1,
 			},
@@ -287,7 +292,7 @@ function setFxParamsSettings(){
 			//   update: "sync",
 				options: {
 					min: 0,
-					max: 3,
+					max: 6,
 					step: 1,
 				},
 			},
@@ -301,8 +306,8 @@ function setFxParamsSettings(){
 			// update: "sync",
 			// update: "code-driven",
 			options: {
-				min: 10,
-				max: 60,
+				min: 2,
+				max: 120,
 				step: 1,
 				},
 		},
@@ -444,7 +449,7 @@ function setFxParamsSettings(){
 			type: "number",
 
 			options: {
-				min: 1,
+				min: 0,
 				max: 40,
 				step: 1,
 				},
@@ -784,8 +789,8 @@ function set_array(){
 		theme_colors_list = [12,12,12,12,12,12];
 
 	}else if(color_theme == 8){
-		color_theme_name = "CYAN MAGENTA";
-		theme_colors_list = [4,6,4,6,4,6];
+		color_theme_name = "4 CLASSICS";
+		theme_colors_list = [4,6,2,1,2,6];
 
 	}
 	// theme_colors_list = [2,1,1,1,2,2];

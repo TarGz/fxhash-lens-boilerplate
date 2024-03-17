@@ -63,9 +63,10 @@ function drawArc2(graphics, centerX, centerY, radius, startAngle, endAngle, brus
 	// brush_rotation=90;
 	if (expand_start) startAngle = startAngle - radians(20);
 	if (expand_end) endAngle = endAngle + radians(20);
-	brush_h = brush_w / 6;
+	// brush_h = brush_w / 6; // PARRALEL PEN
+	brush_h = brush_w;
 
-	var shapeRadius = brush_h / 2;
+	var shapeRadius = brush_h / 4;
 	var arcLength = radius * Math.abs(endAngle - startAngle); // Calculate the arc length based on radius and angle span
 	var shapeCount = Math.ceil(arcLength / (shapeRadius * 2)); // Calculate the number of shapes based on the desired size
 	var angleIncrement = (endAngle - startAngle) / (shapeCount - 1); // Calculate the angle increment based on the arc length
@@ -95,7 +96,8 @@ function drawLine(graphics, x1, y1, x2, y2, brush_rotation, expand_start, expand
 	// ça bug puisque en fonction de l'angle c'est pas la meme valeur qu'il faut editer
 	if (expand_end) x1 = x1 - cells_size / 20;
 	if (expand_start) x2 = x2 + cells_size / 20;
-	brush_h = brush_w / 6;
+	// brush_h = brush_w / 6; // PARRALEL PEN
+	brush_h = brush_w;
 	// endAngle = endAngle+radians(20);
 	// <- hack
 	// console.log("distance:",distance);
@@ -140,6 +142,7 @@ function get_tile_Empty_pix(brush_angle, paint_color) {
 	// tile_Empty_pix = false;
 	return [tile_Empty_Pix,tile_Empty];
 }
+
 
 // ┌───────────────────────────────────────┐
 // │ _____ ___ _    ___   ___   ___ _____  │

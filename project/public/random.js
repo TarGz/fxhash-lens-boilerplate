@@ -9,7 +9,7 @@
 
 // SIZE PARAMS, the first call taht define the grid size and the lines 
 
-function getLinePerTile(random,min,max){
+function getLinePerTile2(random,min,max){
   return 70;
   // var sp = size_params.length;
   var lines = Math.floor(map(random,0,1,min,max));
@@ -47,6 +47,12 @@ function getRandomLayerColor(value){
 //   // console.log(colors_array);
 //   return color;
 // }
+
+function getRandomTile2222(min,max){
+  var rnd = fxrand();
+  var tile_id = Math.round(map(value,0,1,min,max));
+  return tile_id;
+}
 
 function getRandomLayerBrushAngle(value){
   var cl = brush_angle_array.length-1;
