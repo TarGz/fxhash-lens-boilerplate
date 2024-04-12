@@ -307,7 +307,7 @@ function setFxParamsSettings(){
 			// update: "code-driven",
 			options: {
 				min: 2,
-				max: 120,
+				max: 500,
 				step: 1,
 				},
 		},
@@ -505,6 +505,9 @@ function setFxParamsSettings(){
 
 
 	resolution_data = canvas_size_storage[default_size_id];
+
+
+
 }
 //   console.log("layer_count",$fx.getRawParam("layer_count"));
 
@@ -681,32 +684,23 @@ function set_lines_colors_random() {
 	// console.log(color_array);
 }
 
+// 
 function getColorLine(i, debug_color) {
 	if (debug_mode_activated) {
 		return debug_color;
 	}
-	// console.log("getColorLine");
-	// #targz
 	return color_array[i];
 }
 
 function set_piece_name() {
-	// console.log("set_piece_name");
-	// console.log("default_pen_id",default_pen_id);
-	// console.log(pen_size);
-	// piecename = `BS ${(new Date().toJSON().slice(0,19))}`;
-	piecename = new Date().toJSON().slice(0, 10) + "_BS-" + (new Date().getTime()).toString(36).toUpperCase() + "-" + horizontal_tiles + "x" + vertical_tiles + "-" + resolution_data[0] + "-" + (lines_per_tiles - 1) + "l-" + pen_size[default_pen_id][0];
+	piecename = new Date().toJSON().slice(0, 10) + "_BS-" + (new Date().getTime()).toString(36).toUpperCase() + "-" + horizontal_tiles + "x" + vertical_tiles + "-" + resolution_data[0] + "-" + (lines_per_tiles - 1) + "l-" + pen_size[default_pen_id][0]+"-ls"+Math.floor(lines_space);
 	filename = piecename;
-	// params.push("piecename:"+piecename);
 	fxfeature("piecename",piecename);
-	// console.log(piecename);
+
 }
 
 
-
-
 function addTilesToArray(name, connector, rotCount) {
-	// console.log("addTilesToArray",name,connector);
 	tiles_database.push(new Tile(name, tileArrayCount, connector, rotCount));
 	tileArrayCount++;
 }
@@ -846,6 +840,7 @@ function setup() {
 	
 	setFxParamsSettings();
 	lines_per_tiles++;
+	
 	color_cyan = color('hsba(200, 100%, 100%, 1)');
 	color_magenta = color('#e812e0');
 	color_yellow = color('hsba(50, 100%, 100%, 1)');
@@ -854,8 +849,8 @@ function setup() {
 	color_purple = color("#ac01ff");
 	color_pink = color('#f708c2');
 	params=[];
-	params.push("fxhash:"+fxhash);
-	params.push("Canvas_size:"+canvas_size_storage[default_size_id][0]);
+
+	
 	set_array();
 	color_palette = [color_cyan, color_magenta, color_yellow];
 	// set_lines_colors();
@@ -871,6 +866,8 @@ function setup() {
 		"Pattern Scale": scale_params[$fx.getRawParam("scale")][0],
 		"Brush Width":pen_size[default_pen_id][0],
 		"Canvas size":canvas_size_storage[default_size_id][0],
+		"Line Space":Math.floor(lines_space*100)/100+"px",	
+		"Line Space mm":Math.floor((lines_space/cm_ratio)*100)/100+"mm",	
 	})
 
 	if(debug_mode_activated) renderStyle = render_style_vector;
@@ -911,22 +908,7 @@ function populate_tiles_array(){
     var tile_L_Count = $fx.getRawParam("tile_L_Count");
     var tile_C_Count = $fx.getRawParam("tile_C_Count");
     var tile_1CE_Count = $fx.getRawParam("tile_1CE_Count");
-	// var emptyCount = getEmptyTilesCount(fxrand());
-	// console.log("emptyCount", emptyCount);
-	// console.log("dotCount", dotCount);
-	// console.log("tile_Cx2C_Count", tile_Cx2C_Count);
-	// console.log("tile_CxC_Count", tile_CxC_Count);
-	// console.log("tile_LxL_Count", tile_LxL_Count);
-	// console.log("tile_Cx1C_Count", tile_Cx1C_Count);
-	// console.log("tile_CxL_Count", tile_CxL_Count);
-	// console.log("tile_2CE_Count", tile_2CE_Count);
-	// console.log("tile_L_Count", tile_L_Count);
-	// console.log("tile_C_Count", tile_C_Count);
-	// console.log("tile_1CE_Count", tile_1CE_Count);
-	
-	console.log("tiles_database");
-	console.log(tiles_database);
-	
+
 
 	fxfeature("tile_emptyCount",emptyCount);
 	for (let i = 0; i < emptyCount; i++) {
@@ -936,7 +918,7 @@ function populate_tiles_array(){
 	// **********************************
 	// ************ 4X4 TILES ***********
 	// **********************************	
-	// var dotCount = getDotTilesCount(fxrand());
+
 	fxfeature("tile_dotCount",dotCount);
 	for (let i = 0; i < dotCount; i++) {
 		addTilesToArray("tile_Dot", [0, 0, 0, 0], 0);
@@ -948,7 +930,7 @@ function populate_tiles_array(){
 	// **********************************
 	// ************ 4X4 TILES ***********
 	// **********************************
-	// tileCount = getMainTilesCount(fxrand(),0.5,20);
+
 	fxfeature("tile_Cx2C",tile_Cx2C_Count);
 	for (let i = 0; i < tile_Cx2C_Count; i++) {
 		addTilesToArray("tile_Cx2C", [1, 1, 1, 1], 0);
@@ -957,7 +939,7 @@ function populate_tiles_array(){
 		addTilesToArray("tile_Cx2C", [1, 1, 1, 1], 3);
 	}
 
-	// tileCount = getMainTilesCount(fxrand(),0.5,20);
+
 	fxfeature("tile_CxC",tile_CxC_Count);
 	for (let i = 0; i < tile_CxC_Count; i++) {
 		addTilesToArray("tile_CxC", [1, 1, 1, 1], 0);
@@ -966,7 +948,7 @@ function populate_tiles_array(){
 		addTilesToArray("tile_CxC", [1, 1, 1, 1], 3);
 	}
 
-	// tileCount = getMainTilesCount(fxrand(),0.5,10);
+
 
 	fxfeature("tile_LxL",tile_LxL_Count);
 	for (let i = 0; i < tile_LxL_Count; i++) {
@@ -977,12 +959,10 @@ function populate_tiles_array(){
 	}
 
 
-
-
 	// **********************************
 	// ************ 3X4 TILES ***********
 	// **********************************
-	// tileCount = getMainTilesCount(fxrand(),0.5,10);
+
 	fxfeature("tile_Cx1C",tile_Cx1C_Count);
 	for (let i = 0; i < tile_Cx1C_Count; i++) {
 		addTilesToArray("tile_Cx1C",[1,0,1,1],0);
@@ -991,7 +971,7 @@ function populate_tiles_array(){
 		addTilesToArray("tile_Cx1C",[1,0,1,1],3);
 	}
 
-	// tileCount = getMainTilesCount(fxrand(),0.5,10);
+
 	fxfeature("tile_CxL",tile_CxL_Count);
 	for (let i = 0; i < tile_CxL_Count; i++) {
 		addTilesToArray("tile_CxL", [1, 1, 0, 1], 0);
@@ -1001,14 +981,10 @@ function populate_tiles_array(){
 	}
 
 
-
-
 	// **********************************
 	// ************ 2X4 TILES ***********
 	// **********************************
 
-	
-	// tileCount = getMainTilesCount(fxrand(),0.5,10);
 	fxfeature("tile_2CE",tile_2CE_Count);
 	for (let i = 0; i < tile_2CE_Count; i++) {
 		addTilesToArray("tile_2CE",[0,1,0,1],0);
@@ -1040,7 +1016,6 @@ function populate_tiles_array(){
 	// **********************************
 	// ************ 1X4 TILES ***********
 	// **********************************
-	// tileCount = getMainTilesCount(fxrand(),0.5,10);
 	fxfeature("tile_1CE",tile_1CE_Count);
 	for (let i = 0; i < tile_1CE_Count; i++) {
 		addTilesToArray("tile_1CE", [0, 0, 0, 1], 0);
@@ -1066,6 +1041,8 @@ function regenerate() {
 	setDimensions();
 	create_layers();
 	redraw();
+
+
 
 }
 
@@ -1094,30 +1071,10 @@ function create_layers() {
 	// GENERATE THE PATTERN
 	iterate();
 
-	// var base_brush_angle = randomPenAngle(fxrand());
-	
-	fxfeature("layer_count",layer_count);
-	fxfeature("lines_per_tiles",$fx.getRawParam("lines_per_tiles"));
-
-
-
-
 	for (let i = 0; i < layer_count; i++) {
 		// var brush_angle=randomPenAngle(fxrand());
 		var brush_angle=getRandomLayerBrushAngle(fxrand());
-		// console.log("BEFORE LAYER brush_angle",brush_angle);
-		// console.log("create_layers LAYER LOOP",i);
-
 		var flips = getLayerRotation(i,fxrand());
-		// console.log("flips_array", flips);
-		// targz
-		// var l = new Layer(
-		// 	i,
-		// 	getRandomLayerColor(fxrand()),
-		// 	brush_angle,
-		// 	flips[0][0],
-		// 	flips[0][1],
-		// );
 		var l = new Layer(
 			i,
 			getRandomLayerColor(fxrand()),
@@ -1215,7 +1172,7 @@ function draw_layer(layer){
 function iterate() {
 	set_piece_name();
 	generate_cells_grid();
-	// addSeedTiles();
+	addSeedTiles();
 	calculateEntropy();
 	
 }
@@ -1296,7 +1253,8 @@ function generate_cells_grid() {
 		cells_grid[x] = [];
 		for (var y = 0; y <= vertical_tiles; y++) {
 			// console.log("tile x:",x," y:",y);
-			cells_grid[x].push(new Cell(x, y));
+			var tmp_new_cell = new Cell(x, y)
+			cells_grid[x].push(tmp_new_cell);
 			if (y % 2 != 0 && x >= horizontal_tiles - 1 || y == 0) { // 
 				cells_grid[x][y].empty = true;
 				cells_grid[x][y].collapsed = true;
@@ -1314,17 +1272,18 @@ function generate_cells_grid() {
 
 function addSeedTiles() {
 
+		console.log("addSeedTiles");
 
-
-
-	if (activate_center_stage) {
-		// if(activate_center_stage && horizontal_tiles>2){
+		//WIP maos pas sur d'utilsier ça, je vais peu être plutot faire un tr!uc interactif qui donne plus de control
 		var mh = horizontal_tiles / 2;
 		var mv = vertical_tiles / 2;
 		var o, n, e, s;
+		// console.log("addSeedTiles mh=",mh);
+		// console.log("addSeedTiles mv=",mv);
 		// console.log("adding center stage tiles ");
 		if (horizontal_tiles % 2 == 0) {
-			// console.log("EVEN");
+			mh=mh-1
+			console.log("addSeedTiles EVEN", "mh:",mh,"mv",mv);
 			o = [-1 + mh, mv + 1];
 			n = [-1 + mh, mv];
 			e = [mh, mv];
@@ -1333,16 +1292,19 @@ function addSeedTiles() {
 		} else {
 			mh = mh - 0.5;
 			mv = mv - 0.5;
-			// console.log("ODD");
+			console.log("addSeedTiles ODD", "mh:",mh,"mv",mv);
 			o = [-1 + mh, 1 + mv];
 			n = [mh, mv];
 			e = [mh, 1 + mv];
 			s = [mh, 2 + mv];
+
 		}
 
-	
+		
+		// var mycell = cells_grid[sorted_cell_ID.x][sorted_cell_ID.y];
+		// var mycell = cells_grid[3][5];
 
-	}
+			// function addTileToCell(x, y, tile__ID) {
 
 
 }
@@ -1410,10 +1372,11 @@ function initCanvas(brush_color) {
 
 function drawPattern(brush_angle, brush_color) {
 	// FIX pour que l'angle de dessins soit ISO avec l'angle des stylos par rapport à la machine
-	// if(brush_angle == 0 ) brush_angle = 45;
-	// if(brush_angle == 45 ) brush_angle = 0;
-	// if(brush_angle ==90 ) brush_angle = 135;
-	// if(brush_angle ==135 ) brush_angle = 90;
+	fxfeature("layer_count",layer_count);
+	fxfeature("lines_per_tiles",$fx.getRawParam("lines_per_tiles"));
+	fxfeature("fxhash:",fxhash);
+	fxfeature("Canvas_size:",canvas_size_storage[default_size_id][0]);
+	fxfeature("Lines space:",Math.floor(lines_space*100)/100+"px");
 	
 	// brush_angle += 45;
 	// JE CLEAR PAS POUR DEBUG
@@ -1433,14 +1396,24 @@ function drawPattern(brush_angle, brush_color) {
 			// THE ACTUAL TILE
 			if (cell.tile != undefined) {
 				cell_count++;
+				cell.cells_size = cells_size;
 				local_vector_canvas.push();
 				local_canvas.push();
+				var x_position,y_position;
 				if (y % 2 == 0) {
-					local_vector_canvas.translate(x * cells_diag + cells_diag / 2, cells_diag / 2 + (y - 1) * cells_diag / 2);
-					local_canvas.translate(x * cells_diag + cells_diag / 2, cells_diag / 2 + (y - 1) * cells_diag / 2);
+					x_position = x * cells_diag + cells_diag / 2;
+					y_position = cells_diag / 2 + (y - 1) * cells_diag / 2;
+					cell.x_position = x_position;
+					cell.y_position = y_position;
+					local_vector_canvas.translate(x_position, y_position);
+					local_canvas.translate(x_position, y_position);
 				} else if (x < horizontal_tiles - 1) {
-					local_vector_canvas.translate(x * cells_diag + cells_diag, cells_diag / 2 + (y - 1) * cells_diag / 2);
-					local_canvas.translate(x * cells_diag + cells_diag, cells_diag / 2 + (y - 1) * cells_diag / 2);
+					x_position = x * cells_diag + cells_diag;
+					y_position = cells_diag / 2 + (y - 1) * cells_diag / 2;
+					cell.x_position = x_position;
+					cell.y_position = y_position;
+					local_vector_canvas.translate(x_position, y_position);
+					local_canvas.translate(x_position, y_position);
 				}
 				
 
@@ -1508,7 +1481,7 @@ function drawPattern(brush_angle, brush_color) {
 				local_vector_canvas.imageMode(CENTER);
 				var debug_tile = createGraphics(cells_size, cells_size, SVG);
 				debug_tile.fill(0);
-				debug_tile.textSize(40);
+				debug_tile.textSize(20);
 				debug_tile.textAlign(CENTER);
 				debug_tile.push();
 				debug_tile.rotate(radians(-45));
@@ -1683,6 +1656,48 @@ function draw() {
 // └───────────────────────────────────────────────────────────────────────────────────┘
 
 
+function isClickInsideRotatedSquare(mouseX, mouseY, centerX, centerY, sideLength, angle) {
+
+	
+	// Convert angle to radians for p5.js
+	let angleRadians = radians(-angle);
+	
+	// Translate point to origin
+	let translatedX = mouseX - centerX;
+	let translatedY = mouseY - centerY;
+	
+	// Rotate point back
+	let rotatedX = translatedX * cos(angleRadians) - translatedY * sin(angleRadians);
+	let rotatedY = translatedX * sin(angleRadians) + translatedY * cos(angleRadians);
+	
+	// Check if the point is inside the square
+	let halfSide = sideLength / 2;
+	return Math.abs(rotatedX) <= halfSide && Math.abs(rotatedY) <= halfSide;
+  }
+
+function check_tile_under_mouse(event){
+	console.log(event.x,event.y);
+	// console.log(cells_grid);
+	var cell;
+	var scaled_ratio =  canvas_Width/scaled_width;
+	var local_cell_size = cells_size;
+	for (var x = 0; x < horizontal_tiles; x++) {
+		
+		for (var y = 0; y <= vertical_tiles; y++) {
+			
+			cell = cells_grid[x][y];
+
+			click = isClickInsideRotatedSquare(event.x/scaled_ratio,event.y/scaled_ratio,cell.x_position,cell.y_position,local_cell_size,45);
+			console.log(click);
+			if(click){
+				console.log(cell);
+				console.log("tile x:",x," y:",y);
+			}
+
+		}
+	}
+}
+
 
 function fxfeature(name,value){
 	// console.log("fxfeature("+name+","+value+")");
@@ -1721,7 +1736,8 @@ function keyTyped() {
 
 }
 function mouseClicked(event) {
-	// console.log(event.x,event.y);
+	
+	check_tile_under_mouse(event);
 }
 
 function setDimensions() {
@@ -1731,12 +1747,6 @@ function setDimensions() {
 	v_cells_diag = canvas_Height / vertical_tiles;
 	h_cells_size = Math.sqrt(h_cells_size * h_cells_size / 2);
 	v_cells_size = Math.sqrt(v_cells_diag * v_cells_diag / 2);
-	// console.log("canvas_Width:", canvas_Width);
-	// console.log("canvas_Height:", canvas_Height);
-	// console.log("h_cells_size:", h_cells_size);
-	// console.log("v_cells_diag:", v_cells_diag);
-	// console.log("h_cells_size:", h_cells_size);
-	// console.log("v_cells_size:", v_cells_size);
 
 	cells_diag = canvas_Width / horizontal_tiles;
 	// console.log("cells_diag:", cells_diag);
@@ -1755,17 +1765,14 @@ function setDimensions() {
 	
 	scaled_height = (canvas_Height * windowScale_Height) ;
 	scaled_width = (canvas_Width * windowScale_Width);
-	vertical_position_offset = cells_size / 2;
-	// THE BUG IS HER
-	// vertical_position_offset = 0;
-	// console.log("vertical_position_offset",vertical_position_offset);
+
 
 }
 
 function windowResized() {
 	// console.log("windowResized");
 	setDimensions();
-	if (isCentered) { centerCanvas(); }
+	// if (isCentered) { centerCanvas(); }
 	resizeCanvas(scaled_width, scaled_height, false);
 }
 

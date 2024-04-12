@@ -12,6 +12,8 @@ class Cell {
 		this.tile = undefined;
 		this.x = x;
 		this.y = y;
+		this.x_position=0;
+		this.y_position=0;
 		this.north = [];
 		this.est = [];
 		this.south = [];
@@ -24,6 +26,7 @@ class Cell {
 		this.s = false;
 		this.w = false;
 		this.number=0;
+		this.cells_size=0;
 	}
 
 
@@ -185,7 +188,7 @@ class Cell {
 			var sol = this.tempsolutions[0].filter((element) => {
 				return this.tempsolutions[1].includes(element);
 			});
-			this.tile = tiles_database[getRandomSolutionByConnectorCount(sol, connector_count_favor)];
+			this.tile = tiles_database[getRandomSolutionByConnectorCount(sol, 2)];
 			this.collapsed = true;
 		}
 
@@ -197,7 +200,7 @@ class Cell {
 			var sol = this.tempsolutions[2].filter((element) => {
 				return sol1.includes(element);
 			});
-			this.tile = tiles_database[getRandomSolutionByConnectorCount(sol, connector_count_favor)];
+			this.tile = tiles_database[getRandomSolutionByConnectorCount(sol, 3)];
 			this.collapsed = true;
 		}
 

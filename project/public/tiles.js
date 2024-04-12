@@ -79,9 +79,6 @@ function drawArc2(graphics, centerX, centerY, radius, startAngle, endAngle, brus
 
 		graphics.push();
 		graphics.translate(x, y);
-		// the -45 compensate the tile 45° rotation
-		// graphics.rotate(radians(brush_rotation-45));
-		// graphics.rotate(radians(90));
 		graphics.rotate(radians(get_fixed_rotation(brush_rotation)));
 		graphics.ellipse(0, 0, brush_w, brush_h);
 		graphics.pop();
@@ -378,12 +375,12 @@ function get_tile_Cx1C_pix(brush_angle, paint_color) {
 			if (intersect_left.intersect_occurs) { // if Intsersection
 				// console.log(intersect);
 				//      VA  
-				// 			|\
-				//			| \
-				//			|  \
+				// 		|\
+				//		| \
+				//		|  \
 				//	 OP |   \   
-				//			|    \  
-				//			|     \ 
+				//		|    \  
+				//		|     \ 
 				//	   	|______\
 				//    BB   ADJ  VC (intersection)
 
