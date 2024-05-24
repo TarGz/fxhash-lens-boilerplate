@@ -40,7 +40,7 @@ const scale_params = [
 	["3X7",3,7,[25,36]],
 	["4X10",4,10,[20,30]],
 	["5X13",5,13,[16,22]],
-	["6X16",6,15,[16,22]],
+	["6X15",6,15,[16,22]],
 	["7X21",7,19,[16,22]],
 	["7X21",8,21,[16,22]],
 ]; 
@@ -1071,10 +1071,29 @@ function create_layers() {
 	// GENERATE THE PATTERN
 	iterate();
 
+	// var base_brush_angle = randomPenAngle(fxrand());
+	
+
+
+
+
+
 	for (let i = 0; i < layer_count; i++) {
 		// var brush_angle=randomPenAngle(fxrand());
 		var brush_angle=getRandomLayerBrushAngle(fxrand());
+		// console.log("BEFORE LAYER brush_angle",brush_angle);
+		// console.log("create_layers LAYER LOOP",i);
+
 		var flips = getLayerRotation(i,fxrand());
+		// console.log("flips_array", flips);
+		// targz
+		// var l = new Layer(
+		// 	i,
+		// 	getRandomLayerColor(fxrand()),
+		// 	brush_angle,
+		// 	flips[0][0],
+		// 	flips[0][1],
+		// );
 		var l = new Layer(
 			i,
 			getRandomLayerColor(fxrand()),
