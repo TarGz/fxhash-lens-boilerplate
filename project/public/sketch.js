@@ -126,7 +126,7 @@ var layers_flip;
 var layers_flip_count;
 
 // Render and debug style variables
-var renderStyle = render_style_parallel; 
+var renderStyle = render_style_vector; //render_style_parallel; 
 var debugStyle = theme_style_random; 
 
 // Background color
@@ -647,7 +647,290 @@ function set_lines_colors_black() {
 	}
 }
 
+
+// OREL GIFT ORDERED
+// function set_lines_colors_random() {
+// 	color_array = [];
+// 	var temp_color_array = [color("#bb2526"), color("#e03094"),color("#4aabe1"),color("#f26d22"),color("#fdc20d"),color("#fbee00"),color("#56469d")];
+// 	var colorID = 0;
+// 	for (var i = 0; i < lines_per_tiles; i++) {
+		
+// 		color_array[i] = temp_color_array[colorID];
+
+// 		colorID++;
+// 		if(colorID>6) colorID =0;
+// 	}
+// }
+
+
+// // OREL GIFT RANDOM
+// function set_lines_colors_random() {
+// 	color_array = [];
+// 	var temp_color_array = [color("#bb2526"), color("#e03094"),color("#4aabe1"),color("#f26d22"),color("#fdc20d"),color("#fbee00"),color("#56469d")];
+// 	for (var i = 0; i < lines_per_tiles; i++) {
+		
+// 		color_array[i] = temp_color_array[  Math.floor(Math.random() * 7) ];
+
+// 	}
+// }
+
+
+// // OREL GIFT GROUP RANDOM
+// function set_lines_colors_random() {
+// 	color_array = [];
+	
+// 	var temp_color_array = [color("#bb2526"), color("#e03094"),color("#4aabe1"),color("#f26d22"),color("#fdc20d"),color("#fbee00"),color("#56469d")];
+
+// 	var color_group = 0;
+// 	var mycolor = temp_color_array[  Math.floor(Math.random() * 7) ];
+
+// 	for (var i = 0; i < lines_per_tiles; i++) {
+		
+// 		if(color_group>3){
+// 			color_group=0;
+// 			mycolor = temp_color_array[  Math.floor(Math.random() * 7) ];
+// 		}
+
+// 		color_array[i] = mycolor;
+
+// 		color_group++;
+
+// 	}
+// }
+
+// function set_lines_colors_random() {
+// 	// console.log("set_lines_colors_random");
+// 	color_array = [];
+// 	var temp_color_array = ["#bb2526", "#e03094","#4aabe1","#f26d22","#fdc20d","#fbee00","#56469d"];
+// 	var lineid = 0;
+// 	var grouped_color_count=0;
+// 	var colorID = Math.floor(Math.random() * 7) ;
+// 	var lines = lines_per_tiles - 1;
+// 	var middle = lines / 2;
+// 	for (var i = 0; i < lines_per_tiles; i++) {
+// 		// console.log("color : ",i);
+
+
+
+// 		// console.log("i",i,"middle",middle);
+// 		if (i != 0) {
+// 			if (i < middle) {
+// 				lineid++;
+// 			} else if (i != middle) {
+// 				lineid--;
+// 			}
+// 		}
+
+// 		if (lineid < 0) {
+// 			lineid = 0;
+// 		}
+// 		// console.log("i", i, "lineid", lineid);
+
+// 		if (i < middle) {
+// 			// color_array.push(temp_color_array[  Math.floor(Math.random() * 7) ]);
+
+			
+// 			if(grouped_color_count>=6) {
+// 				grouped_color_count=0;
+// 				colorID = Math.floor(Math.random() * 7) ;
+// 			}
+
+// 			color_array.push(temp_color_array[ colorID ]);
+// 			grouped_color_count++;
+// 		} else {
+// 			var color = color_array[lineid];
+// 			color_array.push(color);
+// 		}
+
+// 	}
+// 	// console.log(color_array);
+// }
+
+// function set_lines_colors_random() {
+// 	// console.log("set_lines_colors_random");
+// 	color_array = [];
+// 	var temp_color_array = ["#bb2526", "#e03094","#4aabe1","#f26d22","#fdc20d","#fbee00","#56469d"];
+// 	var lineid = 0;
+// 	var grouped_color_count=0;
+// 	var colorID = Math.floor(Math.random() * 7) ;
+// 	var lines = lines_per_tiles - 1;
+// 	var middle = lines / 2;
+// 	for (var i = 0; i < lines_per_tiles; i++) {
+
+// 		if (i != 0) {
+// 			if (i < middle) {
+// 				lineid++;
+// 			} else if (i != middle) {
+// 				lineid--;
+// 			}
+// 		}
+
+// 		if (lineid < 0) {
+// 			lineid = 0;
+// 		}
+// 		// console.log("i", i, "lineid", lineid);
+
+// 		if (i < middle) {
+// 			// color_array.push(temp_color_array[  Math.floor(Math.random() * 7) ]);
+
+			
+// 			if(grouped_color_count>=5) {
+// 				previous_color = colorID;
+// 				grouped_color_count=0;
+// 				while(previous_color == colorID){
+// 					colorID = Math.floor(Math.random() * 7) ;
+// 				}
+				
+// 			}
+
+// 			color_array.push(temp_color_array[ colorID ]);
+// 			grouped_color_count++;
+// 		} else {
+// 			var color = color_array[lineid];
+// 			color_array.push(color);
+// 		}
+
+// 	}
+// 	// console.log(color_array);
+// }
+
+// function set_lines_colors_random() {
+// 	// console.log("set_lines_colors_random");
+// 	color_array = [];
+// 	var temp_color_array = ["#bb2526", "#e03094","#4aabe1","#f26d22","#fdc20d","#fbee00","#56469d","#000000","#111111"];
+// 	var lineid = 0;
+// 	var grouped_color_count=0;
+// 	// var colorID = Math.floor(Math.random() * 7) ;
+// 	var colorID = 8;
+// 	var previous_color=colorID;
+// 	var lines = lines_per_tiles - 1;
+// 	var middle = lines / 2;
+
+// 	var line_group_count = 7;
+// 	for (var i = 0; i < lines_per_tiles; i++) {
+
+// 		if (i != 0) {
+// 			if (i < middle) {
+// 				lineid++;
+// 			} else if (i != middle) {
+// 				lineid--;
+// 			}
+// 		}
+
+// 		if (lineid < 0) {
+// 			lineid = 0;
+// 		}
+// 		console.log("colorID", i, "lineid", lineid);
+ 
+
+
+// 		if (i < middle) {
+
+
+// 			if(grouped_color_count>line_group_count-1) {
+// 				previous_color = colorID;
+// 				grouped_color_count=0;
+// 				while(previous_color == colorID){
+// 					colorID = Math.floor(Math.random() * 7) ;
+// 				}
+// 			}if(grouped_color_count==line_group_count-1 || grouped_color_count==line_group_count-2) {
+// 				colorID=7;
+// 			}
+// 			console.log("colorID",colorID)
+// 			color_array.push(temp_color_array[ colorID ]);
+// 			grouped_color_count++;
+// 		} else {
+// 			var color = color_array[lineid];
+// 			color_array.push(color);
+// 		}
+
+// 	}
+// 	console.log(color_array);
+// }
+
+
 function set_lines_colors_random() {
+	// console.log("set_lines_colors_random");
+	color_array = [];
+	var temp_color_array = ["#bb2526", "#e03094","#4aabe1","#f26d22","#fdc20d","#fbee00","#56469d","#000000","#cccccc"];
+	var lineid = 0;
+	var grouped_color_count=0;
+	// var colorID = Math.floor(Math.random() * 7) ;
+	var colorID = 8;
+	var myColor;
+	var previous_color=colorID;
+	var lines = lines_per_tiles - 1;
+	var middle = lines / 2;
+
+	var line_group_count = 5;
+	var black_line_separation =1;
+	var myRandomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+
+	for (var i = 0; i < lines_per_tiles; i++) {
+
+		if (i != 0) {
+			if (i < middle) {
+				lineid++;
+			} else if (i != middle) {
+				lineid--;
+			}
+		}
+
+		if (lineid < 0) {
+			lineid = 0;
+		}
+		
+ 
+
+
+		if (i < middle) {
+
+			
+
+			
+
+			if(i<line_group_count){
+				myColor="#000000";
+			}else{
+				if(grouped_color_count < line_group_count){
+					myColor = myRandomColor;
+				}else if(grouped_color_count < line_group_count+black_line_separation){
+					myColor="#FFFFFF";
+				}
+				if(grouped_color_count == line_group_count+black_line_separation){
+					myRandomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+					grouped_color_count=0;
+				}else{
+					grouped_color_count++;
+				}
+
+			}
+
+
+
+
+			color_array.push(myColor);
+			
+
+
+
+			
+
+			
+
+
+
+		} else {
+			var color = color_array[lineid];
+			color_array.push(color);
+		}
+
+	}
+	// console.log(color_array);
+}
+
+
+function set_lines_colors_random_original() {
 	// console.log("set_lines_colors_random");
 	color_array = [];
 	var lineid = 0;
@@ -1239,14 +1522,14 @@ function calculateEntropy() {
 
     // Shuffle the list to randomize the order
     allCells.sort(() => fxrand());
-    console.log(allCells);
+    // console.log(allCells);
 
     // Iterate through the shuffled list and call calculateEntropy on each cell
     for (var i = 0; i < allCells.length; i++) {
         var sorted_cell_ID = allCells[i];
         var mycell = cells_grid[sorted_cell_ID.x][sorted_cell_ID.y];
-        console.log(sorted_cell_ID);
-        console.log(mycell);
+        // console.log(sorted_cell_ID);
+        // console.log(mycell);
         mycell.calculateEntropy(tiles_database);
     }
 }
@@ -1281,9 +1564,9 @@ function generate_cells_grid() {
 			}
 		}
 	}
-	console.log("cells_grid");
+	// console.log("cells_grid");
 	// console.table(cells_grid);
-	console.log(cells_grid);
+	// console.log(cells_grid);
 }
 
 
@@ -1291,7 +1574,7 @@ function generate_cells_grid() {
 
 function addSeedTiles() {
 
-		console.log("addSeedTiles");
+		// console.log("addSeedTiles");
 
 		//WIP maos pas sur d'utilsier ça, je vais peu être plutot faire un tr!uc interactif qui donne plus de control
 		var mh = horizontal_tiles / 2;
@@ -1302,7 +1585,7 @@ function addSeedTiles() {
 		// console.log("adding center stage tiles ");
 		if (horizontal_tiles % 2 == 0) {
 			mh=mh-1
-			console.log("addSeedTiles EVEN", "mh:",mh,"mv",mv);
+			// console.log("addSeedTiles EVEN", "mh:",mh,"mv",mv);
 			o = [-1 + mh, mv + 1];
 			n = [-1 + mh, mv];
 			e = [mh, mv];
@@ -1311,7 +1594,7 @@ function addSeedTiles() {
 		} else {
 			mh = mh - 0.5;
 			mv = mv - 0.5;
-			console.log("addSeedTiles ODD", "mh:",mh,"mv",mv);
+			// console.log("addSeedTiles ODD", "mh:",mh,"mv",mv);
 			o = [-1 + mh, 1 + mv];
 			n = [mh, mv];
 			e = [mh, 1 + mv];
@@ -1447,15 +1730,9 @@ function drawPattern(brush_angle, brush_color) {
 
 
 	
-				var tile;
+				var vector_tile;
 
-				// if (renderStyle == render_style_parallel) tile_pix = eval(cell.tile.name);
-				//tile_L_pix
-				// debug add a rest around the drawings
-				// local_canvas.rect(-cells_size/2,-cells_size/2,cells_size,cells_size);
-				// console.log("cell.tile.name",eval(cell.tile.name + "_pix" ));
-				// && renderStyle == render_style_parallel
-				// console.log(cell.tile.name );
+	
 				
 				var func_name = "get_" + cell.tile.name + "_pix";
 				// console.log("func_name",func_name);
@@ -1466,17 +1743,17 @@ function drawPattern(brush_angle, brush_color) {
 					if (typeof fn === "function") {
 						var new_tiles = fn.apply(null, fnparams);
 						var new_tile = new_tiles[0];
-						tile = new_tiles[1];
+						vector_tile = new_tiles[1];
+						// PIXEL RENDER
 						local_canvas.image(new_tile, 0, 0, cells_size, cells_size);
-						if (y % 2 == 0) {
-							local_vector_canvas.image(tile, 0, 0, cells_size, cells_size);
-						} else if (x < horizontal_tiles - 1) {
-							local_vector_canvas.image(tile, 0, 0, cells_size, cells_size);
-						}
+						// if (y % 2 == 0) {
+						// VECTOR
+						local_vector_canvas.image(vector_tile, 0, 0, cells_size, cells_size);
+						// } else if (x < horizontal_tiles - 1) {
+						// 	local_vector_canvas.image(vector_tile, 0, 0, cells_size, cells_size);
+						// }
 					}
 
-
-					// local_canvas.image(get_tile_L_pix(cell.tile.rotation+90,color_cyan), 0,0, cells_size, cells_size);
 				}
 
 
@@ -1504,22 +1781,12 @@ function drawPattern(brush_angle, brush_color) {
 				debug_tile.textAlign(CENTER);
 				debug_tile.push();
 				debug_tile.rotate(radians(-45));
-				// debug_tile.text('x:'+x+'-y:'+y+'-c:'+cell_count, 0, cells_size/1.35);
+
 				debug_tile.text('x:' + x + '-y:' + y, 0, cells_size / 1.35);
-				// console.log(cell);
+
 				if(cell.tile) debug_tile.text(cell.tile.name, 0, cells_size / 1.7);
 				debug_tile.pop();
-				// debug_tile.textSize(30);
-				// debug_tile.text('north:'+cell.north, cells_size/2, 30);
-				// debug_tile.text('south:'+cell.south, cells_size/2, cells_size-20);
-
-				// debug_tile.push();
-				// // debug_tile.rotate(radians(90));
-				// // debug_tile.text('est:'+cell.est, cells_size/2,-20);
-				// debug_tile.rotate(radians(-90));
-				// debug_tile.text('west:'+cell.west, -cells_size/2, 30);
-				// debug_tile.text('est:'+cell.est, -cells_size/2, cells_size-20);
-				// debug_tile.pop();
+	
 				debug_tile.noFill();
 				debug_tile.stroke(0);
 				debug_tile.strokeWeight(1);
@@ -1633,7 +1900,7 @@ function draw() {
 	} else {
 		console.log("DRAW NORMAL");
 		clear();
-		// background(200);
+		background("#efefef");
 		if (renderStyle == render_style_vector) {
 			console.log("DRAW STYLE_VECTOR");
 			// background("red");
@@ -1646,7 +1913,7 @@ function draw() {
 			// background(background_color);
 			background("#efefef");
 			// DEBUG
-			// image(vector_canvas, 0, -vertical_position_offset, scaled_width, scaled_height);
+			// image(vector_canvas, 0, 0, scaled_width, scaled_height);
 			image(pixel_canvas, 0, 0, scaled_width, scaled_height);
 		}
 

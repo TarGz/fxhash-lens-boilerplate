@@ -67,9 +67,9 @@ function drawArc2(graphics, centerX, centerY, radius, startAngle, endAngle, brus
 	brush_h = brush_w;
 
 	var shapeRadius = brush_h / 4;
-	var arcLength = radius * Math.abs(endAngle - startAngle); // Calculate the arc length based on radius and angle span
-	var shapeCount = Math.ceil(arcLength / (shapeRadius * 2)); // Calculate the number of shapes based on the desired size
-	var angleIncrement = (endAngle - startAngle) / (shapeCount - 1); // Calculate the angle increment based on the arc length
+	var arcLength = radius * Math.abs(endAngle - startAngle); 			// Calculate the arc length based on radius and angle span
+	var shapeCount = Math.ceil(arcLength / (shapeRadius * 2)); 			// Calculate the number of shapes based on the desired size
+	var angleIncrement = (endAngle - startAngle) / (shapeCount - 1); 	// Calculate the angle increment based on the arc length
 	// console.log("shapeCount",shapeCount);
 	for (var i = 0; i < shapeCount; i++) {
 
