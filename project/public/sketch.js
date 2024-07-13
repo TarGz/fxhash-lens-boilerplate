@@ -650,163 +650,22 @@ function set_lines_colors_black() {
 
 // OREL GIFT ORDERED
 // function set_lines_colors_random() {
-// 	color_array = [];
-// 	var temp_color_array = [color("#bb2526"), color("#e03094"),color("#4aabe1"),color("#f26d22"),color("#fdc20d"),color("#fbee00"),color("#56469d")];
-// 	var colorID = 0;
-// 	for (var i = 0; i < lines_per_tiles; i++) {
-		
-// 		color_array[i] = temp_color_array[colorID];
-
-// 		colorID++;
-// 		if(colorID>6) colorID =0;
-// 	}
-// }
-
-
-// // OREL GIFT RANDOM
-// function set_lines_colors_random() {
-// 	color_array = [];
-// 	var temp_color_array = [color("#bb2526"), color("#e03094"),color("#4aabe1"),color("#f26d22"),color("#fdc20d"),color("#fbee00"),color("#56469d")];
-// 	for (var i = 0; i < lines_per_tiles; i++) {
-		
-// 		color_array[i] = temp_color_array[  Math.floor(Math.random() * 7) ];
-
-// 	}
-// }
-
-
-// // OREL GIFT GROUP RANDOM
-// function set_lines_colors_random() {
-// 	color_array = [];
-	
-// 	var temp_color_array = [color("#bb2526"), color("#e03094"),color("#4aabe1"),color("#f26d22"),color("#fdc20d"),color("#fbee00"),color("#56469d")];
-
-// 	var color_group = 0;
-// 	var mycolor = temp_color_array[  Math.floor(Math.random() * 7) ];
-
-// 	for (var i = 0; i < lines_per_tiles; i++) {
-		
-// 		if(color_group>3){
-// 			color_group=0;
-// 			mycolor = temp_color_array[  Math.floor(Math.random() * 7) ];
-// 		}
-
-// 		color_array[i] = mycolor;
-
-// 		color_group++;
-
-// 	}
-// }
-
-// function set_lines_colors_random() {
 // 	// console.log("set_lines_colors_random");
 // 	color_array = [];
-// 	var temp_color_array = ["#bb2526", "#e03094","#4aabe1","#f26d22","#fdc20d","#fbee00","#56469d"];
-// 	var lineid = 0;
-// 	var grouped_color_count=0;
-// 	var colorID = Math.floor(Math.random() * 7) ;
-// 	var lines = lines_per_tiles - 1;
-// 	var middle = lines / 2;
-// 	for (var i = 0; i < lines_per_tiles; i++) {
-// 		// console.log("color : ",i);
-
-
-
-// 		// console.log("i",i,"middle",middle);
-// 		if (i != 0) {
-// 			if (i < middle) {
-// 				lineid++;
-// 			} else if (i != middle) {
-// 				lineid--;
-// 			}
-// 		}
-
-// 		if (lineid < 0) {
-// 			lineid = 0;
-// 		}
-// 		// console.log("i", i, "lineid", lineid);
-
-// 		if (i < middle) {
-// 			// color_array.push(temp_color_array[  Math.floor(Math.random() * 7) ]);
-
-			
-// 			if(grouped_color_count>=6) {
-// 				grouped_color_count=0;
-// 				colorID = Math.floor(Math.random() * 7) ;
-// 			}
-
-// 			color_array.push(temp_color_array[ colorID ]);
-// 			grouped_color_count++;
-// 		} else {
-// 			var color = color_array[lineid];
-// 			color_array.push(color);
-// 		}
-
-// 	}
-// 	// console.log(color_array);
-// }
-
-// function set_lines_colors_random() {
-// 	// console.log("set_lines_colors_random");
-// 	color_array = [];
-// 	var temp_color_array = ["#bb2526", "#e03094","#4aabe1","#f26d22","#fdc20d","#fbee00","#56469d"];
-// 	var lineid = 0;
-// 	var grouped_color_count=0;
-// 	var colorID = Math.floor(Math.random() * 7) ;
-// 	var lines = lines_per_tiles - 1;
-// 	var middle = lines / 2;
-// 	for (var i = 0; i < lines_per_tiles; i++) {
-
-// 		if (i != 0) {
-// 			if (i < middle) {
-// 				lineid++;
-// 			} else if (i != middle) {
-// 				lineid--;
-// 			}
-// 		}
-
-// 		if (lineid < 0) {
-// 			lineid = 0;
-// 		}
-// 		// console.log("i", i, "lineid", lineid);
-
-// 		if (i < middle) {
-// 			// color_array.push(temp_color_array[  Math.floor(Math.random() * 7) ]);
-
-			
-// 			if(grouped_color_count>=5) {
-// 				previous_color = colorID;
-// 				grouped_color_count=0;
-// 				while(previous_color == colorID){
-// 					colorID = Math.floor(Math.random() * 7) ;
-// 				}
-				
-// 			}
-
-// 			color_array.push(temp_color_array[ colorID ]);
-// 			grouped_color_count++;
-// 		} else {
-// 			var color = color_array[lineid];
-// 			color_array.push(color);
-// 		}
-
-// 	}
-// 	// console.log(color_array);
-// }
-
-// function set_lines_colors_random() {
-// 	// console.log("set_lines_colors_random");
-// 	color_array = [];
-// 	var temp_color_array = ["#bb2526", "#e03094","#4aabe1","#f26d22","#fdc20d","#fbee00","#56469d","#000000","#111111"];
+// 	var temp_color_array = ["#bb2526", "#e03094","#4aabe1","#f26d22","#fdc20d","#fbee00","#56469d","#000000","#cccccc"];
 // 	var lineid = 0;
 // 	var grouped_color_count=0;
 // 	// var colorID = Math.floor(Math.random() * 7) ;
 // 	var colorID = 8;
+// 	var myColor;
 // 	var previous_color=colorID;
 // 	var lines = lines_per_tiles - 1;
 // 	var middle = lines / 2;
 
-// 	var line_group_count = 7;
+// 	var line_group_count = 2;
+// 	var black_line_separation =2;
+// 	var myRandomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+
 // 	for (var i = 0; i < lines_per_tiles; i++) {
 
 // 		if (i != 0) {
@@ -820,54 +679,132 @@ function set_lines_colors_black() {
 // 		if (lineid < 0) {
 // 			lineid = 0;
 // 		}
-// 		console.log("colorID", i, "lineid", lineid);
+		
  
-
 
 // 		if (i < middle) {
 
-
-// 			if(grouped_color_count>line_group_count-1) {
-// 				previous_color = colorID;
-// 				grouped_color_count=0;
-// 				while(previous_color == colorID){
-// 					colorID = Math.floor(Math.random() * 7) ;
+// 			if(i<line_group_count){
+// 				myColor="#000000";
+// 			}else if(i< line_group_count+ black_line_separation){
+// 				myColor="#EFEFEF";
+// 			}else{
+// 				if(grouped_color_count <= line_group_count-1){
+// 					myColor = myRandomColor;
+// 				}else if(grouped_color_count <= line_group_count+black_line_separation-1){
+// 					myColor="#EFEFEF";
 // 				}
-// 			}if(grouped_color_count==line_group_count-1 || grouped_color_count==line_group_count-2) {
-// 				colorID=7;
+// 				if(grouped_color_count == line_group_count+black_line_separation-1){
+// 					myRandomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+// 					grouped_color_count=0;
+// 				}else{
+// 					grouped_color_count++;
+// 				}
+
 // 			}
-// 			console.log("colorID",colorID)
-// 			color_array.push(temp_color_array[ colorID ]);
-// 			grouped_color_count++;
+
+
+
+
+// 			color_array.push(myColor);
+			
+
+
+
+			
+
+			
+
+
+
 // 		} else {
 // 			var color = color_array[lineid];
 // 			color_array.push(color);
 // 		}
 
 // 	}
-// 	console.log(color_array);
+// 	// console.log(color_array);
 // }
 
 
 function set_lines_colors_random() {
 	// console.log("set_lines_colors_random");
+							// 0NOIR - 	1BLANC.   2JAUNE 	3BLEU    4Corail	5 rouge.  6Orange 7Purple. 8 blanc
+	var temp_color_array = ["#050505", "#ffffff","#f4ed17","#80d3f4","#fc982d","#c81212","#ffb400","#9115d2","#ffffff"];
+	// var color_sequence = "001122211333114441155551166611777112221133311444115555116661177711222113331144411555511666117771122211333114441155551166611777";
+	// var color_sequence = "00112221131122211311222113112221131122211311222113112221131122211311222113112221131122211311222113112221131100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+
+var sqlength = 100; // Set the desired length of the sequence
+// var color_sequence = "71121222666444554446662221211113171331771333177713317713177115554444666622222"; 
+// var color_sequence = "71121222666444555444666222113317713317713317713311222666644445554444666622222"; 
+// var color_sequence = "77111222666444555444666222373773377711177733773732226666444455544446666222"; // Print avec clairement trtop de violet
+var color_sequence = "771112226664445554446662221131133113373311331131122266664444555444466662222"; // 
+																						//  ->|
+
+// var colors = ["2", "3", "4", "5", "6", "7","8"];
+// var weightedColors = ["2", "2","2", "2", "3", "4", "5", "5","6", "7","8","8","8","8","8","8"]; // Make color "2" more likely
+
+// function getRandomColor(excludeColor) {
+//     var filteredColors = weightedColors.filter(color => color !== excludeColor);
+//     return filteredColors[Math.floor(Math.random() * filteredColors.length)];
+// }
+
+// function getRandomConsecutiveCount() {
+//     return Math.floor(Math.random() * 4) + 2; // Random number between 2 and 5
+// }
+
+// var lastColor = "";
+
+// // Ensure the sequence length follows the rule and fits within sqlength
+// while (color_sequence.length < sqlength - 1) {
+//     var currentColor = getRandomColor(lastColor);
+//     var consecutiveCount = getRandomConsecutiveCount();
+//     var segment = currentColor.repeat(consecutiveCount) + "1";
+    
+//     if (color_sequence.length + segment.length > sqlength) {
+//         segment = segment.substring(0, sqlength - color_sequence.length);
+//     }
+    
+//     color_sequence += segment;
+//     lastColor = currentColor;
+// }
+
+// // Trim the sequence to the desired length if it exceeds
+// if (color_sequence.length > sqlength) {
+//     color_sequence = color_sequence.substring(0, sqlength);
+// }
+
+// // Ensure the sequence ends with a valid color
+// if (color_sequence.endsWith("1")) {
+//     color_sequence = color_sequence.slice(0, -1);
+// }
+	console.log("color_sequence",color_sequence);
+
+///// OVERRIDE 
+	// OREL SHHORT LLIST
+	// 00112222113331144115555116666113333117711555551177711666611444411555551144117711444441122211555551177777112221144113333117777115555117711555551144441
+	// 001177771155551166611222113311555116661122118811555112211888117711555112211777711555511444115511777113333116611888115511661122221155117711661188881122
+	// 001114444411122111555111611133333111811177111222221114111551112211133333111555111777771114441115551
+	// 7711222888122166666188881333155555188133318888177777155555133312221888815518816666612218812222188144
+
+	// MANUAL
+	// 71121222666444554446662221211113171331771333177713317713177115554444666622222
+
+	// color_sequence ="00144177122166122177122155144122166122166122133122133155166122155177122166122166144122166122144155122133122133144155177122177122166144122144177122144122155122144155122144166155177122177122133155122177";
+
+
+
 	color_array = [];
-	var temp_color_array = ["#bb2526", "#e03094","#4aabe1","#f26d22","#fdc20d","#fbee00","#56469d","#000000","#cccccc"];
 	var lineid = 0;
-	var grouped_color_count=0;
-	// var colorID = Math.floor(Math.random() * 7) ;
-	var colorID = 8;
-	var myColor;
-	var previous_color=colorID;
+
 	var lines = lines_per_tiles - 1;
 	var middle = lines / 2;
-
-	var line_group_count = 5;
-	var black_line_separation =1;
-	var myRandomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-
 	for (var i = 0; i < lines_per_tiles; i++) {
+		// console.log("color : ",i);
 
+
+
+		// console.log("i",i,"middle",middle);
 		if (i != 0) {
 			if (i < middle) {
 				lineid++;
@@ -879,47 +816,24 @@ function set_lines_colors_random() {
 		if (lineid < 0) {
 			lineid = 0;
 		}
-		
- 
-
+		// console.log("i", i, "lineid", lineid);
 
 		if (i < middle) {
+			// i = 5;
+			// color = parseInt(color_sequence.charAt(i));
+			// Extract the character at position I in the color_sequence
+			var sequence_char = color_sequence.charAt(i);
 
-			
+			// Convert the character to an integer to use as an index
+			var color_index = parseInt(sequence_char);
 
-			
+			// Get the color from the temp_color_array using the index
+			var color = temp_color_array[color_index];
 
-			if(i<line_group_count){
-				myColor="#000000";
-			}else{
-				if(grouped_color_count < line_group_count){
-					myColor = myRandomColor;
-				}else if(grouped_color_count < line_group_count+black_line_separation){
-					myColor="#FFFFFF";
-				}
-				if(grouped_color_count == line_group_count+black_line_separation){
-					myRandomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-					grouped_color_count=0;
-				}else{
-					grouped_color_count++;
-				}
+			console.log(color); // Outputs the color
 
-			}
-
-
-
-
-			color_array.push(myColor);
-			
-
-
-
-			
-
-			
-
-
-
+			// color_array.push('#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
+			color_array.push(color);
 		} else {
 			var color = color_array[lineid];
 			color_array.push(color);
@@ -930,7 +844,9 @@ function set_lines_colors_random() {
 }
 
 
-function set_lines_colors_random_original() {
+
+// ORIGINAL DO NOT DE3LETE
+function set_lines_colors_random_OR() {
 	// console.log("set_lines_colors_random");
 	color_array = [];
 	var lineid = 0;
