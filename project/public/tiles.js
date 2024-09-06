@@ -86,7 +86,43 @@ function drawArc2(graphics, centerX, centerY, radius, startAngle, endAngle, brus
 	}
 }
 
+function drawRect(graphics, centerX, centerY, width, height, brush_rotation, expand_start, expand_end) {
+	// brush_rotation=90;
+	var brush_h = brush_w;
 
+	// Define the rectangle path (start and end positions for each side)
+	var path = [
+		{ x: centerX - width / 2, y: centerY - height / 2 },  // Top-left
+		{ x: centerX + width / 2, y: centerY - height / 2 },  // Top-right
+		{ x: centerX + width / 2, y: centerY + height / 2 },  // Bottom-right
+		{ x: centerX - width / 2, y: centerY + height / 2 },  // Bottom-left
+		{ x: centerX - width / 2, y: centerY - height / 2 }   // Close back to top-left
+	];
+
+	// Loop through the rectangle path and draw lines
+	for (var i = 0; i < path.length - 1; i++) {
+		var xStart = path[i].x;
+		var yStart = path[i].y;
+		var xEnd = path[i + 1].x;
+		var yEnd = path[i + 1].y;
+
+		var lineLength = dist(xStart, yStart, xEnd, yEnd); 			// Calculate the length of the straight line
+		var shapeCount = Math.ceil(lineLength / (brush_h / 4)); 		// Calculate the number of shapes based on the line length
+		var xIncrement = (xEnd - xStart) / (shapeCount - 1); 		// X increment for each shape
+		var yIncrement = (yEnd - yStart) / (shapeCount - 1); 		// Y increment for each shape
+
+		for (var j = 0; j < shapeCount; j++) {
+			var x = xStart + xIncrement * j;
+			var y = yStart + yIncrement * j;
+
+			graphics.push();
+			graphics.translate(x, y);
+			graphics.rotate(radians(get_fixed_rotation(brush_rotation)));
+			graphics.ellipse(0, 0, brush_w, brush_h);  // Draw the ellipse at each point
+			graphics.pop();
+		}
+	}
+}
 
 function drawLine(graphics, x1, y1, x2, y2, brush_rotation, expand_start, expand_end) {
 	// -> hack pour que les edges ce touche 
@@ -212,6 +248,37 @@ function get_tile_C_pix(brush_angle, paint_color) {
 
 	return [pix,vect];
 }
+// ┌────────────────────────────────────────────────┐
+// │ _____ ___ _    ___          ___   ___          │
+// │|_   _|_ _| |  | __|  ___   / __| / __|         │
+// │  | |  | || |__| _|  |___| | (__ | (__          │
+// │  |_| |___|____|___|        \___| \___|         │
+// └────────────────────────────────────────────────┘
+
+function get_tile_CC_pix(brush_angle, paint_color) {
+	// Create vector and pixel canvases
+	var vect = createVectCanvas();
+	var pix = createGraphics(cells_size, cells_size, P2D);
+	pix.noStroke();
+	pix.fill(paint_color);
+
+	for (var i = 1; i < lines_per_tiles; i++) {
+		var line_size = lines_radius * i; // Radius for the arc, now used for rectangle width/height
+
+		// Draw the rectangle in the pixel graphics
+		drawRect(pix, 0, 0, line_size, line_size, brush_angle, true, true);
+
+		// Draw straight lines in vect to match the rectangle
+		vect.stroke(getColorLine(i - 1, color(0, 12, 255)));
+
+		vect.line(line_size / 2, 0, line_size / 2, line_size / 2);   // Right line
+		vect.line(line_size / 2, line_size / 2, 0, line_size / 2);   // Bottom line
+
+	}
+
+	return [pix, vect];
+}
+
 
 // ┌────────────────────────────────────────────────┐
 // │ _____ ___ _    ___          ___          ___   │
@@ -276,6 +343,40 @@ function get_tile_CxC_pix(brush_angle, paint_color) {
 	return [pix,vect];
 }
 
+// ┌────────────────────────────────────────────────────────────┐
+// │ _____ ___ _    ___          ___   ___          ___   ___   │
+// │|_   _|_ _| |  | __|  ___   / __| / __| __ __  / __| / __|  │
+// │  | |  | || |__| _|  |___| | (__ | (__  \ \ / | (__ | (__   │
+// │  |_| |___|____|___|        \___| \___| /_\_\  \___| \___|  │
+// └────────────────────────────────────────────────────────────┘
+function get_tile_CCxCC_pix(brush_angle, paint_color) {
+	// Create vector and pixel canvases
+	var vect = createVectCanvas();
+	var pix = createGraphics(cells_size, cells_size, P2D);
+	pix.noStroke();
+	pix.fill(paint_color);
+
+	for (var i = 1; i < lines_per_tiles; i++) {
+		var line_size = lines_radius * i; // Radius for the arc, now used for rectangle width/height
+
+		// Draw the rectangle in the pixel graphics
+		drawRect(pix, 0, 0, line_size, line_size, brush_angle, true, true);
+
+		// Draw straight lines in vect to match the rectangle
+		vect.stroke(getColorLine(i - 1, color(0, 12, 255)));
+
+
+
+		vect.line(line_size / 2, 0, line_size / 2, line_size / 2);   // Right line
+		vect.line(line_size / 2, line_size / 2, 0, line_size / 2);   // Bottom line
+
+		vect.line(line_size / 2, cells_size-lines_radius/2, line_size / 2, cells_size);   // Small Right line
+		vect.line(cells_size-lines_radius/2,line_size / 2, cells_size,  line_size / 2);    // Small Right line
+
+	}
+
+	return [pix, vect];
+}
 
 
 // ┌──────────────────────────────────────────────────┐
@@ -700,32 +801,44 @@ function get_tile_1CE_pix(brush_angle, paint_color) {
 		}
 	}	
 
+	return [pix,vect];
+}
 
-	// for (var i = 1; i < lines_per_tiles; i++) {
-	// 	var lcolor;
-	// 	var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
-	// 	lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
-	// 	var mylines_radius = lines_space * i;
-	// 	if (i % 2 == 0 && lines_per_tiles % 2 == 0) {
-	// 		vect.stroke(getColorLine(lcolor, "#ff54ab"));
-	// 		vect.arc(cells_size / 2, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-	// 		drawArc2(pix, cells_size / 2, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
-	// 	} else if (i % 2 == 1 && lines_per_tiles % 2 == 1) {
-	// 		vect.stroke(getColorLine(lcolor, "#ff54ab"));
-	// 		vect.arc(cells_size / 2, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-	// 		drawArc2(pix, cells_size / 2, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
-	// 	}
-	// }	
-	// // LINES
-	// for (var i = 1; i < lines_per_tiles; i++) {
-	// 	// tile_1CE.line(0,i*lines_space,cells_size/2,i*lines_space);
-	// 	vect.stroke(getColorLine(i - 1, color(255, 114, 0)));
-	// 	vect.line(0, i * lines_space, cells_size / 2, i * lines_space);
-	// 	drawLine(pix, 0, i * lines_space, cells_size / 2, i * lines_space, brush_angle, false, true);
-	// }
+// ┌────────────────────────────────────────────────┐
+// │ _____ ___ _    ___         _    ___  ___ ___   │
+// │|_   _|_ _| |  | __|  ___  / |  / __ / __| __|  │
+// │  | |  | || |__| _|  |___| | | | (__| (__| _|   │
+// │  |_| |___|____|___|       |_|  \___ \___|___|  │
+// └────────────────────────────────────────────────┘
+
+function get_tile_1CCE_pix(brush_angle, paint_color) {
+
+	// console.log("get_tile_1CE_pix");
+	var vect = createVectCanvas();
+	var pix = createGraphics(cells_size, cells_size, P2D);
+	pix.noStroke();
+	pix.fill(paint_color);
+
+	for (var i = 1; i < lines_per_tiles; i++) {
+		var lcolor;
+		var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
+		lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
+		var mylines_radius = lines_space * i;
+		if (i % 2 == 0 && lines_per_tiles % 2 == 0) {
+			vect.stroke(getColorLine(lcolor, "#ff54ab"));
+			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
+			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+		} else if (i % 2 == 1 && lines_per_tiles % 2 == 1) {
+			vect.stroke(getColorLine(lcolor, "#ff54ab"));
+			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
+			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+		}
+	}	
 
 	return [pix,vect];
 }
+
+
 
 // ┌───────────────────────────────────────────┐
 // │ _____ ___ _    ___         _    ___ ___   │
@@ -751,9 +864,9 @@ function get_tile_2CE_pix(brush_angle, paint_color) {
 		if (i % 2 != 0 && lines_per_tiles % 2 != 0 || i % 2 == 0 && lines_per_tiles % 2 == 0) {
 			vect.stroke(getColorLine(lcolor, color(255, 114, 0)));
 			vect.arc(0, cells_size / 2, mylines_radius, mylines_radius, radians(-90), radians(90));
-			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(90), radians(-90), brush_angle, false, false);
+			drawRect(pix, 0, cells_size / 2, mylines_radius / 2, radians(90), radians(-90), brush_angle, false, false);
 			vect.arc(cells_size, cells_size / 2, mylines_radius, mylines_radius, radians(90), radians(-90));
-			drawArc2(pix, cells_size, cells_size / 2, mylines_radius / 2, radians(270), radians(90), brush_angle, false, false);
+			drawRect(pix, cells_size, cells_size / 2, mylines_radius / 2, radians(270), radians(90), brush_angle, false, false);
 		}
 	}
 

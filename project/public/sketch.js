@@ -392,7 +392,17 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},
+		{
+			id: "tile_CCxCC_Count",
+			name: "x4 tile_CCxCC ~",
+			type: "number",
 
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
 
 		// tile_LxL_Count
 		{
@@ -461,7 +471,19 @@ function setFxParamsSettings(){
 			type: "number",
 
 			options: {
-				min: 1,
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
+		// tile_CC_Count
+		{
+			id: "tile_CC_Count",
+			name: "x2 tile_CC ~",
+			type: "number",
+
+			options: {
+				min: 0,
 				max: 40,
 				step: 1,
 				},
@@ -470,6 +492,18 @@ function setFxParamsSettings(){
 		{
 			id: "tile_1CE_Count",
 			name: "x1 tile_1CE ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},	
+		// tile_1CCE_Count	 tile_1CE
+		{
+			id: "tile_1CCE_Count",
+			name: "x1 tile_1CCE ~",
 			type: "number",
 
 			options: {
@@ -728,7 +762,7 @@ function set_lines_colors_black() {
 
 
 function set_lines_colors_random() {
-	// console.log("set_lines_colors_random");
+	console.log("set_lines_colors_random2125121");
 							// 0NOIR - 	1BLANC.   2JAUNE 	3BLEU    4Corail	5 rouge.  6Orange 7Purple. 8 blanc
 	var temp_color_array = ["#050505", "#ffffff","#f4ed17","#80d3f4","#fc982d","#c81212","#ffb400","#9115d2","#ffffff"];
 	// var color_sequence = "001122211333114441155551166611777112221133311444115555116661177711222113331144411555511666117771122211333114441155551166611777";
@@ -1100,13 +1134,16 @@ function populate_tiles_array(){
     var dotCount = $fx.getRawParam("dot_count");
     var tile_Cx2C_Count = $fx.getRawParam("tile_Cx2C_count");
     var tile_CxC_Count = $fx.getRawParam("tile_CxC_Count");
+    var tile_CCxCC_Count = $fx.getRawParam("tile_CCxCC_Count");
     var tile_LxL_Count = $fx.getRawParam("tile_LxL_Count");
     var tile_Cx1C_Count = $fx.getRawParam("tile_Cx1C_Count");
     var tile_CxL_Count = $fx.getRawParam("tile_CxL_Count");
     var tile_2CE_Count = $fx.getRawParam("tile_2CE_Count");
     var tile_L_Count = $fx.getRawParam("tile_L_Count");
     var tile_C_Count = $fx.getRawParam("tile_C_Count");
+    var tile_CC_Count = $fx.getRawParam("tile_CC_Count");
     var tile_1CE_Count = $fx.getRawParam("tile_1CE_Count");
+    var tile_1CCE_Count = $fx.getRawParam("tile_1CCE_Count");
 
 
 	fxfeature("tile_emptyCount",emptyCount);
@@ -1147,7 +1184,13 @@ function populate_tiles_array(){
 		addTilesToArray("tile_CxC", [1, 1, 1, 1], 3);
 	}
 
-
+	fxfeature("tile_CCxCC",tile_CCxCC_Count);
+	for (let i = 0; i < tile_CCxCC_Count; i++) {
+		addTilesToArray("tile_CCxCC", [1, 1, 1, 1], 0);
+		addTilesToArray("tile_CCxCC", [1, 1, 1, 1], 1);
+		addTilesToArray("tile_CCxCC", [1, 1, 1, 1], 2);
+		addTilesToArray("tile_CCxCC", [1, 1, 1, 1], 3);
+	}
 
 	fxfeature("tile_LxL",tile_LxL_Count);
 	for (let i = 0; i < tile_LxL_Count; i++) {
@@ -1209,6 +1252,13 @@ function populate_tiles_array(){
 		addTilesToArray("tile_C", [1, 0, 0, 1], 2);
 		addTilesToArray("tile_C", [1, 0, 0, 1], 3);
 	}
+	fxfeature("tile_CC",tile_CC_Count);
+	for (let i = 0; i < tile_CC_Count; i++) {
+		addTilesToArray("tile_CC", [1, 0, 0, 1], 0);
+		addTilesToArray("tile_CC", [1, 0, 0, 1], 1);
+		addTilesToArray("tile_CC", [1, 0, 0, 1], 2);
+		addTilesToArray("tile_CC", [1, 0, 0, 1], 3);
+	}
 
 
 
@@ -1221,6 +1271,14 @@ function populate_tiles_array(){
 		addTilesToArray("tile_1CE", [0, 0, 0, 1], 1);
 		addTilesToArray("tile_1CE", [0, 0, 0, 1], 2);
 		addTilesToArray("tile_1CE", [0, 0, 0, 1], 3);
+	}
+
+	fxfeature("tile_1CCE",tile_1CCE_Count);
+	for (let i = 0; i < tile_1CCE_Count; i++) {
+		addTilesToArray("tile_1CCE", [0, 0, 0, 1], 0);
+		addTilesToArray("tile_1CCE", [0, 0, 0, 1], 1);
+		addTilesToArray("tile_1CCE", [0, 0, 0, 1], 2);
+		addTilesToArray("tile_1CCE", [0, 0, 0, 1], 3);
 	}
 
 }
