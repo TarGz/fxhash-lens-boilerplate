@@ -158,8 +158,21 @@ function drawLine(graphics, x1, y1, x2, y2, brush_rotation, expand_start, expand
 		graphics.pop();
 	}
 }
+function drawOpenSquare(vect, x, y, size, rotation = 0, cells_size) {
+    vect.push();
+    vect.translate(x + cells_size / 2, y + cells_size / 2);  // Position to the center of the tile
+    vect.rotate(radians(rotation));  // Rotate around center
 
+    let halfSize = size / 2;
 
+    vect.beginShape();
+    vect.vertex(0, -halfSize);  // Top-left
+    vect.vertex(halfSize, -halfSize);   // Top-right
+    vect.vertex(halfSize, halfSize);    // Bottom-right
+    vect.vertex(0, halfSize);           // Open corner at middle-bottom
+    vect.endShape();
+    vect.pop();
+}
 
 
 function createVectCanvas(){
@@ -535,6 +548,37 @@ function get_tile_Cx1C_pix(brush_angle, paint_color) {
 	return [pix,vect];
 }
 
+
+
+
+function get_tile_Cx1CC_pix(brush_angle, paint_color) {
+	// Create vector and pixel canvases
+	var vect = createVectCanvas();
+	var pix = createGraphics(cells_size, cells_size, P2D);
+	pix.noStroke();
+	pix.fill(paint_color);
+
+	for (var i = 1; i < lines_per_tiles; i++) {
+		var line_size = lines_radius * i; // Radius for the arc, now used for rectangle width/height
+
+		// Draw the rectangle in the pixel graphics
+		drawRect(pix, 0, 0, line_size, line_size, brush_angle, true, true);
+
+		// Draw straight lines in vect to match the rectangle
+		vect.stroke(getColorLine(i - 1, color(0, 12, 255)));
+
+
+
+		vect.line(line_size / 2, 0, line_size / 2, line_size / 2);   // Right line
+		vect.line(line_size / 2, line_size / 2, 0, line_size / 2);   // Bottom line
+
+		vect.line(line_size / 2, cells_size-lines_radius/2, line_size / 2, cells_size);   // Small Right line
+		// vect.line(cells_size-lines_radius/2,line_size / 2, cells_size,  line_size / 2);    // Small Right line
+
+	}
+
+	return [pix, vect];
+}
 // ┌──────────────────────────────────────────────────┐
 // │ _____ ___ _    ___          ___         ___ ___  │
 // │|_   _|_ _| |  | __|  ___   / __| __ __ |_  ) __| │
@@ -811,6 +855,7 @@ function get_tile_1CE_pix(brush_angle, paint_color) {
 // │  |_| |___|____|___|       |_|  \___ \___|___|  │
 // └────────────────────────────────────────────────┘
 
+
 function get_tile_1CCE_pix(brush_angle, paint_color) {
 
 	// console.log("get_tile_1CE_pix");
@@ -819,22 +864,28 @@ function get_tile_1CCE_pix(brush_angle, paint_color) {
 	pix.noStroke();
 	pix.fill(paint_color);
 
-	for (var i = 1; i < lines_per_tiles; i++) {
-		var lcolor;
-		var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
-		lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
-		var mylines_radius = lines_space * i;
-		if (i % 2 == 0 && lines_per_tiles % 2 == 0) {
-			vect.stroke(getColorLine(lcolor, "#ff54ab"));
-			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
-		} else if (i % 2 == 1 && lines_per_tiles % 2 == 1) {
-			vect.stroke(getColorLine(lcolor, "#ff54ab"));
-			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
-		}
-	}	
 
+	for (var i = 1; i < lines_per_tiles; i++) {
+	    var lcolor;
+	    var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
+	    lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
+	    var mylines_radius = lines_space * i;
+	    var size = (lines_radius / 2) * i;
+	    
+	    var tmp_vect = createVectCanvas();
+
+	    if (i % 2 == 0 && lines_per_tiles % 2 == 0) {
+	        vect.stroke(getColorLine(lcolor, "#ff54ab"));
+	        // drawOpenSquare(vect, 0, cells_size / 2, size);
+	        drawOpenSquare(vect, -cells_size/2,0, size, 0, cells_size);
+	        drawRect(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+	    } else if (i % 2 == 1 && lines_per_tiles % 2 == 1) {
+	        vect.stroke(getColorLine(lcolor, "#ff54ab"));
+	       	drawOpenSquare(vect, -cells_size/2,0, size, 0, cells_size);
+	        // drawOpenSquare(vect, cells_size/2,0, size, 180, cells_size);
+	        drawRect(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+	    }
+	}
 	return [pix,vect];
 }
 
@@ -858,14 +909,15 @@ function get_tile_2CE_pix(brush_angle, paint_color) {
 	for (var i = 1; i < lines_per_tiles; i++) {
 		var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
 		var lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
-
+		var size = (lines_radius / 2) * i;
 		var mylines_radius = lines_space * i;
 		// Si le nombre de ligne est impair on ne dessine que les i impaire et vis versa pour els paires
 		if (i % 2 != 0 && lines_per_tiles % 2 != 0 || i % 2 == 0 && lines_per_tiles % 2 == 0) {
 			vect.stroke(getColorLine(lcolor, color(255, 114, 0)));
-			vect.arc(0, cells_size / 2, mylines_radius, mylines_radius, radians(-90), radians(90));
+	       	drawOpenSquare(vect, -cells_size/2,0, size, 0, cells_size);
+	        
 			drawRect(pix, 0, cells_size / 2, mylines_radius / 2, radians(90), radians(-90), brush_angle, false, false);
-			vect.arc(cells_size, cells_size / 2, mylines_radius, mylines_radius, radians(90), radians(-90));
+			drawOpenSquare(vect, cells_size/2,0, size, 180, cells_size);
 			drawRect(pix, cells_size, cells_size / 2, mylines_radius / 2, radians(270), radians(90), brush_angle, false, false);
 		}
 	}
