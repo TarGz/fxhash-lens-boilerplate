@@ -532,6 +532,43 @@ function get_tile_Cx1C_pix(brush_angle, paint_color) {
 	return [pix,vect];
 }
 
+// ┌───────────────────────────────────────┐
+// │ _____ ___ _    ___   ___     _  ___   │
+// │|_   _|_ _| |  | __| / __|_ _/ |/ __|  │
+// │  | |  | || |__| _| | (__\ \ / | (__   │
+// │  |_| |___|____|___|_\___/_\_\_|\___|  │
+// └───────────────────────────────────────┘
+function get_tile_Cx1CC_pix(brush_angle, paint_color) {
+	// console.log("get_tile_Cx1C_pix()");
+		// Create vector and pixel canvases
+		var vect = createVectCanvas();
+		var pix = createGraphics(cells_size, cells_size, P2D);
+		pix.noStroke();
+		pix.fill(paint_color);
+	
+		for (var i = 1; i < lines_per_tiles; i++) {
+			var line_size = (lines_radius) * i; // Radius for the arc, now used for rectangle width/height
+	
+			// Draw the rectangle in the pixel graphics
+			drawRect(pix, 0, 0, line_size, line_size, brush_angle, true, true);
+	
+			// Draw straight lines in vect to match the rectangle
+			vect.stroke(getColorLine(i - 1, color(0, 12, 255)));
+	
+	
+	
+			vect.line(line_size / 2, 0, line_size / 2, line_size / 2);   // Right line
+			vect.line(line_size / 2, line_size / 2, 0, line_size / 2);   // Bottom line
+	
+			vect.line(line_size / 2, cells_size-lines_radius/2, line_size / 2, cells_size);   // Small Right line
+			// vect.line(cells_size-lines_radius/2,line_size / 2, cells_size,  line_size / 2);    // Small Right line
+	
+		}
+	
+		return [pix, vect];
+}
+
+
 // ┌──────────────────────────────────────────────────┐
 // │ _____ ___ _    ___          ___         ___ ___  │
 // │|_   _|_ _| |  | __|  ___   / __| __ __ |_  ) __| │
