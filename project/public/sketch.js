@@ -428,6 +428,18 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},
+		// tile_Cx1CC_Count
+		{
+			id: "tile_Cx1CC_Count",
+			name: "x3 tile_Cx1CC ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},
 		// tile_CxL_Count
 		{
 			id: "tile_CxL_Count",
@@ -774,18 +786,18 @@ function set_lines_colors_black() {
 // }
 
 
-function set_lines_colors_random() {
+function set_lines_colors_random_orel() {
 	console.log("set_lines_colors_random2125121");
 							// 0NOIR - 	1BLANC.   2JAUNE 	3BLEU    4Corail	5 rouge.  6Orange 7Purple. 8 blanc
 	var temp_color_array = ["#050505", "#ffffff","#f4ed17","#80d3f4","#fc982d","#c81212","#ffb400","#9115d2","#ffffff"];
 	// var color_sequence = "001122211333114441155551166611777112221133311444115555116661177711222113331144411555511666117771122211333114441155551166611777";
 	// var color_sequence = "00112221131122211311222113112221131122211311222113112221131122211311222113112221131122211311222113112221131100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
 
-var sqlength = 100; // Set the desired length of the sequence
-// var color_sequence = "71121222666444554446662221211113171331771333177713317713177115554444666622222"; 
-// var color_sequence = "71121222666444555444666222113317713317713317713311222666644445554444666622222"; 
-// var color_sequence = "77111222666444555444666222373773377711177733773732226666444455544446666222"; // Print avec clairement trtop de violet
-var color_sequence = "771112226664445554446662221131133113373311331131122266664444555444466662222"; // 
+	var sqlength = 100; // Set the desired length of the sequence
+	// var color_sequence = "71121222666444554446662221211113171331771333177713317713177115554444666622222"; 
+	// var color_sequence = "71121222666444555444666222113317713317713317713311222666644445554444666622222"; 
+	// var color_sequence = "77111222666444555444666222373773377711177733773732226666444455544446666222"; // Print avec clairement trtop de violet
+	var color_sequence = "771112226664445554446662221131133113373311331131122266664444555444466662222"; // 
 																						//  ->|
 
 // var colors = ["2", "3", "4", "5", "6", "7","8"];
@@ -893,7 +905,7 @@ var color_sequence = "7711122266644455544466622211311331133733113311311222666644
 
 
 // ORIGINAL DO NOT DE3LETE
-function set_lines_colors_random_OR() {
+function set_lines_colors_random() {
 	// console.log("set_lines_colors_random");
 	color_array = [];
 	var lineid = 0;
@@ -1157,6 +1169,7 @@ function populate_tiles_array(){
     var tile_CCxCC_Count = $fx.getRawParam("tile_CCxCC_Count");
     var tile_LxL_Count = $fx.getRawParam("tile_LxL_Count");
     var tile_Cx1C_Count = $fx.getRawParam("tile_Cx1C_Count");
+    var tile_Cx1CC_Count = $fx.getRawParam("tile_Cx1CC_Count");
     var tile_CxL_Count = $fx.getRawParam("tile_CxL_Count");
     var tile_CCxL_Count = $fx.getRawParam("tile_CCxL_Count");
     var tile_2CE_Count = $fx.getRawParam("tile_2CE_Count");
@@ -1232,6 +1245,13 @@ function populate_tiles_array(){
 		addTilesToArray("tile_Cx1C",[1,0,1,1],1);
 		addTilesToArray("tile_Cx1C",[1,0,1,1],2);
 		addTilesToArray("tile_Cx1C",[1,0,1,1],3);
+	}
+	fxfeature("tile_Cx1CC",tile_Cx1CC_Count);
+	for (let i = 0; i < tile_Cx1CC_Count; i++) {
+		addTilesToArray("tile_Cx1CC",[1,0,1,1],0);
+		addTilesToArray("tile_Cx1CC",[1,0,1,1],1);
+		addTilesToArray("tile_Cx1CC",[1,0,1,1],2);
+		addTilesToArray("tile_Cx1CC",[1,0,1,1],3);
 	}
 
 
