@@ -869,9 +869,6 @@ function get_tile_1CCE_pix(brush_angle, paint_color) {
 			var pointC = createVector(mylines_radius/2, cells_size/2 + mylines_radius/2); // Bottom right
 			var pointD = createVector(mylines_radius/2, cells_size/2 - mylines_radius/2); // Top right
 			
-			// Draw left vertical line (A to B)
-			vect.line(pointA.x, pointA.y, pointB.x, pointB.y);
-			drawLine(pix, pointA.x, pointA.y, pointB.x, pointB.y, brush_angle, false, false);
 			
 			// Draw bottom horizontal line (B to C)
 			vect.line(pointB.x, pointB.y, pointC.x, pointC.y);
