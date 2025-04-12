@@ -963,30 +963,42 @@ function get_tile_2CE_pix(brush_angle, paint_color) {
 }
 
 
-function get_tile_2CCE_pix(brush_angle, paint_color) {
 
-	// console.log("get_tile_1CE_pix");
+function get_tile_2CCE_pix(brush_angle, paint_color) {
 	var vect = createVectCanvas();
 	var pix = createGraphics(cells_size, cells_size, P2D);
 	pix.noStroke();
 	pix.fill(paint_color);
-	// ARCS
+
 	for (var i = 1; i < lines_per_tiles; i++) {
+		var lcolor;
 		var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
-		var lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
-
+		lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
 		var mylines_radius = lines_space * i;
-		// Si le nombre de ligne est impair on ne dessine que les i impaire et vis versa pour els paires
-		if (i % 2 != 0 && lines_per_tiles % 2 != 0 || i % 2 == 0 && lines_per_tiles % 2 == 0) {
-			vect.stroke(getColorLine(lcolor, color(255, 114, 0)));
-			vect.arc(0, cells_size / 2, mylines_radius, mylines_radius, radians(-90), radians(90));
-			drawRect(pix, 0, cells_size / 2, mylines_radius / 2, radians(90), radians(-90), brush_angle, false, false);
-			vect.arc(cells_size, cells_size / 2, mylines_radius, mylines_radius, radians(90), radians(-90));
-			drawRect(pix, cells_size, cells_size / 2, mylines_radius / 2, radians(270), radians(90), brush_angle, false, false);
+		
+		if (i % 2 == 0 && lines_per_tiles % 2 == 0 || i % 2 == 1 && lines_per_tiles % 2 == 1) {
+			vect.stroke(getColorLine(lcolor, "#ff54ab"));
+			
+			// Define points with proper vertical spacing
+			var pointA = createVector(0, cells_size/2 - mylines_radius/2); // Top left
+			var pointB = createVector(0, cells_size/2 + mylines_radius/2); // Bottom left
+			var pointC = createVector(mylines_radius/2, cells_size/2 + mylines_radius/2); // Bottom right
+			var pointD = createVector(mylines_radius/2, cells_size/2 - mylines_radius/2); // Top right
+			
+			
+			// Draw bottom horizontal line (B to C)
+			vect.line(pointB.x, pointB.y, pointC.x, pointC.y);
+			drawLine(pix, pointB.x, pointB.y, pointC.x, pointC.y, brush_angle, false, false);
+			
+			// Draw right vertical line (C to D)
+			vect.line(pointC.x, pointC.y, pointD.x, pointD.y);
+			drawLine(pix, pointC.x, pointC.y, pointD.x, pointD.y, brush_angle, false, false);
+			
+			// Draw top horizontal line (D to A)
+			vect.line(pointD.x, pointD.y, pointA.x, pointA.y);
+			drawLine(pix, pointD.x, pointD.y, pointA.x, pointA.y, brush_angle, false, false);
 		}
-	}
+	}	
 
-
-	
-	return [pix,vect];
+	return [pix, vect];
 }
