@@ -1,6 +1,3 @@
-
-
-
 class Tile {
 	constructor(name, id, connector, quarter_rotations_count) {
 		// console.log("name",name);
@@ -625,7 +622,7 @@ function get_tile_Cx2C_pix(brush_angle, paint_color) {
 
 			} else {
 				vect.arc(small_circ_1.x, small_circ_1.y, small_circ_1.r*2,small_circ_1.r*2, radians(180), radians(360));
-				drawArc2(pix, small_circ_1.x, small_circ_1.y, small_circ_1.r, radians(180), radians(360), brush_angle, true, true);
+				drawArc2(pix, small_circ_1.x, small_circ_1.y, small_circ_1.r, radians(180), radians(360), brush_angle, false, true);
 			}
 
 
@@ -767,12 +764,52 @@ function get_tile_CxL_pix(brush_angle, paint_color) {
 	return [pix,vect];
 }
 
+function get_tile_CCxL_pix(brush_angle, paint_color) {
+	var vect = createVectCanvas();
+	var pix = createGraphics(cells_size, cells_size, P2D);
+	pix.noStroke();
+	pix.fill(paint_color);
 
+	
+
+	// RIGHT
+	// for (var i = 1; i < lines_per_tiles; i++) {
+	// 	var p1 = createVector((i) * lines_space, cells_size-lines_space);
+	// 	var p2 = createVector((i) * lines_space, cells_size);
+	// 	vect.stroke(getColorLine(i-1, "#ff54ab"));
+	// 	vect.line(p1.x,p1.y,p2.x,p2.y);
+	// 	p2 = createVector((i) * lines_space, cells_size);
+	// 	p1 = createVector((i) * lines_space, cells_size-lines_space);
+	// 	// pix.line(p1.x, p1.y, p2.x, p2.y);
+	// 	drawLine(pix, p1.x, p1.y, p2.x, p2.y, brush_angle, false, false);
+	// }
+
+	// // LEFT
+	for (var i = 1; i < lines_per_tiles; i++) {
+		var p1 = createVector(i * lines_space, 0);
+		var p2 = createVector(i * lines_space, cells_size / lines_per_tiles);
+		vect.stroke(getColorLine(i-1, "#ff54ab"));
+		vect.line(p1.x,p1.y,p2.x,p2.y);
+		p1 = createVector((i) * lines_space, 0);
+		p2 = createVector((i) * lines_space, cells_size / lines_per_tiles);
+		drawLine(pix, p1.x, p1.y, p2.x, p2.y, brush_angle, false, false);
+	}
+
+	// LONG LINES
+	for (var i = 1; i < lines_per_tiles; i++) {
+		var p1 = createVector(0, i * lines_space);
+		var p2 = createVector(cells_size, i * lines_space);
+		vect.stroke(getColorLine(i-1, "#ff54ab"));
+		vect.line(p1.x,p1.y,p2.x,p2.y);
+		drawLine(pix, p1.x, p1.y, p2.x, p2.y, brush_angle, true, true);
+	}
+	return [pix,vect];
+}
 
 
 // ┌───────────────────────────────────────────┐
 // │ _____ ___ _    ___         _    ___ ___   │
-// │|_   _|_ _| |  | __|  ___  / |  / __| __|  │
+// │|_   _|_ _| |  | __|  ___  | |  / __| __|  │
 // │  | |  | || |__| _|  |___| | | | (__| _|   │
 // │  |_| |___|____|___|       |_|  \___|___|  │
 // └───────────────────────────────────────────┘
@@ -812,8 +849,6 @@ function get_tile_1CE_pix(brush_angle, paint_color) {
 // └────────────────────────────────────────────────┘
 
 function get_tile_1CCE_pix(brush_angle, paint_color) {
-
-	// console.log("get_tile_1CE_pix");
 	var vect = createVectCanvas();
 	var pix = createGraphics(cells_size, cells_size, P2D);
 	pix.noStroke();
@@ -824,20 +859,69 @@ function get_tile_1CCE_pix(brush_angle, paint_color) {
 		var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
 		lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
 		var mylines_radius = lines_space * i;
-		if (i % 2 == 0 && lines_per_tiles % 2 == 0) {
+		
+		if (i % 2 == 0 && lines_per_tiles % 2 == 0 || i % 2 == 1 && lines_per_tiles % 2 == 1) {
 			vect.stroke(getColorLine(lcolor, "#ff54ab"));
-			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
-		} else if (i % 2 == 1 && lines_per_tiles % 2 == 1) {
-			vect.stroke(getColorLine(lcolor, "#ff54ab"));
-			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+			
+			// Define points with proper vertical spacing
+			var pointA = createVector(0, cells_size/2 - mylines_radius/2); // Top left
+			var pointB = createVector(0, cells_size/2 + mylines_radius/2); // Bottom left
+			var pointC = createVector(mylines_radius/2, cells_size/2 + mylines_radius/2); // Bottom right
+			var pointD = createVector(mylines_radius/2, cells_size/2 - mylines_radius/2); // Top right
+			
+			// Draw left vertical line (A to B)
+			vect.line(pointA.x, pointA.y, pointB.x, pointB.y);
+			drawLine(pix, pointA.x, pointA.y, pointB.x, pointB.y, brush_angle, false, false);
+			
+			// Draw bottom horizontal line (B to C)
+			vect.line(pointB.x, pointB.y, pointC.x, pointC.y);
+			drawLine(pix, pointB.x, pointB.y, pointC.x, pointC.y, brush_angle, false, false);
+			
+			// Draw right vertical line (C to D)
+			vect.line(pointC.x, pointC.y, pointD.x, pointD.y);
+			drawLine(pix, pointC.x, pointC.y, pointD.x, pointD.y, brush_angle, false, false);
+			
+			// Draw top horizontal line (D to A)
+			vect.line(pointD.x, pointD.y, pointA.x, pointA.y);
+			drawLine(pix, pointD.x, pointD.y, pointA.x, pointA.y, brush_angle, false, false);
 		}
 	}	
 
-	return [pix,vect];
+	return [pix, vect];
 }
 
+// for (var i = 1; i < lines_per_tiles; i++) {
+// 	var lcolor;
+// 	var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
+// 	lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
+// 	var mylines_radius = lines_space * i;
+	
+// 	if (i % 2 == 0 && lines_per_tiles % 2 == 0 || i % 2 == 1 && lines_per_tiles % 2 == 1) {
+// 		vect.stroke(getColorLine(lcolor, "#ff54ab"));
+		
+// 		// Define the 4 points of our shape
+// 		var pointA = createVector(0, cells_size/2 - mylines_radius/2); // Top left
+// 		var pointB = createVector(0, cells_size/2 + mylines_radius/2); // Bottom left
+// 		var pointC = createVector(mylines_radius, cells_size/2 + mylines_radius/2); // Bottom right
+// 		var pointD = createVector(mylines_radius, cells_size/2 - mylines_radius/2); // Top right
+		
+// 		// Draw left vertical line (A to B)
+// 		vect.line(pointA.x, pointA.y, pointB.x, pointB.y);
+// 		drawLine(pix, pointA.x, pointA.y, pointB.x, pointB.y, brush_angle, false, false);
+		
+// 		// Draw bottom horizontal line (B to C)
+// 		vect.line(pointB.x, pointB.y, pointC.x, pointC.y);
+// 		drawLine(pix, pointB.x, pointB.y, pointC.x, pointC.y, brush_angle, false, false);
+		
+// 		// Draw right vertical line (C to D)
+// 		vect.line(pointC.x, pointC.y, pointD.x, pointD.y);
+// 		drawLine(pix, pointC.x, pointC.y, pointD.x, pointD.y, brush_angle, false, false);
+		
+// 		// Draw top horizontal line (D to A)
+// 		vect.line(pointD.x, pointD.y, pointA.x, pointA.y);
+// 		drawLine(pix, pointD.x, pointD.y, pointA.x, pointA.y, brush_angle, false, false);
+// 	}
+// }	
 
 
 // ┌───────────────────────────────────────────┐
@@ -870,5 +954,7 @@ function get_tile_2CE_pix(brush_angle, paint_color) {
 		}
 	}
 
+
+	
 	return [pix,vect];
 }

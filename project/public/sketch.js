@@ -127,7 +127,7 @@ var layers_flip_count;
 
 // Render and debug style variables
 var renderStyle = render_style_vector; //render_style_parallel; 
-var debugStyle = theme_style_random; 
+var debugStyle = theme_style_black;  // theme_style_random, theme_style_3colors,theme_style_black
 
 // Background color
 var background_color = 255;
@@ -163,7 +163,7 @@ var stroke_color = "#000000";
 var resolution_data = canvas_size_storage[default_size_id];
 
 // Tile variables
-let tile_Empty, tile_C, tile_CxC, tile_L, tile_1CE, tile_2CE, tile_CxL;
+let tile_Empty, tile_C, tile_CxC, tile_L, tile_1CE, tile_2CE, tile_CxL, tile_CCxL;
 
 // Stroke size
 var stroke_size;
@@ -307,7 +307,7 @@ function setFxParamsSettings(){
 			// update: "code-driven",
 			options: {
 				min: 2,
-				max: 500,
+				max: 50,
 				step: 1,
 				},
 		},
@@ -440,6 +440,18 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},
+		// tile_CCxL_Count
+		{
+			id: "tile_CCxL_Count",
+			name: "x3 tile_CCxL ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+			},
 		// tile_2CE_Count
 		{
 			id: "tile_2CE_Count",
@@ -670,6 +682,7 @@ function set_lines_colors() {
 
 	}
 	// console.log(color_array);
+	console.log("Color array populated:", color_array);
 }
 
 function set_lines_colors_black() {
@@ -920,8 +933,10 @@ function set_lines_colors_random_OR() {
 // 
 function getColorLine(i, debug_color) {
 	if (debug_mode_activated) {
+		console.log("Debug mode - returning debug color:", debug_color);
 		return debug_color;
 	}
+	// console.log("Getting color at index", i, "from color_array:", color_array[i]);
 	return color_array[i];
 }
 
@@ -1048,6 +1063,8 @@ function set_array(){
 	brush_angle_array=[
 		0,45,90,135
 	];
+
+
 }
 
 function set_colors_theme(){
@@ -1094,6 +1111,9 @@ function setup() {
 	populate_tiles_array();
 	create_layers();
 
+	console.log("colors_array:", colors_array);
+	console.log("color_array:", colors_array);
+
 	$fx.features({
 		"Color Theme !!!": color_theme_name,
 		"Pattern Scale": scale_params[$fx.getRawParam("scale")][0],
@@ -1138,6 +1158,7 @@ function populate_tiles_array(){
     var tile_LxL_Count = $fx.getRawParam("tile_LxL_Count");
     var tile_Cx1C_Count = $fx.getRawParam("tile_Cx1C_Count");
     var tile_CxL_Count = $fx.getRawParam("tile_CxL_Count");
+    var tile_CCxL_Count = $fx.getRawParam("tile_CCxL_Count");
     var tile_2CE_Count = $fx.getRawParam("tile_2CE_Count");
     var tile_L_Count = $fx.getRawParam("tile_L_Count");
     var tile_C_Count = $fx.getRawParam("tile_C_Count");
@@ -1221,7 +1242,13 @@ function populate_tiles_array(){
 		addTilesToArray("tile_CxL", [1, 1, 0, 1], 2);
 		addTilesToArray("tile_CxL", [1, 1, 0, 1], 3);
 	}
-
+	fxfeature("tile_CCxL",tile_CCxL_Count);
+	for (let i = 0; i < tile_CCxL_Count; i++) {
+		addTilesToArray("tile_CCxL", [1, 1, 0, 1], 0);
+		addTilesToArray("tile_CCxL", [1, 1, 0, 1], 1);
+		addTilesToArray("tile_CCxL", [1, 1, 0, 1], 2);
+		addTilesToArray("tile_CCxL", [1, 1, 0, 1], 3);
+	}
 
 	// **********************************
 	// ************ 2X4 TILES ***********
