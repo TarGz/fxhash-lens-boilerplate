@@ -979,13 +979,19 @@ function get_tile_2CCE_pix(brush_angle, paint_color) {
 		if (i % 2 == 0 && lines_per_tiles % 2 == 0 || i % 2 == 1 && lines_per_tiles % 2 == 1) {
 			vect.stroke(getColorLine(lcolor, "#ff54ab"));
 			
-			// Define points with proper vertical spacing
+			// Left side points
 			var pointA = createVector(0, cells_size/2 - mylines_radius/2); // Top left
 			var pointB = createVector(0, cells_size/2 + mylines_radius/2); // Bottom left
 			var pointC = createVector(mylines_radius/2, cells_size/2 + mylines_radius/2); // Bottom right
 			var pointD = createVector(mylines_radius/2, cells_size/2 - mylines_radius/2); // Top right
 			
+			// Right side points (mirrored)
+			var pointE = createVector(cells_size, cells_size/2 - mylines_radius/2); // Top right
+			var pointF = createVector(cells_size, cells_size/2 + mylines_radius/2); // Bottom right
+			var pointG = createVector(cells_size - mylines_radius/2, cells_size/2 + mylines_radius/2); // Bottom left
+			var pointH = createVector(cells_size - mylines_radius/2, cells_size/2 - mylines_radius/2); // Top left
 			
+			// Draw left side
 			// Draw bottom horizontal line (B to C)
 			vect.line(pointB.x, pointB.y, pointC.x, pointC.y);
 			drawLine(pix, pointB.x, pointB.y, pointC.x, pointC.y, brush_angle, false, false);
@@ -997,6 +1003,19 @@ function get_tile_2CCE_pix(brush_angle, paint_color) {
 			// Draw top horizontal line (D to A)
 			vect.line(pointD.x, pointD.y, pointA.x, pointA.y);
 			drawLine(pix, pointD.x, pointD.y, pointA.x, pointA.y, brush_angle, false, false);
+
+			// Draw right side (mirrored)
+			// Draw bottom horizontal line (F to G)
+			vect.line(pointF.x, pointF.y, pointG.x, pointG.y);
+			drawLine(pix, pointF.x, pointF.y, pointG.x, pointG.y, brush_angle, false, false);
+			
+			// Draw left vertical line (G to H)
+			vect.line(pointG.x, pointG.y, pointH.x, pointH.y);
+			drawLine(pix, pointG.x, pointG.y, pointH.x, pointH.y, brush_angle, false, false);
+			
+			// Draw top horizontal line (H to E)
+			vect.line(pointH.x, pointH.y, pointE.x, pointE.y);
+			drawLine(pix, pointH.x, pointH.y, pointE.x, pointE.y, brush_angle, false, false);
 		}
 	}	
 

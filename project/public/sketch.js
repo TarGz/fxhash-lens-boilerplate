@@ -163,7 +163,7 @@ var stroke_color = "#000000";
 var resolution_data = canvas_size_storage[default_size_id];
 
 // Tile variables
-let tile_Empty, tile_C, tile_CxC, tile_L, tile_1CE, tile_2CE, tile_CxL, tile_CCxL;
+let tile_Empty, tile_C, tile_CxC, tile_L, tile_1CE, tile_2CE,tile_2CCE, tile_CxL, tile_CCxL;
 
 // Stroke size
 var stroke_size;
@@ -476,6 +476,18 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},
+		// tile_2CCE_Count	 tile_1CE
+		{
+			id: "tile_2CCE_Count",
+			name: "x2 tile_2CCE ~",
+			type: "number",
+
+			options: {
+				min: 0,
+				max: 40,
+				step: 1,
+				},
+		},	
 		// tile_L_Count
 		{
 			id: "tile_L_Count",
@@ -512,6 +524,7 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},
+
 		// tile_1CE_Count	
 		{
 			id: "tile_1CE_Count",
@@ -536,6 +549,7 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},	
+
 
 	]);
 
@@ -1178,6 +1192,7 @@ function populate_tiles_array(){
     var tile_CC_Count = $fx.getRawParam("tile_CC_Count");
     var tile_1CE_Count = $fx.getRawParam("tile_1CE_Count");
     var tile_1CCE_Count = $fx.getRawParam("tile_1CCE_Count");
+    var tile_2CCE_Count = $fx.getRawParam("tile_2CCE_Count");
 
 
 	fxfeature("tile_emptyCount",emptyCount);
@@ -1281,7 +1296,13 @@ function populate_tiles_array(){
 		addTilesToArray("tile_2CE",[0,1,0,1],2);
 		addTilesToArray("tile_2CE",[0,1,0,1],3);
 	}
-
+	fxfeature("tile_2CCE",tile_2CCE_Count);
+	for (let i = 0; i < tile_2CCE_Count; i++) {
+		addTilesToArray("tile_2CCE",[0,1,0,1],0);
+		addTilesToArray("tile_2CCE",[0,1,0,1],1);
+		addTilesToArray("tile_2CCE",[0,1,0,1],2);
+		addTilesToArray("tile_2CCE",[0,1,0,1],3);
+	}
 
 	// tileCount = getMainTilesCount(fxrand(),0.5,10);
 	fxfeature("tile_L",tile_L_Count);
