@@ -101,6 +101,7 @@ const render_style_vector = "STYLE_VECTOR";
 const render_style_parallel = "STYLE_PARALLEL";
 const render_style_marker = "STYLE_MARKER";
 const theme_style_black = "THEME_STYLE_BLACK";
+const theme_style_orel = "THEME_STYLE_OREL";
 const theme_style_random = "THEME_STYLE_RND";
 const theme_style_3colors = "THEME_STYLE_3COLORS";
 
@@ -677,12 +678,14 @@ function setVectorRenderStyle(id) {
 	if(id == 0) set_lines_colors_random();
 	if(id == 1) set_lines_colors();
 	if(id == 2) set_lines_colors_black();
+	if(id == 3) set_lines_colors_random_orel();
 }
 function setThemeColors() {
 	// console.log("setThemeColors");
 	if (verctor_render_style == theme_style_random) set_lines_colors_random();
 	if (verctor_render_style == theme_style_3colors) set_lines_colors();
 	if (verctor_render_style == theme_style_black) set_lines_colors_black();
+	if (verctor_render_style == theme_style_orel) set_lines_colors_random_orel();
 
 }
 
@@ -1112,10 +1115,10 @@ function set_array(){
 
 }
 
-function set_colors_theme(){
+// function set_colors_theme(){
 
 
-}
+// }
 
 
                                                             
