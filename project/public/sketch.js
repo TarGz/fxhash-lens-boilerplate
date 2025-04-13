@@ -126,8 +126,10 @@ var layers_flip;
 var layers_flip_count;
 
 // Render and debug style variables
-var renderStyle = render_style_vector; //render_style_parallel; 
-var debugStyle = theme_style_black;  // theme_style_random, theme_style_3colors,theme_style_black
+var renderStyle = render_style_vector; //render_style_parallel;  render_style_vector
+var verctor_render_style = theme_style_black;  // theme_style_random, theme_style_3colors,theme_style_black
+
+
 
 // Background color
 var background_color = 255;
@@ -252,6 +254,16 @@ function setFxParamsSettings(){
 
 		},
 		{
+			id: "verctor_render_style_id",
+			name: "Vector Syle",
+			type: "number",
+			options: {
+			min: 0,
+			max: 3,
+			step: 1,
+			},
+		},		
+		{
 			id: "default_size_id",
 			name: "Paper size",
 			type: "number",
@@ -307,7 +319,7 @@ function setFxParamsSettings(){
 			// update: "code-driven",
 			options: {
 				min: 2,
-				max: 50,
+				max: 100,
 				step: 1,
 				},
 		},
@@ -554,7 +566,7 @@ function setFxParamsSettings(){
 	]);
 
 
-
+	
 	// DEFAULT VALUES
 	debug_mode_activated =  $fx.getRawParam("debug_mode_activated"); 
 	default_size_id =  $fx.getRawParam("default_size_id"); 
@@ -566,6 +578,9 @@ function setFxParamsSettings(){
 	layers_flip_count = $fx.getRawParam("layers_flip_count");
 	// // name, H,W,min L, max L 
 	// console.log("setFxParamsSettings",fx_paramsArray[0],fx_paramsArray[1],fx_paramsArray[2],fx_paramsArray[3] );
+
+	/// var verctor_render_style = theme_style_black;  // theme_style_random, theme_style_3colors,theme_style_black
+
 	
 	horizontal_tiles = fx_paramsArray[1];  		/////// 4  
 	vertical_tiles = fx_paramsArray[2];			/////// 10
@@ -658,12 +673,16 @@ function generateTheTest() {
 
 var cells_grid = [];
 
-
+function setVectorRenderStyle(id) {
+	if(id == 0) set_lines_colors_random();
+	if(id == 1) set_lines_colors();
+	if(id == 2) set_lines_colors_black();
+}
 function setThemeColors() {
 	// console.log("setThemeColors");
-	if (debugStyle == theme_style_random) set_lines_colors_random();
-	if (debugStyle == theme_style_3colors) set_lines_colors();
-	if (debugStyle == theme_style_black) set_lines_colors_black();
+	if (verctor_render_style == theme_style_random) set_lines_colors_random();
+	if (verctor_render_style == theme_style_3colors) set_lines_colors();
+	if (verctor_render_style == theme_style_black) set_lines_colors_black();
 
 }
 
@@ -1120,7 +1139,7 @@ function setup() {
 	color_cyan = color('hsba(200, 100%, 100%, 1)');
 	color_magenta = color('#e812e0');
 	color_yellow = color('hsba(50, 100%, 100%, 1)');
-	color_black = color('hsba(250, 100%, 100%, 0.5)');
+	color_black = color('hsba(0, 0%, 0%, 1)');
 	color_red = color('#e12b2b');
 	color_purple = color("#ac01ff");
 	color_pink = color('#f708c2');
@@ -1130,7 +1149,9 @@ function setup() {
 	set_array();
 	color_palette = [color_cyan, color_magenta, color_yellow];
 	// set_lines_colors();
+
 	setThemeColors();
+	setVectorRenderStyle($fx.getRawParam("verctor_render_style_id"));
 	setup_canvas_size();
 	createCanvas(canvas_Width, canvas_Height, SVG);
 	resizeCanvas(scaled_width, scaled_height, false);
