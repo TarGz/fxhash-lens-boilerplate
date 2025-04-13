@@ -679,13 +679,15 @@ function setVectorRenderStyle(id) {
 	if(id == 1) set_lines_colors();
 	if(id == 2) set_lines_colors_black();
 	if(id == 3) set_lines_colors_random_orel();
+	fxfeature("verctor_render_style_id", id);
 }
 function setThemeColors() {
 	// console.log("setThemeColors");
-	if (verctor_render_style == theme_style_random) set_lines_colors_random();
-	if (verctor_render_style == theme_style_3colors) set_lines_colors();
-	if (verctor_render_style == theme_style_black) set_lines_colors_black();
-	if (verctor_render_style == theme_style_orel) set_lines_colors_random_orel();
+	// if (verctor_render_style == theme_style_random) set_lines_colors_random();
+	// if (verctor_render_style == theme_style_3colors) set_lines_colors();
+	// if (verctor_render_style == theme_style_black) set_lines_colors_black();
+	// if (verctor_render_style == theme_style_orel) set_lines_colors_random_orel();
+	// fxfeature("verctor_render_style", verctor_render_style);
 
 }
 
