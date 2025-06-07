@@ -459,7 +459,7 @@ function setFxParamsSettings(){
 			name: "x3 tile_CxL ~",
 			type: "number",
 
-		 options: {
+			options: {
 				min: 0,
 				max: 40,
 				step: 1,
@@ -2009,7 +2009,33 @@ function draw() {
 // │(_)              (_)(_)(_)(_)  (_)         (_)   (_)(_)(_)                         │
 // └───────────────────────────────────────────────────────────────────────────────────┘
 
+function updateSingleParam() {
+  // Get current parameter value
+  const currentValue = $fx.getRawParam("color_theme");
+  
+  // Update to next value (cycling between 1-8)
+  const newValue = (currentValue % 8) + 1;
+  
+  // Create the update object
+  const updateObj = { color_theme: newValue };
+  
+  // Log the update
+  console.log("Updating_color_theme from", currentValue, "to", newValue);
+  
+  // Update using fxhash's raw update mechanism
+  window.$fx._rawValues = {
+    ...window.$fx._rawValues,
+    ...updateObj
+  };
+  
+  // Force regeneration
+  regenerate();
+}
 
+// Add click handler when document is ready
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('testButton').addEventListener('click', updateSingleParam);
+});
 // Add this helper function to get the default value for a parameter
 function getDefaultParamValue(paramId) {
     const definition = $fx.getDefinitions().find(def => def.id === paramId);
