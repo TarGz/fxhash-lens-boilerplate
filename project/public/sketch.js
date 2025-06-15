@@ -129,7 +129,7 @@ var layers_flip;
 var layers_flip_count;
 
 // Render and debug style variables
-var renderStyle = render_style_parallel; //render_style_parallel;  render_style_vector
+var renderStyle = render_style_vector; //render_style_parallel;  render_style_vector
 var verctor_render_style = theme_style_black;  // theme_style_random, theme_style_3colors,theme_style_black
 
 
@@ -1621,7 +1621,7 @@ function calculateEntropy() {
 
 	allCells.sort(() => fxrand() - 0.5);
     let unfilled;
-    let maxTries = 300; // Prevent infinite loops
+    let maxTries = 50; // Prevent infinite loops
     let tries = 0;
 
     do {
