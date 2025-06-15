@@ -164,10 +164,11 @@ class Cell {
 		}
 
 		// If n, e, s, w are true, push the respective arrays to the tempsolutions array
-		if (this.n) this.tempsolutions.push(this.north);
+		
 		if (this.e) this.tempsolutions.push(this.est);
 		if (this.s) this.tempsolutions.push(this.south);
 		if (this.w) this.tempsolutions.push(this.west);
+		if (this.n) this.tempsolutions.push(this.north);
 
 		// Get the count of directions
 		var directionCount = this.tempsolutions.length;

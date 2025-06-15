@@ -988,7 +988,7 @@ function set_lines_colors_random() {
 // 
 function getColorLine(i, debug_color) {
 	if (debug_mode_activated) {
-		console.log("Debug mode - returning debug color:", debug_color);
+		// console.log("Debug mode - returning debug color:", debug_color);
 		return debug_color;
 	}
 	// console.log("Getting color at index", i, "from color_array:", color_array[i]);
@@ -1380,6 +1380,7 @@ function populate_tiles_array(){
 		addTilesToArray("tile_1CCE", [0, 0, 0, 1], 3);
 	}
 
+	// tiles_database.sort(() => fxrand() - 0.5);
 }
 
 
@@ -1583,30 +1584,75 @@ function iterate() {
 // 	}
 // }
 
+// function calculateEntropy() {
+//     var allCells = [];
+
+//     // Create a list of all cell coordinates
+//     for (var x = 0; x < horizontal_tiles; x++) {
+//         for (var y = 0; y <= vertical_tiles; y++) { // Corrected <= to <
+//             allCells.push({x: x, y: y});
+//         }
+//     }
+
+//     // Shuffle the list to randomize the order
+// 	console.log("allCells");
+// 	console.table(allCells);
+//     allCells.sort(() => fxrand());
+// 	// allCells.sort(() => fxrand() - 0.5);
+//     console.table(allCells);
+
+//     // Iterate through the shuffled list and call calculateEntropy on each cell
+//     for (var i = 0; i < allCells.length; i++) {
+//         var sorted_cell_ID = allCells[i];
+//         var mycell = cells_grid[sorted_cell_ID.x][sorted_cell_ID.y];
+//         // console.log(sorted_cell_ID);
+//         // console.log(mycell);
+//         mycell.calculateEntropy(tiles_database);
+//     }
+
+// }
 function calculateEntropy() {
     var allCells = [];
-
-    // Create a list of all cell coordinates
     for (var x = 0; x < horizontal_tiles; x++) {
-        for (var y = 0; y <= vertical_tiles; y++) { // Corrected <= to <
+        for (var y = 0; y <= vertical_tiles; y++) {
             allCells.push({x: x, y: y});
         }
     }
 
-    // Shuffle the list to randomize the order
-    allCells.sort(() => fxrand());
-    // console.log(allCells);
+	allCells.sort(() => fxrand() - 0.5);
+    let unfilled;
+    let maxTries = 300; // Prevent infinite loops
+    let tries = 0;
 
-    // Iterate through the shuffled list and call calculateEntropy on each cell
-    for (var i = 0; i < allCells.length; i++) {
-        var sorted_cell_ID = allCells[i];
-        var mycell = cells_grid[sorted_cell_ID.x][sorted_cell_ID.y];
-        // console.log(sorted_cell_ID);
-        // console.log(mycell);
-        mycell.calculateEntropy(tiles_database);
-    }
+    do {
+        let cellsFilledThisRound = 0;
+        let tempCells = allCells.filter(cell => !cells_grid[cell.x][cell.y].collapsed && !cells_grid[cell.x][cell.y].empty);
+
+        while (tempCells.length > 0) {
+            var idx = Math.floor(fxrand() * tempCells.length);
+            var cellInfo = tempCells.splice(idx, 1)[0];
+            var mycell = cells_grid[cellInfo.x][cellInfo.y];
+            let wasCollapsed = mycell.collapsed;
+            mycell.calculateEntropy(tiles_database);
+            if (!wasCollapsed && mycell.collapsed) cellsFilledThisRound++;
+        }
+
+        unfilled = allCells.filter(cell => !cells_grid[cell.x][cell.y].collapsed && !cells_grid[cell.x][cell.y].empty).length;
+        tries++;
+    } while (unfilled > 0 && tries < maxTries);
+
+    // Optionally, fill any remaining unfilled cells with a random tile
+    // for (var x = 0; x < horizontal_tiles; x++) {
+    //     for (var y = 0; y <= vertical_tiles; y++) {
+    //         var cell = cells_grid[x][y];
+    //         if (!cell.collapsed && !cell.empty) {
+    //             var randomTileIndex = Math.floor(fxrand() * tiles_database.length);
+    //             cell.tile = tiles_database[randomTileIndex];
+    //             cell.collapsed = true;
+    //         }
+    //     }
+    // }
 }
-
 
 function getCell(x, y) {
 	return cells_grid[x][y];

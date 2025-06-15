@@ -312,38 +312,53 @@ function getMostConnectedSolution(arr) {
 }
 
 
+// function getRandomSolutionByConnectorCount(arr, count) {
+
+//   // console.log("tiles_database",tiles_database);
+//   // ARR est une list d'ID solution 
+//   // console.log("####getRandomSolutionByConnectorCount",arr.length, "count",count);
+//   // console.log("arr:",arr);
+//   var reduced_sol = [];
+//   // Iterate trough the solution 
+//   for (var i = arr.length - 1; i >= 0; i--) {
+//     // console.log("tiles_database[arr["+i+"]].connector",tiles_database[arr[i]].connector);
+//     // console.log("tiles_database[arr["+i+"]].connector");
+//     // check how mani connector have each solution 
+//     var data = tiles_database[arr[i]].connector;
+//     var connector_count = data.reduce((accumulator, value) => {
+//       return accumulator + value;
+//     }, 0);
+//     // console.log("connector_count:",connector_count);
+//     if (connector_count == count) {
+//       reduced_sol.push(arr[i]);
+//     }
+
+
+//   }
+
+//   if (reduced_sol.length > 0) {
+//     // console.log("FOUND reduced_sol:",reduced_sol);
+//     return getRandomTile(reduced_sol, fxrand());
+//   } else {
+//     // console.log("NON reduced_sol:",reduced_sol);
+//     return getRandomTile(arr, fxrand());
+//   }
+
+// }
+
 function getRandomSolutionByConnectorCount(arr, count) {
-
-  // console.log("tiles_database",tiles_database);
-  // ARR est une list d'ID solution 
-  // console.log("####getRandomSolutionByConnectorCount",arr.length, "count",count);
-  // console.log("arr:",arr);
-  var reduced_sol = [];
-  // Iterate trough the solution 
-  for (var i = arr.length - 1; i >= 0; i--) {
-    // console.log("tiles_database[arr["+i+"]].connector",tiles_database[arr[i]].connector);
-    // console.log("tiles_database[arr["+i+"]].connector");
-    // check how mani connector have each solution 
+  // Build a weighted array based on closeness to the desired count
+  var weighted = [];
+  for (var i = 0; i < arr.length; i++) {
     var data = tiles_database[arr[i]].connector;
-    var connector_count = data.reduce((accumulator, value) => {
-      return accumulator + value;
-    }, 0);
-    // console.log("connector_count:",connector_count);
-    if (connector_count == count) {
-      reduced_sol.push(arr[i]);
+    var connector_count = data.reduce((acc, value) => acc + value, 0);
+    var weight = 1 / (1 + Math.abs(connector_count - count)); // closer = higher weight
+    for (var j = 0; j < Math.round(weight * 10); j++) {
+      weighted.push(arr[i]);
     }
-
-
   }
-
-  if (reduced_sol.length > 0) {
-    // console.log("FOUND reduced_sol:",reduced_sol);
-    return getRandomTile(reduced_sol, fxrand());
-  } else {
-    // console.log("NON reduced_sol:",reduced_sol);
-    return getRandomTile(arr, fxrand());
-  }
-
+  var idx = Math.floor(fxrand() * weighted.length);
+  return weighted[idx];
 }
 
 
