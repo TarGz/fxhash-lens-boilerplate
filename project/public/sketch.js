@@ -42,7 +42,7 @@ const scale_params = [
 	["5X13",5,13,[16,22]],
 	["6X15",6,15,[16,22]],
 	["7X21",7,19,[16,22]],
-	["7X21",8,21,[16,22]],
+	["XXX",5,19,[16,22]],
 ]; 
 
 // Pen size options
@@ -67,6 +67,8 @@ const canvas_size_storage = [
 	['A5', 148, 210],
 	['A6', 105, 148],
 	['C6', 114, 162],
+	['3A2', 594,1260],
+	// ['XX', 607, 1829] // 24x72 inches in mm // Bre
 ];
 
 const cell_count_ratio = [
@@ -127,7 +129,7 @@ var layers_flip;
 var layers_flip_count;
 
 // Render and debug style variables
-var renderStyle = render_style_vector; //render_style_parallel;  render_style_vector
+var renderStyle = render_style_parallel; //render_style_parallel;  render_style_vector
 var verctor_render_style = theme_style_black;  // theme_style_random, theme_style_3colors,theme_style_black
 
 
@@ -252,12 +254,13 @@ function setFxParamsSettings(){
 			id: "debug_mode_activated",
 			name: "DEBUG",
 			type: "boolean",
-
+			default: false,
 		},
 		{
 			id: "verctor_render_style_id",
 			name: "Vector Syle",
 			type: "number",
+			default: 0,
 			options: {
 			min: 0,
 			max: 3,
@@ -268,9 +271,10 @@ function setFxParamsSettings(){
 			id: "default_size_id",
 			name: "Paper size",
 			type: "number",
+			default: 0,
 			options: {
 			min: 0,
-			max: canvas_size_storage.length,
+			max: canvas_size_storage.length-1,
 			step: 1,
 			},
 		},
@@ -278,7 +282,7 @@ function setFxParamsSettings(){
 			id: "brush_size",
 			name: "Brush Width",
 			type: "number",
-			//default: Math.PI,
+			default: 2,
 			// update: "sync",
 			options: {
 				min: 0,
@@ -290,6 +294,7 @@ function setFxParamsSettings(){
 			id: "color_theme",
 			name: "Color Theme",
 			type: "number",
+			default: 1,
 			options: {
 			min: 1,
 			max: 8,
@@ -301,6 +306,7 @@ function setFxParamsSettings(){
 			id: "scale",
 			name: "pattern scale",
 			type: "number",
+			default: 2,
 			//default: Math.PI,
 			//   update: "sync",
 				options: {
@@ -315,12 +321,12 @@ function setFxParamsSettings(){
 			id: "lines_per_tiles",
 			name: "Lines Count",
 			type: "number",
-			//default: Math.PI,
+			default: 20,
 			// update: "sync",
 			// update: "code-driven",
 			options: {
 				min: 2,
-				max: 100,
+				max: 400,
 				step: 1,
 				},
 		},
@@ -333,17 +339,17 @@ function setFxParamsSettings(){
 			id: "layers_flip",
 			name: "Layers flip",
 			type: "boolean",
+			default: false,
 
 		},
 		{
 			id: "layer_count",
 			name: "Layers Count",
 			type: "number",
-			//default: Math.PI,
-			// update: "sync",
+			default: 1,
 			options: {
 				min: 1,
-				max: 1,
+				max: 4,
 				step: 1,
 				},
 		},
@@ -352,11 +358,10 @@ function setFxParamsSettings(){
 			id: "layers_flip_count",
 			name: "Flip count",
 			type: "number",
-			//default: Math.PI,
-			// update: "sync",
+			default: 0,
 			options: {
 				min: 0,
-				max: 1,
+				max: 4,
 				step: 1,
 				},
 
@@ -365,7 +370,7 @@ function setFxParamsSettings(){
 			id: "empty_count",
 			name: "x0 Empty ~",
 			type: "number",
-
+			default: 0,
 			options: {
 				min: 0,
 				max: 40,
@@ -376,7 +381,7 @@ function setFxParamsSettings(){
 			id: "dot_count",
 			name: "x0 Dot ~",
 			type: "number",
-
+			default: 0,
 			options: {
 				min: 0,
 				max: 40,
@@ -387,7 +392,7 @@ function setFxParamsSettings(){
 			id: "tile_Cx2C_count",
 			name: "x4 tile_Cx2C ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -398,7 +403,7 @@ function setFxParamsSettings(){
 			id: "tile_CxC_Count",
 			name: "x4 tile_CxC ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -409,7 +414,7 @@ function setFxParamsSettings(){
 			id: "tile_CCxCC_Count",
 			name: "x4 tile_CCxCC ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -422,7 +427,7 @@ function setFxParamsSettings(){
 			id: "tile_LxL_Count",
 			name: "x4 tile_LxL ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -434,7 +439,7 @@ function setFxParamsSettings(){
 			id: "tile_Cx1C_Count",
 			name: "x3 tile_Cx1C ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -446,7 +451,7 @@ function setFxParamsSettings(){
 			id: "tile_Cx1CC_Count",
 			name: "x3 tile_Cx1CC ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -458,7 +463,7 @@ function setFxParamsSettings(){
 			id: "tile_CxL_Count",
 			name: "x3 tile_CxL ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -470,7 +475,7 @@ function setFxParamsSettings(){
 			id: "tile_CCxL_Count",
 			name: "x3 tile_CCxL ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -482,7 +487,7 @@ function setFxParamsSettings(){
 			id: "tile_2CE_Count",
 			name: "x2 tile_2CE ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -494,7 +499,7 @@ function setFxParamsSettings(){
 			id: "tile_2CCE_Count",
 			name: "x2 tile_2CCE ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -506,7 +511,7 @@ function setFxParamsSettings(){
 			id: "tile_L_Count",
 			name: "x2 tile_L ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -518,7 +523,7 @@ function setFxParamsSettings(){
 			id: "tile_C_Count",
 			name: "x2 tile_C ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -530,7 +535,7 @@ function setFxParamsSettings(){
 			id: "tile_CC_Count",
 			name: "x2 tile_CC ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -543,7 +548,7 @@ function setFxParamsSettings(){
 			id: "tile_1CE_Count",
 			name: "x1 tile_1CE ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
@@ -555,7 +560,7 @@ function setFxParamsSettings(){
 			id: "tile_1CCE_Count",
 			name: "x1 tile_1CCE ~",
 			type: "number",
-
+			default: 1,
 			options: {
 				min: 0,
 				max: 40,
