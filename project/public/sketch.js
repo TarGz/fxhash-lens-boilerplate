@@ -258,7 +258,7 @@ function setFxParamsSettings(){
 		},
 		{
 			id: "renderStyle",
-			name: "render Style",
+			name: "Render Style",
 			type: "select",
 			default: "STYLE_VECTOR",
 			options: {
@@ -266,16 +266,25 @@ function setFxParamsSettings(){
 			}
 		},
 		{
-			id: "verctor_render_style_id",
-			name: "Vector Syle",
-			type: "number",
-			default: 0,
+			id: "vectorPaintingStyle",
+			name: "Vector Theme",
+			type: "select",
+			default: "THEME_STYLE_BLACK",
 			options: {
-			min: 0,
-			max: 3,
+				options: ["THEME_STYLE_BLACK", "THEME_STYLE_OREL","THEME_STYLE_RND","THEME_STYLE_3COLORS"]
+			}
+		},	
+		{
+			id: "color_theme",
+			name: "Bitmap Theme",
+			type: "number",
+			default: 1,
+			options: {
+			min: 1,
+			max: 9,
 			step: 1,
 			},
-		},		
+		},
 		{
 			id: "default_size_id",
 			name: "Paper size",
@@ -299,17 +308,7 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},
-		{
-			id: "color_theme",
-			name: "Color Theme",
-			type: "number",
-			default: 1,
-			options: {
-			min: 1,
-			max: 8,
-			step: 1,
-			},
-		},
+
 
 		{
 			id: "scale",
@@ -696,6 +695,13 @@ function setVectorRenderStyle(id) {
 	if(id == 3) set_lines_colors_random_orel();
 	fxfeature("verctor_render_style_id", id);
 }
+function setVectorRenderStyleName(name) {
+	if(name == "THEME_STYLE_RND") set_lines_colors_random();
+	if(name == "THEME_STYLE_3COLORS") set_lines_colors();
+	if(name == "THEME_STYLE_BLACK") set_lines_colors_black();
+	if(name == "THEME_STYLE_OREL") set_lines_colors_random_orel();
+	fxfeature("vectorPaintingStyle", name);
+}
 function setThemeColors() {
 	// console.log("setThemeColors");
 	// if (verctor_render_style == theme_style_random) set_lines_colors_random();
@@ -843,67 +849,12 @@ function set_lines_colors_random_orel() {
 	console.log("set_lines_colors_random2125121");
 							// 0NOIR - 	1BLANC.   2JAUNE 	3BLEU    4Corail	5 rouge.  6Orange 7Purple. 8 blanc
 	var temp_color_array = ["#050505", "#ffffff","#f4ed17","#80d3f4","#fc982d","#c81212","#ffb400","#9115d2","#ffffff"];
-	// var color_sequence = "001122211333114441155551166611777112221133311444115555116661177711222113331144411555511666117771122211333114441155551166611777";
-	// var color_sequence = "00112221131122211311222113112221131122211311222113112221131122211311222113112221131122211311222113112221131100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
 
 	var sqlength = 100; // Set the desired length of the sequence
-	// var color_sequence = "71121222666444554446662221211113171331771333177713317713177115554444666622222"; 
-	// var color_sequence = "71121222666444555444666222113317713317713317713311222666644445554444666622222"; 
-	// var color_sequence = "77111222666444555444666222373773377711177733773732226666444455544446666222"; // Print avec clairement trtop de violet
-	var color_sequence = "771112226664445554446662221131133113373311331131122266664444555444466662222"; // 
+var color_sequence = "771112226664445554446662221131133113373311331131122266664444555444466662222"; // 
 																						//  ->|
 
-// var colors = ["2", "3", "4", "5", "6", "7","8"];
-// var weightedColors = ["2", "2","2", "2", "3", "4", "5", "5","6", "7","8","8","8","8","8","8"]; // Make color "2" more likely
-
-// function getRandomColor(excludeColor) {
-//     var filteredColors = weightedColors.filter(color => color !== excludeColor);
-//     return filteredColors[Math.floor(Math.random() * filteredColors.length)];
-// }
-
-// function getRandomConsecutiveCount() {
-//     return Math.floor(Math.random() * 4) + 2; // Random number between 2 and 5
-// }
-
-// var lastColor = "";
-
-// // Ensure the sequence length follows the rule and fits within sqlength
-// while (color_sequence.length < sqlength - 1) {
-//     var currentColor = getRandomColor(lastColor);
-//     var consecutiveCount = getRandomConsecutiveCount();
-//     var segment = currentColor.repeat(consecutiveCount) + "1";
-    
-//     if (color_sequence.length + segment.length > sqlength) {
-//         segment = segment.substring(0, sqlength - color_sequence.length);
-//     }
-    
-//     color_sequence += segment;
-//     lastColor = currentColor;
-// }
-
-// // Trim the sequence to the desired length if it exceeds
-// if (color_sequence.length > sqlength) {
-//     color_sequence = color_sequence.substring(0, sqlength);
-// }
-
-// // Ensure the sequence ends with a valid color
-// if (color_sequence.endsWith("1")) {
-//     color_sequence = color_sequence.slice(0, -1);
-// }
 	console.log("color_sequence",color_sequence);
-
-///// OVERRIDE 
-	// OREL SHHORT LLIST
-	// 00112222113331144115555116666113333117711555551177711666611444411555551144117711444441122211555551177777112221144113333117777115555117711555551144441
-	// 001177771155551166611222113311555116661122118811555112211888117711555112211777711555511444115511777113333116611888115511661122221155117711661188881122
-	// 001114444411122111555111611133333111811177111222221114111551112211133333111555111777771114441115551
-	// 7711222888122166666188881333155555188133318888177777155555133312221888815518816666612218812222188144
-
-	// MANUAL
-	// 71121222666444554446662221211113171331771333177713317713177115554444666622222
-
-	// color_sequence ="00144177122166122177122155144122166122166122133122133155166122155177122166122166144122166122144155122133122133144155177122177122166144122144177122144122155122144155122144166155177122177122133155122177";
-
 
 
 	color_array = [];
@@ -1060,6 +1011,7 @@ function set_array(){
 		["Red" , color('#E51714')],					// 10
 		["Violet" , color('#7A128B')],				// 11
 		["Black" , color('#000000')],				// 12
+		["Green" , color('#29b35b')],				// 13
 	];
 
 	var theme_colors_list = [];
@@ -1098,7 +1050,9 @@ function set_array(){
 	}else if(color_theme == 8){
 		color_theme_name = "4 CLASSICS";
 		theme_colors_list = [4,6,2,1,2,6];
-
+	}else if(color_theme == 9){
+		color_theme_name = "Water";
+		theme_colors_list = [4,13,4,13,4,13];
 	}
 	// theme_colors_list = [2,1,1,1,2,2];
 
@@ -1171,7 +1125,8 @@ function setup() {
 	// set_lines_colors();
 
 	setThemeColors();
-	setVectorRenderStyle($fx.getRawParam("verctor_render_style_id"));
+	// setVectorRenderStyle($fx.getRawParam("verctor_render_style_id"));
+	setVectorRenderStyleName($fx.getRawParam("vectorPaintingStyle"));
 	setup_canvas_size();
 	createCanvas(canvas_Width, canvas_Height, SVG);
 	resizeCanvas(scaled_width, scaled_height, false);
