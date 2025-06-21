@@ -42,7 +42,7 @@ const scale_params = [
 	["5X13",5,13,[16,22]],
 	["6X15",6,15,[16,22]],
 	["7X21",7,19,[16,22]],
-	["XXX",5,19,[16,22]],
+	["XXX",5,20,[16,22]],
 ]; 
 
 // Pen size options
@@ -129,7 +129,7 @@ var layers_flip;
 var layers_flip_count;
 
 // Render and debug style variables
-var renderStyle = render_style_vector; //render_style_parallel;  render_style_vector
+var renderStyle = render_style_parallel; //render_style_parallel;  render_style_vector
 var verctor_render_style = theme_style_black;  // theme_style_random, theme_style_3colors,theme_style_black
 
 
@@ -255,6 +255,15 @@ function setFxParamsSettings(){
 			name: "DEBUG",
 			type: "boolean",
 			default: false,
+		},
+		{
+			id: "renderStyle",
+			name: "render Style",
+			type: "select",
+			default: "STYLE_VECTOR",
+			options: {
+				options: ["STYLE_PARALLEL", "STYLE_VECTOR"]
+			}
 		},
 		{
 			id: "verctor_render_style_id",
@@ -582,6 +591,7 @@ function setFxParamsSettings(){
 	fx_paramsArray = scale_params[$fx.getRawParam("scale")];
 	layers_flip = $fx.getRawParam("layers_flip");
 	layers_flip_count = $fx.getRawParam("layers_flip_count");
+	renderStyle = $fx.getRawParam("renderStyle");
 	// // name, H,W,min L, max L 
 	// console.log("setFxParamsSettings",fx_paramsArray[0],fx_paramsArray[1],fx_paramsArray[2],fx_paramsArray[3] );
 
@@ -1584,75 +1594,34 @@ function iterate() {
 // 	}
 // }
 
-// function calculateEntropy() {
-//     var allCells = [];
-
-//     // Create a list of all cell coordinates
-//     for (var x = 0; x < horizontal_tiles; x++) {
-//         for (var y = 0; y <= vertical_tiles; y++) { // Corrected <= to <
-//             allCells.push({x: x, y: y});
-//         }
-//     }
-
-//     // Shuffle the list to randomize the order
-// 	console.log("allCells");
-// 	console.table(allCells);
-//     allCells.sort(() => fxrand());
-// 	// allCells.sort(() => fxrand() - 0.5);
-//     console.table(allCells);
-
-//     // Iterate through the shuffled list and call calculateEntropy on each cell
-//     for (var i = 0; i < allCells.length; i++) {
-//         var sorted_cell_ID = allCells[i];
-//         var mycell = cells_grid[sorted_cell_ID.x][sorted_cell_ID.y];
-//         // console.log(sorted_cell_ID);
-//         // console.log(mycell);
-//         mycell.calculateEntropy(tiles_database);
-//     }
-
-// }
 function calculateEntropy() {
     var allCells = [];
+
+    // Create a list of all cell coordinates
     for (var x = 0; x < horizontal_tiles; x++) {
-        for (var y = 0; y <= vertical_tiles; y++) {
+        for (var y = 0; y <= vertical_tiles; y++) { // Corrected <= to <
             allCells.push({x: x, y: y});
         }
     }
 
-	allCells.sort(() => fxrand() - 0.5);
-    let unfilled;
-    let maxTries = 50; // Prevent infinite loops
-    let tries = 0;
+    // Shuffle the list to randomize the order
+	console.log("allCells");
+	console.table(allCells);
+    allCells.sort(() => fxrand());
+	// allCells.sort(() => fxrand() - 0.5);
+    console.table(allCells);
 
-    do {
-        let cellsFilledThisRound = 0;
-        let tempCells = allCells.filter(cell => !cells_grid[cell.x][cell.y].collapsed && !cells_grid[cell.x][cell.y].empty);
+    // Iterate through the shuffled list and call calculateEntropy on each cell
+    for (var i = 0; i < allCells.length; i++) {
+        var sorted_cell_ID = allCells[i];
+        var mycell = cells_grid[sorted_cell_ID.x][sorted_cell_ID.y];
+        // console.log(sorted_cell_ID);
+        // console.log(mycell);
+        mycell.calculateEntropy(tiles_database);
+    }
 
-        while (tempCells.length > 0) {
-            var idx = Math.floor(fxrand() * tempCells.length);
-            var cellInfo = tempCells.splice(idx, 1)[0];
-            var mycell = cells_grid[cellInfo.x][cellInfo.y];
-            let wasCollapsed = mycell.collapsed;
-            mycell.calculateEntropy(tiles_database);
-            if (!wasCollapsed && mycell.collapsed) cellsFilledThisRound++;
-        }
-
-        unfilled = allCells.filter(cell => !cells_grid[cell.x][cell.y].collapsed && !cells_grid[cell.x][cell.y].empty).length;
-        tries++;
-    } while (unfilled > 0 && tries < maxTries);
-
-    // Optionally, fill any remaining unfilled cells with a random tile
-    // for (var x = 0; x < horizontal_tiles; x++) {
-    //     for (var y = 0; y <= vertical_tiles; y++) {
-    //         var cell = cells_grid[x][y];
-    //         if (!cell.collapsed && !cell.empty) {
-    //             var randomTileIndex = Math.floor(fxrand() * tiles_database.length);
-    //             cell.tile = tiles_database[randomTileIndex];
-    //             cell.collapsed = true;
-    //         }
-    //     }
-    // }
 }
+
 
 function getCell(x, y) {
 	return cells_grid[x][y];
