@@ -359,6 +359,13 @@ function get_tile_CCxCC_pix(brush_angle, paint_color) {
 		// Draw the rectangle in the pixel graphics
 		drawRect(pix, 0, 0, line_size, line_size, brush_angle, true, true);
 
+		
+		drawLine(pix,line_size / 2, 0, line_size / 2, line_size / 2);   // Right line
+		drawLine(pix,line_size / 2, line_size / 2, 0, line_size / 2);   // Bottom line
+		
+		drawLine(pix,line_size / 2, cells_size - lines_radius / 2, line_size / 2, cells_size);   // Small Right line
+		drawLine(pix,cells_size - lines_radius / 2, line_size / 2, cells_size, line_size / 2);    // Small Right line
+
 		// Draw straight lines in vect to match the rectangle
 		vect.stroke(getColorLine(i - 1, color(0, 12, 255)));
 
@@ -551,7 +558,10 @@ function get_tile_Cx1CC_pix(brush_angle, paint_color) {
 	
 			// Draw the rectangle in the pixel graphics
 			drawRect(pix, 0, 0, line_size, line_size, brush_angle, true, true);
-	
+			drawLine(pix, line_size / 2, 0, line_size / 2, line_size / 2);   // Right line
+			drawLine(pix, line_size / 2, line_size / 2, 0, line_size / 2);   // Bottom line
+			drawLine(pix, line_size / 2, cells_size - lines_radius / 2, line_size / 2, cells_size);   // Small Right line
+
 			// Draw straight lines in vect to match the rectangle
 			vect.stroke(getColorLine(i - 1, color(0, 12, 255)));
 	
@@ -843,17 +853,14 @@ function get_tile_CCxL_pix(brush_angle, paint_color) {
 	return [pix,vect];
 }
 
-
 // ┌───────────────────────────────────────────┐
 // │ _____ ___ _    ___         _    ___ ___   │
 // │|_   _|_ _| |  | __|  ___  | |  / __| __|  │
 // │  | |  | || |__| _|  |___| | | | (__| _|   │
 // │  |_| |___|____|___|       |_|  \___|___|  │
 // └───────────────────────────────────────────┘
-
 function get_tile_1CE_pix(brush_angle, paint_color) {
 
-	// console.log("get_tile_1CE_pix");
 	var vect = createVectCanvas();
 	var pix = createGraphics(cells_size, cells_size, P2D);
 	pix.noStroke();
@@ -864,18 +871,48 @@ function get_tile_1CE_pix(brush_angle, paint_color) {
 		var color_shift = (lines_per_tiles % 2 == 0) ? -2 : -1;
 		lcolor = Math.floor(color_shift + lines_per_tiles / 2) - Math.floor((i - 1) / 2);
 		var mylines_radius = lines_space * i;
+
+		// Centered arc
 		if (i % 2 == 0 && lines_per_tiles % 2 == 0) {
 			vect.stroke(getColorLine(lcolor, "#ff54ab"));
-			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+			vect.arc(
+				cells_size / 2, cells_size / 2,
+				(lines_radius / 2) * i, (lines_radius / 2) * i,
+				radians(-90), radians(90)
+			);
+			drawArc2(
+				pix,
+				cells_size / 2, cells_size / 2,
+				mylines_radius / 2,
+				radians(-90), radians(90),
+				brush_angle, false, false
+			);
 		} else if (i % 2 == 1 && lines_per_tiles % 2 == 1) {
 			vect.stroke(getColorLine(lcolor, "#ff54ab"));
-			vect.arc(0, cells_size / 2, (lines_radius / 2) * i, (lines_radius / 2) * i, radians(-90), radians(90));
-			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(-90), radians(90), brush_angle, false, false);
+			vect.arc(
+				cells_size / 2, cells_size / 2,
+				(lines_radius / 2) * i, (lines_radius / 2) * i,
+				radians(-90), radians(90)
+			);
+			drawArc2(
+				pix,
+				cells_size / 2, cells_size / 2,
+				mylines_radius / 2,
+				radians(-90), radians(90),
+				brush_angle, false, false
+			);
 		}
-	}	
 
-	return [pix,vect];
+
+	}	
+	for (var i = 1; i < lines_per_tiles; i++) {
+		var p1 = createVector(0, i * lines_space);
+		var p2 = createVector(cells_size/2, i * lines_space);
+		vect.line(p1.x,p1.y,p2.x,p2.y);
+		drawLine(pix, p1.x, p1.y, p2.x, p2.y, brush_angle, false, false);
+	}
+
+	return [pix, vect];
 }
 
 // ┌────────────────────────────────────────────────┐
@@ -901,10 +938,10 @@ function get_tile_1CCE_pix(brush_angle, paint_color) {
 			vect.stroke(getColorLine(lcolor, "#ff54ab"));
 			
 			// Define points with proper vertical spacing
-			var pointA = createVector(0, cells_size/2 - mylines_radius/2); // Top left
-			var pointB = createVector(0, cells_size/2 + mylines_radius/2); // Bottom left
-			var pointC = createVector(mylines_radius/2, cells_size/2 + mylines_radius/2); // Bottom right
-			var pointD = createVector(mylines_radius/2, cells_size/2 - mylines_radius/2); // Top right
+			var pointA = createVector(cells_size/2, cells_size/2 - mylines_radius/2); // Top left
+			var pointB = createVector(cells_size/2, cells_size/2 + mylines_radius/2); // Bottom left
+			var pointC = createVector(cells_size/2+mylines_radius/2, cells_size/2 + mylines_radius/2); // Bottom right
+			var pointD = createVector(cells_size/2+mylines_radius/2, cells_size/2 - mylines_radius/2); // Top right
 			
 			
 			// Draw bottom horizontal line (B to C)
@@ -920,7 +957,12 @@ function get_tile_1CCE_pix(brush_angle, paint_color) {
 			drawLine(pix, pointD.x, pointD.y, pointA.x, pointA.y, brush_angle, false, false);
 		}
 	}	
-
+	for (var i = 1; i < lines_per_tiles; i++) {
+		var p1 = createVector(0, i * lines_space);
+		var p2 = createVector(cells_size/2, i * lines_space);
+		vect.line(p1.x,p1.y,p2.x,p2.y);
+		drawLine(pix, p1.x, p1.y, p2.x, p2.y, brush_angle, false, false);
+	}
 	return [pix, vect];
 }
 
@@ -951,9 +993,11 @@ function get_tile_2CE_pix(brush_angle, paint_color) {
 		if (i % 2 != 0 && lines_per_tiles % 2 != 0 || i % 2 == 0 && lines_per_tiles % 2 == 0) {
 			vect.stroke(getColorLine(lcolor, color(255, 114, 0)));
 			vect.arc(0, cells_size / 2, mylines_radius, mylines_radius, radians(-90), radians(90));
-			drawRect(pix, 0, cells_size / 2, mylines_radius / 2, radians(90), radians(-90), brush_angle, false, false);
 			vect.arc(cells_size, cells_size / 2, mylines_radius, mylines_radius, radians(90), radians(-90));
-			drawRect(pix, cells_size, cells_size / 2, mylines_radius / 2, radians(270), radians(90), brush_angle, false, false);
+
+
+			drawArc2(pix, 0, cells_size / 2, mylines_radius / 2, radians(90), radians(-90), brush_angle, false, false);
+			drawArc2(pix, cells_size, cells_size / 2, mylines_radius / 2, radians(270), radians(90), brush_angle, false, false);
 		}
 	}
 
