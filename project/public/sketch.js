@@ -397,7 +397,7 @@ function setFxParamsSettings(){
 			default: 0,
 			options: {
 				min: 0,
-				max: 40,
+				max: 800,
 				step: 1,
 				},
 		},
@@ -408,7 +408,7 @@ function setFxParamsSettings(){
 			default: 0,
 			options: {
 				min: 0,
-				max: 40,
+				max: 80,
 				step: 1,
 				},
 		},
@@ -1149,7 +1149,7 @@ function set_array(){
 
 
 function setup() {
-	createExportMenu();
+	// createExportMenu();
 	setFxParamsSettings();
 	lines_per_tiles++;
 	
@@ -2029,28 +2029,10 @@ function draw() {
 // │(_)              (_)(_)(_)(_)  (_)         (_)   (_)(_)(_)                         │
 // └───────────────────────────────────────────────────────────────────────────────────┘
 
-function updateSingleParam() {
-  // Get current parameter value
-  const currentValue = $fx.getRawParam("color_theme");
-  
-  // Update to next value (cycling between 1-8)
-  const newValue = (currentValue % 8) + 1;
-  
-  // Create the update object
-  const updateObj = { color_theme: newValue };
-  
-  // Log the update
-  console.log("Updating_color_theme from", currentValue, "to", newValue);
-  
-  // Update using fxhash's raw update mechanism
-  window.$fx._rawValues = {
-    ...window.$fx._rawValues,
-    ...updateObj
-  };
-  
-  // Force regeneration
-  regenerate();
-}
+
+
+
+
 
 // Add click handler when document is ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -2100,123 +2082,6 @@ function updateParameter(key, value) {
         window[key] = finalValue;
     }
 }
-function createExportMenu() {
-    // Create the main container div
-    const menuDiv = document.createElement('div');
-    
-    // Create the file menu
-    const fileMenu = document.createElement('div');
-    fileMenu.id = 'file-menu';
-    fileMenu.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: rgba(255,255,255,0.95);
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        display: none;
-        z-index: 1000;
-    `;
-    
-    // Create save button
-    const saveButton = document.createElement('button');
-    saveButton.textContent = 'Save Parameters';
-    saveButton.onclick = saveParamsToFile;
-    
-    // Create file input
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.json';
-    fileInput.onchange = loadParamsFromFile;
-    fileInput.style.cssText = 'display: block; margin-top: 5px;';
-    
-    // Create trigger button
-    const trigger = document.createElement('div');
-    trigger.id = 'file-trigger';
-    trigger.textContent = '☰';
-    trigger.style.cssText = `
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        z-index: 999;
-        background: rgba(255,255,255,0.5);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    `;
-    
-    // Append elements
-    fileMenu.appendChild(saveButton);
-    fileMenu.appendChild(fileInput);
-    menuDiv.appendChild(fileMenu);
-    menuDiv.appendChild(trigger);
-    document.body.appendChild(menuDiv);
-    
-    // Add hover listeners
-    trigger.addEventListener('mouseenter', () => {
-        fileMenu.style.display = 'block';
-    });
-    
-    fileMenu.addEventListener('mouseleave', () => {
-        fileMenu.style.display = 'none';
-    });
-}
-
-// function createExportMenu() {
-//     const menuDiv = document.createElement('div');
-//     menuDiv.innerHTML = `
-//         <div id="file-menu" style="
-//             position: fixed;
-//             top: 20px;
-//             right: 20px;
-//             background: rgba(255,255,255,0.95);
-//             padding: 10px;
-//             border-radius: 5px;
-//             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-//             display: none;
-//             z-index: 1000;
-//         ">
-//             <button onclick="saveParamsToFile()">Save Parameters</button>
-//             <input type="file" 
-//                    accept=".json" 
-//                    onChange="loadParamsFromFile(event)"
-//                    style="display: block; margin-top: 5px;"
-//             />
-//         </div>
-//         <div id="file-trigger" style="
-//             position: fixed;
-//             top: 10px;
-//             right: 10px;
-//             width: 40px;
-//             height: 40px;
-//             cursor: pointer;
-//             z-index: 999;
-//             background: rgba(255,255,255,0.5);
-//             border-radius: 50%;
-//             display: flex;
-//             align-items: center;
-//             justify-content: center;
-//         ">☰</div>
-//     `; // Add closing backtick here
-//     document.body.appendChild(menuDiv);
-
-//     // Add hover listeners
-//     const trigger = document.getElementById('file-trigger');
-//     const menu = document.getElementById('file-menu');
-    
-//     trigger.addEventListener('mouseenter', () => {
-//         menu.style.display = 'block';
-//     });
-    
-//     menu.addEventListener('mouseleave', () => {
-//         menu.style.display = 'none';
-//     });
-// }
 
 function getAllFxParams() {
     // Get all parameters defined in $fx.params
@@ -2268,78 +2133,6 @@ function saveParamsToFile() {
     linkElement.setAttribute('href', dataUri);
     linkElement.setAttribute('download', exportName);
     linkElement.click();
-}
-function loadParamsFromFile(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
-        try {
-            const paramsData = JSON.parse(e.target.result);
-            if (paramsData.seed && paramsData.params) {
-                console.log('Loading parameters:', paramsData.params);
-                
-                // First set the seed
-                fxhash = paramsData.seed;
-                
-                const params = paramsData.params;
-                // Create new parameter definitions array with loaded values
-                const currentDefinitions = $fx.getDefinitions();
-                const updatedDefinitions = currentDefinitions.map(def => ({
-                    ...def,
-                    default: params[def.id] ?? def.default
-                }));
-                
-                // Update fxhash parameters
-                $fx.params(updatedDefinitions);
-                
-                // Update main parameters directly
-                debug_mode_activated = params.debug_mode_activated ?? $fx.getRawParam("debug_mode_activated");
-                default_size_id = params.default_size_id ?? $fx.getRawParam("default_size_id");
-                layer_count = params.layer_count ?? $fx.getRawParam("layer_count");
-                color_theme = params.color_theme ?? $fx.getRawParam("color_theme");
-                default_pen_id = params.brush_size ?? $fx.getRawParam("brush_size");
-                fx_paramsArray = scale_params[params.scale ?? $fx.getRawParam("scale")];
-                layers_flip = params.layers_flip ?? $fx.getRawParam("layers_flip");
-                layers_flip_count = params.layers_flip_count ?? $fx.getRawParam("layers_flip_count");
-                lines_per_tiles = params.lines_per_tiles ?? $fx.getRawParam("lines_per_tiles");
-                
-                // Update tile counts
-                empty_count = params.tile_emptyCount ?? $fx.getRawParam("empty_count");
-                dot_count = params.tile_dotCount ?? $fx.getRawParam("dot_count");
-                tile_Cx2C_Count = params.tile_Cx2C ?? $fx.getRawParam("tile_Cx2C_Count");
-                tile_CxC_Count = params.tile_CxC ?? $fx.getRawParam("tile_CxC_Count");
-                tile_CCxCC_Count = params.tile_CCxCC ?? $fx.getRawParam("tile_CCxCC_Count");
-                tile_LxL_Count = params.tile_LxL ?? $fx.getRawParam("tile_LxL_Count");
-                tile_Cx1C_Count = params.tile_Cx1C ?? $fx.getRawParam("tile_Cx1C_Count");
-                tile_Cx1CC_Count = params.tile_Cx1CC ?? $fx.getRawParam("tile_Cx1CC_Count");
-                tile_CxL_Count = params.tile_CxL ?? $fx.getRawParam("tile_CxL_Count");
-                tile_CCxL_Count = params.tile_CCxL ?? $fx.getRawParam("tile_CCxL_Count");
-                tile_2CE_Count = params.tile_2CE ?? $fx.getRawParam("tile_2CE_Count");
-                tile_2CCE_Count = params.tile_2CCE ?? $fx.getRawParam("tile_2CCE_Count");
-                tile_L_Count = params.tile_L ?? $fx.getRawParam("tile_L_Count");
-                tile_C_Count = params.tile_C ?? $fx.getRawParam("tile_C_Count");
-                tile_CC_Count = params.tile_CC ?? $fx.getRawParam("tile_CC_Count");
-                tile_1CE_Count = params.tile_1CE ?? $fx.getRawParam("tile_1CE_Count");
-                tile_1CCE_Count = params.tile_1CCE ?? $fx.getRawParam("tile_1CCE_Count");
-                
-                // Update features
-                window.$fxhashFeatures = {...window.$fxhashFeatures, ...params};
-                
-                // Regenerate the artwork
-                // setup();
-				loop();
-                
-                console.log('Parameters loaded successfully');
-            }
-        } catch (error) {
-            console.error('Error loading parameters:', error);
-        }
-    };
-
-    reader.readAsText(file);
 }
 
 function updateParameter(key, value) {
