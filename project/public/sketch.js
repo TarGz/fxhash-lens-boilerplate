@@ -286,6 +286,15 @@ function setFxParamsSettings(){
 			},
 		},
 		{
+			id: "realPaperSize",
+			name: "REAL SIZE",
+			type: "select",
+			default: "A1",
+			options: {
+				options: ["A0", "A1","A2","A3","A4","A5","A6","C6","3A2"]
+			}
+		},	
+		{
 			id: "default_size_id",
 			name: "Paper size",
 			type: "number",
@@ -312,7 +321,7 @@ function setFxParamsSettings(){
 
 		{
 			id: "scale",
-			name: "pattern scale",
+			name: "Pattern scale",
 			type: "number",
 			default: 2,
 			//default: Math.PI,
@@ -605,8 +614,11 @@ function setFxParamsSettings(){
 	brush_h = pen_size[default_pen_id][2];
 	stroke_size = brush_w;
 
-
-	resolution_data = canvas_size_storage[default_size_id];
+    // Get the selected paper size and find corresponding resolution data
+    var selectedPaperSize = $fx.getRawParam("realPaperSize");
+    var paperIndex = canvas_size_storage.findIndex(item => item[0] === selectedPaperSize);
+    resolution_data = paperIndex !== -1 ? canvas_size_storage[paperIndex] : canvas_size_storage[default_size_id];
+    
 
 
 
@@ -630,8 +642,6 @@ function setFxParamsSettings(){
 // 		88            `"Y8888Y"'   88      `888    `"Y8888Y"'   
                                                         
                                                         
-
-
 
 function calculate_tiles_count() {
 	// vertical_tiles = Math.floor(horizontal_tiles*2.6);
