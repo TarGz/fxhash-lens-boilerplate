@@ -287,24 +287,14 @@ function setFxParamsSettings(){
 		},
 		{
 			id: "realPaperSize",
-			name: "REAL SIZE",
+			name: "Paper size",
 			type: "select",
 			default: "A1",
 			options: {
 				options: ["A0", "A1","A2","A3","A4","A5","A6","C6","3A2"]
 			}
 		},	
-		{
-			id: "default_size_id",
-			name: "Paper size",
-			type: "number",
-			default: 0,
-			options: {
-			min: 0,
-			max: canvas_size_storage.length-1,
-			step: 1,
-			},
-		},
+
 		{
 			id: "brush_size",
 			name: "Brush Width",
