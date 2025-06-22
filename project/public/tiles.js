@@ -906,8 +906,11 @@ function get_tile_1CE_pix(brush_angle, paint_color) {
 
 	}	
 	for (var i = 1; i < lines_per_tiles; i++) {
+		
 		var p1 = createVector(0, i * lines_space);
 		var p2 = createVector(cells_size/2, i * lines_space);
+		var lcolor = i - 1;
+		vect.stroke(getColorLine(lcolor, "#ff54ab"));
 		vect.line(p1.x,p1.y,p2.x,p2.y);
 		drawLine(pix, p1.x, p1.y, p2.x, p2.y, brush_angle, false, false);
 	}
@@ -960,6 +963,8 @@ function get_tile_1CCE_pix(brush_angle, paint_color) {
 	for (var i = 1; i < lines_per_tiles; i++) {
 		var p1 = createVector(0, i * lines_space);
 		var p2 = createVector(cells_size/2, i * lines_space);
+		var lcolor = i - 1;
+		vect.stroke(getColorLine(lcolor, "#ff54ab"));
 		vect.line(p1.x,p1.y,p2.x,p2.y);
 		drawLine(pix, p1.x, p1.y, p2.x, p2.y, brush_angle, false, false);
 	}

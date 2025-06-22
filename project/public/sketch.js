@@ -275,17 +275,6 @@ function setFxParamsSettings(){
 			}
 		},	
 		{
-			id: "color_theme",
-			name: "Bitmap Theme",
-			type: "number",
-			default: 1,
-			options: {
-			min: 1,
-			max: 9,
-			step: 1,
-			},
-		},
-		{
 			id: "realPaperSize",
 			name: "Paper size",
 			type: "select",
@@ -295,33 +284,40 @@ function setFxParamsSettings(){
 			}
 		},	
 
-		{
-			id: "brush_size",
-			name: "Brush Width",
-			type: "number",
-			default: 2,
-			// update: "sync",
-			options: {
-				min: 0,
-				max: pen_size.length-1,
-				step: 1,
-				},
-		},
 
 
-		{
-			id: "scale",
-			name: "Pattern scale",
-			type: "number",
-			default: 2,
-			//default: Math.PI,
-			//   update: "sync",
-				options: {
-					min: 0,
-					max: 6,
-					step: 1,
-				},
-			},
+        {
+            id: "scale",
+            name: "pattern scale",
+            type: "select",  // <-- CHANGE THIS from "number" to "select"
+            default: "CUSTOM",
+            options: {
+                options: ["2X4", "3X7", "4X10", "5X13", "6X15", "7X21", "XXX", "CUSTOM"]
+            },
+        },
+        {
+            id: "custom_width",
+            name: "Custom Width",
+            type: "number",
+            default: 4,
+            options: {
+                min: 1,
+                max: 20,
+                step: 1,
+            },
+        },
+        {
+            id: "custom_height", 
+            name: "Custom Height",
+            type: "number",
+            default: 10,
+            options: {
+                min: 1,
+                max: 30,
+                step: 1,
+            },
+        },
+        
 
 
 		{
@@ -337,9 +333,30 @@ function setFxParamsSettings(){
 				step: 1,
 				},
 		},
+		{
+			id: "color_theme",
+			name: "Bitmap Theme",
+			type: "number",
+			default: 1,
+			options: {
+			min: 1,
+			max: 9,
+			step: 1,
+			},
+		},
 
-
-
+		{
+			id: "brush_size",
+			name: "Brush Width",
+			type: "number",
+			default: 2,
+			// update: "sync",
+			options: {
+				min: 0,
+				max: pen_size.length-1,
+				step: 1,
+				},
+		},
 
 
 		{
@@ -399,33 +416,33 @@ function setFxParamsSettings(){
 			id: "tile_Cx2C_count",
 			name: "x4 tile_Cx2C ~",
 			type: "number",
-			default: 1,
+			default: 25,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 		{
 			id: "tile_CxC_Count",
 			name: "x4 tile_CxC ~",
 			type: "number",
-			default: 1,
+			default: 25,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 		{
 			id: "tile_CCxCC_Count",
 			name: "x4 tile_CCxCC ~",
 			type: "number",
-			default: 1,
+			default: 0,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 
@@ -434,11 +451,11 @@ function setFxParamsSettings(){
 			id: "tile_LxL_Count",
 			name: "x4 tile_LxL ~",
 			type: "number",
-			default: 1,
+			default: 25,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 		// tile_Cx1C_Count
@@ -446,11 +463,11 @@ function setFxParamsSettings(){
 			id: "tile_Cx1C_Count",
 			name: "x3 tile_Cx1C ~",
 			type: "number",
-			default: 1,
+			default: 25,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 		// tile_Cx1CC_Count
@@ -458,11 +475,11 @@ function setFxParamsSettings(){
 			id: "tile_Cx1CC_Count",
 			name: "x3 tile_Cx1CC ~",
 			type: "number",
-			default: 1,
+			default: 0,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 		// tile_CxL_Count
@@ -470,11 +487,11 @@ function setFxParamsSettings(){
 			id: "tile_CxL_Count",
 			name: "x3 tile_CxL ~",
 			type: "number",
-			default: 1,
+			default: 25,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 		// tile_CCxL_Count
@@ -482,11 +499,11 @@ function setFxParamsSettings(){
 			id: "tile_CCxL_Count",
 			name: "x3 tile_CCxL ~",
 			type: "number",
-			default: 1,
+			default: 0,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 			},
 		// tile_2CE_Count
@@ -494,11 +511,11 @@ function setFxParamsSettings(){
 			id: "tile_2CE_Count",
 			name: "x2 tile_2CE ~",
 			type: "number",
-			default: 1,
+			default: 25,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 		// tile_2CCE_Count	 tile_1CE
@@ -506,11 +523,11 @@ function setFxParamsSettings(){
 			id: "tile_2CCE_Count",
 			name: "x2 tile_2CCE ~",
 			type: "number",
-			default: 1,
+			default: 0,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},	
 		// tile_L_Count
@@ -518,11 +535,11 @@ function setFxParamsSettings(){
 			id: "tile_L_Count",
 			name: "x2 tile_L ~",
 			type: "number",
-			default: 1,
+			default: 25,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 		// tile_C_Count
@@ -530,11 +547,11 @@ function setFxParamsSettings(){
 			id: "tile_C_Count",
 			name: "x2 tile_C ~",
 			type: "number",
-			default: 1,
+			default: 25,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 		// tile_CC_Count
@@ -542,11 +559,11 @@ function setFxParamsSettings(){
 			id: "tile_CC_Count",
 			name: "x2 tile_CC ~",
 			type: "number",
-			default: 1,
+			default: 0,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},
 
@@ -555,11 +572,11 @@ function setFxParamsSettings(){
 			id: "tile_1CE_Count",
 			name: "x1 tile_1CE ~",
 			type: "number",
-			default: 1,
+			default: 25,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},	
 		// tile_1CCE_Count	 tile_1CE
@@ -567,11 +584,11 @@ function setFxParamsSettings(){
 			id: "tile_1CCE_Count",
 			name: "x1 tile_1CCE ~",
 			type: "number",
-			default: 1,
+			default: 0,
 			options: {
 				min: 0,
-				max: 40,
-				step: 1,
+				max: 80,
+				step: 5,
 				},
 		},	
 
@@ -586,14 +603,49 @@ function setFxParamsSettings(){
 	layer_count =  $fx.getRawParam("layer_count"); 
 	color_theme = $fx.getRawParam("color_theme");
 	default_pen_id = $fx.getRawParam("brush_size"); 	
-	fx_paramsArray = scale_params[$fx.getRawParam("scale")];
 	layers_flip = $fx.getRawParam("layers_flip");
 	layers_flip_count = $fx.getRawParam("layers_flip_count");
 	renderStyle = $fx.getRawParam("renderStyle");
-	// // name, H,W,min L, max L 
-	// console.log("setFxParamsSettings",fx_paramsArray[0],fx_paramsArray[1],fx_paramsArray[2],fx_paramsArray[3] );
 
-	/// var verctor_render_style = theme_style_black;  // theme_style_random, theme_style_3colors,theme_style_black
+
+
+	// PATTERN SCALE
+	
+	var scale_selection = $fx.getRawParam("scale");
+	
+	if (scale_selection === "CUSTOM") {
+		// Use custom width/height
+		var custom_width = $fx.getRawParam("custom_width");
+		var custom_height = $fx.getRawParam("custom_height");
+		
+		
+		fx_paramsArray = [
+			"CUSTOM",
+			custom_width,
+			custom_height,
+			[16, 22]
+		];
+		
+	} else {
+		// Map the name back to the scale_params array index
+		var scale_names = ["2X4", "3X7", "4X10", "5X13", "6X15", "7X21", "XXX"];
+		var scale_index = scale_names.indexOf(scale_selection);
+		
+		console.log("scale_index:", scale_index);
+		
+		if (scale_index !== -1) {
+			fx_paramsArray = scale_params[scale_index];
+			console.log("PREDEFINED fx_paramsArray:", fx_paramsArray);
+		} else {
+			// Fallback to default
+			fx_paramsArray = scale_params[2]; // 4X10 as default
+			console.log("DEFAULT fx_paramsArray:", fx_paramsArray);
+		}
+	}
+
+	fxfeature("pattern width", fx_paramsArray[1]);
+	fxfeature("pattern height", fx_paramsArray[2]);
+
 
 	
 	horizontal_tiles = fx_paramsArray[1];  		/////// 4  
@@ -609,7 +661,7 @@ function setFxParamsSettings(){
     var paperIndex = canvas_size_storage.findIndex(item => item[0] === selectedPaperSize);
     resolution_data = paperIndex !== -1 ? canvas_size_storage[paperIndex] : canvas_size_storage[default_size_id];
     
-
+	fxfeature("paper size", selectedPaperSize);
 
 
 }
@@ -702,15 +754,7 @@ function setVectorRenderStyleName(name) {
 	if(name == "THEME_STYLE_OREL") set_lines_colors_random_orel();
 	fxfeature("vectorPaintingStyle", name);
 }
-function setThemeColors() {
-	// console.log("setThemeColors");
-	// if (verctor_render_style == theme_style_random) set_lines_colors_random();
-	// if (verctor_render_style == theme_style_3colors) set_lines_colors();
-	// if (verctor_render_style == theme_style_black) set_lines_colors_black();
-	// if (verctor_render_style == theme_style_orel) set_lines_colors_random_orel();
-	// fxfeature("verctor_render_style", verctor_render_style);
 
-}
 
 function get_lines_color(i) {
 	// console.log("get_lines_color->" + i);
@@ -752,7 +796,6 @@ function set_lines_colors() {
 		}
 
 	}
-	// console.log(color_array);
 	console.log("Color array populated:", color_array);
 }
 
@@ -1124,7 +1167,7 @@ function setup() {
 	color_palette = [color_cyan, color_magenta, color_yellow];
 	// set_lines_colors();
 
-	setThemeColors();
+	// setThemeColors();
 	// setVectorRenderStyle($fx.getRawParam("verctor_render_style_id"));
 	setVectorRenderStyleName($fx.getRawParam("vectorPaintingStyle"));
 	setup_canvas_size();
@@ -1136,14 +1179,16 @@ function setup() {
 	console.log("colors_array:", colors_array);
 	console.log("color_array:", colors_array);
 
-	$fx.features({
-		"Color Theme !!!": color_theme_name,
-		"Pattern Scale": scale_params[$fx.getRawParam("scale")][0],
-		"Brush Width":pen_size[default_pen_id][0],
-		"Canvas size":canvas_size_storage[default_size_id][0],
-		"Line Space":Math.floor(lines_space*100)/100+"px",	
-		"Line Space mm":Math.floor((lines_space/cm_ratio)*100)/100+"mm",	
-	})
+	// $fx.features({
+	// 	"Color Theme !!!": color_theme_name,
+	// 	"Pattern Scale": fx_paramsArray[0], // Use the already-calculated fx_paramsArray
+	// 	"Pattern Width": fx_paramsArray[1],
+	// 	"Pattern Height": fx_paramsArray[2],
+	// 	"Brush Width":pen_size[default_pen_id][0],
+	// 	// "Canvas size":canvas_size_storage[default_size_id][0],
+	// 	"Line Space":Math.floor(lines_space*100)/100+"px",	
+	// 	"Line Space mm":Math.floor((lines_space/cm_ratio)*100)/100+"mm",	
+	// })
 
 	if(debug_mode_activated) renderStyle = render_style_vector;
 
@@ -1720,7 +1765,7 @@ function drawPattern(brush_angle, brush_color) {
 	fxfeature("layer_count",layer_count);
 	fxfeature("lines_per_tiles",$fx.getRawParam("lines_per_tiles"));
 	fxfeature("fxhash:",fxhash);
-	fxfeature("Canvas_size:",canvas_size_storage[default_size_id][0]);
+	// fxfeature("Canvas_size:",canvas_size_storage[default_size_id][0]);
 	fxfeature("Lines space:",Math.floor(lines_space*100)/100+"px");
 	
 	// brush_angle += 45;
