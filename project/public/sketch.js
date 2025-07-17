@@ -1179,16 +1179,16 @@ function setup() {
 	console.log("colors_array:", colors_array);
 	console.log("color_array:", colors_array);
 
-	// $fx.features({
-	// 	"Color Theme !!!": color_theme_name,
-	// 	"Pattern Scale": fx_paramsArray[0], // Use the already-calculated fx_paramsArray
-	// 	"Pattern Width": fx_paramsArray[1],
-	// 	"Pattern Height": fx_paramsArray[2],
-	// 	"Brush Width":pen_size[default_pen_id][0],
-	// 	// "Canvas size":canvas_size_storage[default_size_id][0],
-	// 	"Line Space":Math.floor(lines_space*100)/100+"px",	
-	// 	"Line Space mm":Math.floor((lines_space/cm_ratio)*100)/100+"mm",	
-	// })
+	$fx.features({
+		"Color Theme": color_theme_name,
+		"Pattern Scale": fx_paramsArray[0], // Use the already-calculated fx_paramsArray
+		"Pattern Width": fx_paramsArray[1],
+		"Pattern Height": fx_paramsArray[2],
+		"Brush Width":pen_size[default_pen_id][0],
+		// "Canvas size":canvas_size_storage[default_size_id][0],
+		"Line Space":Math.floor(lines_space*100)/100+"px",	
+		"Line Space mm":Math.floor((lines_space/cm_ratio)*100)/100+"mm",	
+	})
 
 	if(debug_mode_activated) renderStyle = render_style_vector;
 
