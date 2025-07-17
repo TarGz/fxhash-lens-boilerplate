@@ -2068,20 +2068,20 @@ function getDefaultParamValue(paramId) {
 }
 
 // Add this helper to properly update a parameter
-function updateParameter(key, value) {
-    const defaultValue = getDefaultParamValue(key);
-    // Use the default if value is undefined/null, otherwise use the provided value
-    const finalValue = (value === undefined || value === null) ? defaultValue : value;
+// function updateParameter(key, value) {
+//     const defaultValue = getDefaultParamValue(key);
+//     // Use the default if value is undefined/null, otherwise use the provided value
+//     const finalValue = (value === undefined || value === null) ? defaultValue : value;
     
-    // Update both the raw parameter and any local variables that depend on it
-    if (finalValue !== undefined) {
-        // Update the raw parameter using fxhash's system
-        $fx._updateParams({ [key]: finalValue });
+//     // Update both the raw parameter and any local variables that depend on it
+//     if (finalValue !== undefined) {
+//         // Update the raw parameter using fxhash's system
+//         $fx._updateParams({ [key]: finalValue });
         
-        // Update local variable if it exists
-        window[key] = finalValue;
-    }
-}
+//         // Update local variable if it exists
+//         window[key] = finalValue;
+//     }
+// }
 
 function getAllFxParams() {
     // Get all parameters defined in $fx.params
@@ -2135,28 +2135,29 @@ function saveParamsToFile() {
     linkElement.click();
 }
 
-function updateParameter(key, value) {
-    const defaultValue = getDefaultParamValue(key);
-    // Use the default if value is undefined/null, otherwise use the provided value
-    const finalValue = (value === undefined || value === null) ? defaultValue : value;
+// function updateParameter(key, value) {
+// 	console.log("updateParameter",key,value);
+//     const defaultValue = getDefaultParamValue(key);
+//     // Use the default if value is undefined/null, otherwise use the provided value
+//     const finalValue = (value === undefined || value === null) ? defaultValue : value;
     
-    // Update both the raw parameter and any local variables that depend on it
-    if (finalValue !== undefined) {
-        // Update local variable if it exists
-        if (typeof window[key] !== 'undefined') {
-            window[key] = finalValue;
-        }
+//     // Update both the raw parameter and any local variables that depend on it
+//     if (finalValue !== undefined) {
+//         // Update local variable if it exists
+//         if (typeof window[key] !== 'undefined') {
+//             window[key] = finalValue;
+//         }
         
-        // Update the parameter in the local state
-        const definitions = $fx.getDefinitions();
-        const paramDef = definitions.find(def => def.id === key);
-        if (paramDef) {
-            // Trigger a parameter update through fxhash's official API
-            $fx.on('params:update', () => true);
-            // The parameter will be automatically constrained by fxhash
-        }
-    }
-}
+//         // Update the parameter in the local state
+//         const definitions = $fx.getDefinitions();
+//         const paramDef = definitions.find(def => def.id === key);
+//         if (paramDef) {
+//             // Trigger a parameter update through fxhash's official API
+//             $fx.on('params:update', () => true);
+//             // The parameter will be automatically constrained by fxhash
+//         }
+//     }
+// }
 
 function isClickInsideRotatedSquare(mouseX, mouseY, centerX, centerY, sideLength, angle) {
 
